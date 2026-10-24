@@ -25,11 +25,11 @@ export function AdminTickets({ kinds }: { kinds: TicketKind[] }) {
   }
 
   const columns: Column<Ticket>[] = [
-    { key: "num", header: "Номер", render: (t) => <Link href={`/support/${t.id}`} className="font-mono font-semibold text-accent hover:underline">{t.number}</Link> },
+    { key: "num", header: "Номер", render: (t) => <Link href={`/support/ticket?id=${t.id}`} className="font-mono font-semibold text-accent hover:underline">{t.number}</Link> },
     { key: "kind", header: "Тип", render: (t) => <Badge tone={t.kind === "dispute" ? "danger" : "neutral"}>{KIND_LABEL[t.kind]}</Badge> },
     { key: "subject", header: "Тема", render: (t) => <span className="line-clamp-2">{t.subject}</span> },
     { key: "author", header: "Автор", render: (t) => name(t.authorId) },
-    { key: "order", header: "Заказ", render: (t) => { const o = s.orders.find((x) => x.id === t.orderId); return o ? <Link href={`/orders/${o.id}`} className="font-mono text-xs text-accent hover:underline">{o.number}</Link> : "—"; } },
+    { key: "order", header: "Заказ", render: (t) => { const o = s.orders.find((x) => x.id === t.orderId); return o ? <Link href={`/orders?id=${o.id}`} className="font-mono text-xs text-accent hover:underline">{o.number}</Link> : "—"; } },
     { key: "date", header: "Создано", render: (t) => formatDate(t.createdAt) },
     { key: "status", header: "Статус", render: (t) => <TicketStatusBadge status={t.status} /> },
     {

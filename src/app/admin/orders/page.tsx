@@ -16,7 +16,7 @@ export default function AdminOrdersPage() {
   const rows = [...s.orders].filter((o) => !status || o.status === status).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 
   const columns: Column<Order>[] = [
-    { key: "num", header: "Номер", render: (o) => <Link href={`/orders/${o.id}`} className="font-mono font-semibold text-accent hover:underline">{o.number}</Link> },
+    { key: "num", header: "Номер", render: (o) => <Link href={`/orders?id=${o.id}`} className="font-mono font-semibold text-accent hover:underline">{o.number}</Link> },
     { key: "title", header: "Товар", render: (o) => <span className="line-clamp-2">{o.listingTitle}</span> },
     { key: "buyer", header: "Покупатель", render: (o) => name(o.buyerId) },
     { key: "seller", header: "Продавец", render: (o) => name(o.sellerId) },

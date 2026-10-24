@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Send, ShieldAlert } from "lucide-react";
 import { useState, type FormEvent } from "react";
@@ -58,7 +59,7 @@ export function TicketClient({ id }: { id: string }) {
               <h2 id="det" className="font-semibold">Содержание</h2>
               <dl className="space-y-3 text-sm">
                 <div><dt className="text-muted">Причина</dt><dd className="font-medium">{t.reason}</dd></div>
-                {order && <div><dt className="text-muted">Заказ</dt><dd><Link href={`/orders/${order.id}`} className="font-mono font-semibold text-accent hover:underline">{order.number}</Link> — {order.listingTitle}</dd></div>}
+                {order && <div><dt className="text-muted">Заказ</dt><dd><Link href={`/orders?id=${order.id}`} className="font-mono font-semibold text-accent hover:underline">{order.number}</Link> — {order.listingTitle}</dd></div>}
                 <div><dt className="text-muted">Описание</dt><dd className="whitespace-pre-line">{t.description}</dd></div>
                 <div><dt className="text-muted">Доказательства</dt><dd className="whitespace-pre-line">{t.evidence || "Не приложены"}</dd></div>
               </dl>
@@ -94,4 +95,10 @@ export function TicketClient({ id }: { id: string }) {
       }}
     </RequireAuth>
   );
+}
+
+/** Читает id из адреса (?id=...): так работает и статическая публикация. */
+export function TicketPageClient() {
+  const id = useSearchParams().get("id") ?? "";
+  return <TicketClient id={id} />;
 }

@@ -68,7 +68,7 @@ export function ListingForm({ existing }: { existing?: Listing }) {
     }
     setErrors({});
     toast.success(existing ? "Изменения сохранены" : "Объявление опубликовано");
-    router.push(existing ? "/seller" : `/listing/${r.data.id}`);
+    router.push(existing ? "/seller" : `/listing?id=${r.data.id}`);
   }
 
   const price = toNumber(form.price);

@@ -24,7 +24,7 @@ export default function AdminListingsPage() {
   const rows = s.listings.filter((l) => (!status || l.status === status) && (!category || l.categorySlug === category));
 
   const columns: Column<Listing>[] = [
-    { key: "title", header: "Объявление", render: (l) => <Link href={`/listing/${l.id}`} className="font-medium hover:text-accent">{l.title}{l.isDemo && <span className="ml-2 align-middle"><DemoBadge /></span>}</Link> },
+    { key: "title", header: "Объявление", render: (l) => <Link href={`/listing?id=${l.id}`} className="font-medium hover:text-accent">{l.title}{l.isDemo && <span className="ml-2 align-middle"><DemoBadge /></span>}</Link> },
     { key: "seller", header: "Продавец", render: (l) => s.profiles.find((p) => p.id === l.sellerId)?.username ?? "—" },
     { key: "cat", header: "Категория", render: (l) => categories.find((c) => c.slug === l.categorySlug)?.name },
     { key: "price", header: "Цена", render: (l) => <span className="whitespace-nowrap">{formatUZS(l.priceUzs)}</span> },

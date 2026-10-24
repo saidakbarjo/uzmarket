@@ -56,7 +56,7 @@ function Form({ user }: { user: Profile }) {
       return;
     }
     toast.success(kind === "dispute" ? `Спор открыт: ${r.data.number}` : `Обращение создано: ${r.data.number}`);
-    router.push(`/support/${r.data.id}`);
+    router.push(`/support/ticket?id=${r.data.id}`);
   }
 
   return (

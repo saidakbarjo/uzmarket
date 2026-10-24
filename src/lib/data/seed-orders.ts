@@ -95,6 +95,6 @@ export const seedTickets: Ticket[] = [
 ];
 
 export const seedNotifications: AppNotification[] = [
-  { id: "n-seed-1", userId: "u-nur", text: "Новый тестовый заказ UZM-100205: оплачен, ожидает выполнения.", at: at(5), read: false, href: "/orders/o-seed-5" },
-  { id: "n-seed-2", userId: "u-bek", text: "По заказу UZM-100204 открыт спор.", at: at(40), read: false, href: "/orders/o-seed-4" },
+  { id: "n-seed-1", userId: "u-nur", text: "Новый тестовый заказ UZM-100205: оплачен, ожидает выполнения.", at: at(5), read: false, href: "/orders?id=o-seed-5" },
+  { id: "n-seed-2", userId: "u-bek", text: "По заказу UZM-100204 открыт спор.", at: at(40), read: false, href: "/orders?id=o-seed-4" },
 ];

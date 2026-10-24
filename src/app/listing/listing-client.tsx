@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BadgeCheck, CalendarDays, Clock, Flag, Pencil, PackageCheck, RotateCcw, SearchX, ShieldAlert, ShoppingCart, Truck } from "lucide-react";
@@ -65,7 +66,7 @@ export function ListingClient({ id }: { id: string }) {
     setBusy(false);
     if (r.ok) {
       toast.success(`Заказ ${r.data.number} создан. Осталось тестово оплатить.`);
-      router.push(`/orders/${r.data.id}`);
+      router.push(`/orders?id=${r.data.id}`);
     } else {
       toast.error(r.error);
     }
@@ -173,14 +174,14 @@ export function ListingClient({ id }: { id: string }) {
               ) : isOwner ? (
                 <>
                   <Notice>Это ваше объявление.</Notice>
-                  <Link href={`/seller/edit/${listing.id}`} className="btn-ghost w-full"><Pencil className="h-4 w-4" aria-hidden /> Редактировать</Link>
+                  <Link href={`/seller/edit?id=${listing.id}`} className="btn-ghost w-full"><Pencil className="h-4 w-4" aria-hidden /> Редактировать</Link>
                 </>
               ) : !ready ? (
                 <button className="btn-primary w-full" disabled>Загрузка…</button>
               ) : !user ? (
                 <>
                   <Notice>Чтобы создать заказ, войдите или зарегистрируйтесь.</Notice>
-                  <Link href={`/login?next=${encodeURIComponent(`/listing/${listing.id}`)}`} className="btn-primary w-full"><ShoppingCart className="h-4 w-4" aria-hidden /> Войти и купить</Link>
+                  <Link href={`/login?next=${encodeURIComponent(`/listing?id=${listing.id}`)}`} className="btn-primary w-full"><ShoppingCart className="h-4 w-4" aria-hidden /> Войти и купить</Link>
                   <Link href="/register" className="btn-ghost w-full">Регистрация</Link>
                 </>
               ) : (
@@ -254,4 +255,10 @@ export function ListingClient({ id }: { id: string }) {
       )}
     </div>
   );
+}
+
+/** Читает id из адреса (?id=...): так работает и статическая публикация. */
+export function ListingPageClient() {
+  const id = useSearchParams().get("id") ?? "";
+  return <ListingClient id={id} />;
 }

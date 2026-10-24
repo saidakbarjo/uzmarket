@@ -54,7 +54,7 @@ export function OrdersList({
             const counterpart = s.profiles.find((p) => p.id === (o.buyerId === userId ? o.sellerId : o.buyerId));
             return (
               <li key={o.id}>
-                <Link href={`/orders/${o.id}`} className="card card-hover flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
+                <Link href={`/orders?id=${o.id}`} className="card card-hover flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
                       <span className="font-mono font-semibold text-ink">{o.number}</span>

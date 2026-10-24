@@ -42,7 +42,7 @@ export default function ReviewsPage() {
                   {written.map((r) => (
                     <li key={r.id} className="card p-4">
                       <div className="flex flex-wrap items-center justify-between gap-2">
-                        <Link href={`/listing/${r.listingId}`} className="text-sm font-medium text-accent hover:underline">{s.listings.find((l) => l.id === r.listingId)?.title ?? "Объявление"}</Link>
+                        <Link href={`/listing?id=${r.listingId}`} className="text-sm font-medium text-accent hover:underline">{s.listings.find((l) => l.id === r.listingId)?.title ?? "Объявление"}</Link>
                         <span className="text-xs text-muted">{formatDate(r.createdAt)}</span>
                       </div>
                       <div className="mt-1"><Stars value={r.rating} /></div>

@@ -21,7 +21,7 @@ export function FavoriteButton({ listingId, variant = "icon" }: { listingId: str
     e.stopPropagation();
     if (!user) {
       toast.info("Войдите, чтобы добавлять товары в избранное");
-      router.push("/login?next=" + encodeURIComponent(window.location.pathname + window.location.search));
+      router.push("/login?next=" + encodeURIComponent(window.location.pathname.replace(process.env.NEXT_PUBLIC_BASE_PATH ?? "", "") + window.location.search));
       return;
     }
     const r = toggleFavorite(listingId);
@@ -57,7 +57,7 @@ export function ListingCard({ listing }: { listing: Listing }) {
 
   return (
     <article className="card card-hover group relative flex flex-col overflow-hidden">
-      <Link href={`/listing/${listing.id}`} className="absolute inset-0 z-10" aria-label={listing.title} />
+      <Link href={`/listing?id=${listing.id}`} className="absolute inset-0 z-10" aria-label={listing.title} />
       <div className="relative">
         <ListingImage slug={listing.categorySlug} hue={listing.imageHue} className="aspect-[16/10] w-full transition duration-300 group-hover:scale-[1.03]" />
         <div className="absolute left-3 top-3 z-20 flex gap-1.5">

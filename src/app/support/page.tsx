@@ -32,7 +32,7 @@ export default function SupportPage() {
             <ul className="space-y-3">
               {mine.map((t) => (
                 <li key={t.id}>
-                  <Link href={`/support/${t.id}`} className="card card-hover flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between">
+                  <Link href={`/support/ticket?id=${t.id}`} className="card card-hover flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="min-w-0">
                       <p className="flex flex-wrap items-center gap-2 text-xs text-muted">
                         <span className="font-mono font-semibold text-ink">{t.number}</span>

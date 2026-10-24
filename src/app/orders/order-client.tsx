@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
   AlertOctagon,
@@ -98,7 +99,7 @@ function OrderView({ order, user }: { order: Order; user: Profile }) {
             <OrderStatusBadge status={order.status} />
             {order.isDemo && <DemoBadge label="Тестовая сделка" />}
           </div>
-          <Link href={`/listing/${order.listingId}`} className="mt-1 block truncate text-sm text-accent hover:underline">{order.listingTitle}</Link>
+          <Link href={`/listing?id=${order.listingId}`} className="mt-1 block truncate text-sm text-accent hover:underline">{order.listingTitle}</Link>
         </div>
         <p className="rounded-lg border border-warn/30 bg-warn/10 px-3 py-2 text-xs font-semibold text-warn">{DEMO_BANNER}</p>
       </div>
@@ -159,7 +160,7 @@ function OrderView({ order, user }: { order: Order; user: Profile }) {
           {order.status === "disputed" && (
             <Notice tone="danger">
               <b>По заказу открыт спор.</b> Администратор рассмотрит обращение и приложенные доказательства. Площадка не обещает автоматический возврат денег.{" "}
-              {ticket && <Link href={`/support/${ticket.id}`} className="font-semibold text-accent hover:underline">Открыть обращение {ticket.number}</Link>}
+              {ticket && <Link href={`/support/ticket?id=${ticket.id}`} className="font-semibold text-accent hover:underline">Открыть обращение {ticket.number}</Link>}
             </Notice>
           )}
 
@@ -345,4 +346,10 @@ export function OrderClient({ id }: { id: string }) {
       }}
     </RequireAuth>
   );
+}
+
+/** Читает id из адреса (?id=...): так работает и статическая публикация. */
+export function OrderPageClient() {
+  const id = useSearchParams().get("id") ?? "";
+  return <OrderClient id={id} />;
 }

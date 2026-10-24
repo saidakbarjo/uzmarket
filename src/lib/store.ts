@@ -479,7 +479,7 @@ export function payOrder(orderId: string, outcome: PaymentOutcome): Result<{ mes
       lastEvents: { ...s.lastEvents, [orderId]: event },
     }));
     replaceOrder(updated);
-    if (outcome === "success") pushNotification(order.sellerId, `Заказ ${order.number} оплачен (тест). Приступайте к выполнению.`, `/orders/${order.id}`);
+    if (outcome === "success") pushNotification(order.sellerId, `Заказ ${order.number} оплачен (тест). Приступайте к выполнению.`, `/orders?id=${order.id}`);
     persist();
     emit();
     const messages = {
@@ -555,8 +555,8 @@ export function orderAction(orderId: string, action: OrderAction, note?: string)
       resolve_dispute_complete: "Спор решён: заказ завершён",
     };
     if (labels[action]) {
-      pushNotification(other, `${order.number}: ${labels[action]}.`, `/orders/${order.id}`);
-      if (u.role === "admin") pushNotification(order.buyerId === other ? order.sellerId : order.buyerId, `${order.number}: ${labels[action]}.`, `/orders/${order.id}`);
+      pushNotification(other, `${order.number}: ${labels[action]}.`, `/orders?id=${order.id}`);
+      if (u.role === "admin") pushNotification(order.buyerId === other ? order.sellerId : order.buyerId, `${order.number}: ${labels[action]}.`, `/orders?id=${order.id}`);
     }
     if (action === "confirm") {
       setState((s) => ({
@@ -579,7 +579,7 @@ export function sendOrderMessage(orderId: string, text: string): Result {
     const updated = addMessage(order, u, parsed.data.text);
     replaceOrder(updated);
     const other = u.id === order.buyerId ? order.sellerId : order.buyerId;
-    if (u.role !== "admin") pushNotification(other, `Новое сообщение в заказе ${order.number}.`, `/orders/${order.id}`);
+    if (u.role !== "admin") pushNotification(other, `Новое сообщение в заказе ${order.number}.`, `/orders?id=${order.id}`);
     persist();
     emit();
     return ok();
@@ -630,7 +630,7 @@ export function addReview(orderId: string, input: unknown): Result<Review> {
         return { ...p, reviewsCount: count, rating: Math.round((total / count) * 10) / 10 };
       }),
     }));
-    pushNotification(order.sellerId, `Новый отзыв по заказу ${order.number}: ${review.rating}/5.`, `/listing/${order.listingId}`);
+    pushNotification(order.sellerId, `Новый отзыв по заказу ${order.number}: ${review.rating}/5.`, `/listing?id=${order.listingId}`);
     persist();
     emit();
     return ok(review);
@@ -688,7 +688,7 @@ export function createTicket(input: unknown): Result<Ticket> {
       orders: disputedOrder ? s.orders.map((o) => (o.id === disputedOrder!.id ? disputedOrder! : o)) : s.orders,
     }));
     if (disputedOrder) {
-      pushNotification(disputedOrder.sellerId, `По заказу ${disputedOrder.number} открыт спор.`, `/orders/${disputedOrder.id}`);
+      pushNotification(disputedOrder.sellerId, `По заказу ${disputedOrder.number} открыт спор.`, `/orders?id=${disputedOrder.id}`);
       persist();
       emit();
     }
@@ -720,7 +720,7 @@ export function replyTicket(ticketId: string, text: string): Result {
           : x,
       ),
     }));
-    if (u.role === "admin") pushNotification(t.authorId, `Ответ поддержки по обращению ${t.number}.`, `/support/${t.id}`);
+    if (u.role === "admin") pushNotification(t.authorId, `Ответ поддержки по обращению ${t.number}.`, `/support/ticket?id=${t.id}`);
     return ok();
   });
 }
@@ -734,7 +734,7 @@ export function setTicketStatus(ticketId: string, status: TicketStatus): Result 
       ...s,
       tickets: s.tickets.map((x) => (x.id === ticketId ? { ...x, status, updatedAt: new Date().toISOString() } : x)),
     }));
-    pushNotification(t.authorId, `Статус обращения ${t.number} изменён.`, `/support/${t.id}`);
+    pushNotification(t.authorId, `Статус обращения ${t.number} изменён.`, `/support/ticket?id=${t.id}`);
     persist();
     emit();
     return ok();

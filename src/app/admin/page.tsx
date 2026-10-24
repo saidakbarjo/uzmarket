@@ -44,7 +44,7 @@ export default function AdminOverviewPage() {
           <ul className="divide-y divide-line">
             {[...s.orders].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 5).map((o) => (
               <li key={o.id} className="flex items-center justify-between gap-3 py-2.5 text-sm">
-                <Link href={`/orders/${o.id}`} className="min-w-0 truncate hover:text-accent"><span className="font-mono text-xs text-muted">{o.number}</span> {o.listingTitle}</Link>
+                <Link href={`/orders?id=${o.id}`} className="min-w-0 truncate hover:text-accent"><span className="font-mono text-xs text-muted">{o.number}</span> {o.listingTitle}</Link>
                 <OrderStatusBadge status={o.status} />
               </li>
             ))}
@@ -62,7 +62,7 @@ export default function AdminOverviewPage() {
             <ul className="divide-y divide-line">
               {openTickets.slice(0, 5).map((t) => (
                 <li key={t.id} className="flex items-center justify-between gap-3 py-2.5 text-sm">
-                  <Link href={`/support/${t.id}`} className="min-w-0 truncate hover:text-accent"><span className="font-mono text-xs text-muted">{t.number}</span> {t.subject}<span className="block text-xs text-muted">{formatDate(t.createdAt)}</span></Link>
+                  <Link href={`/support/ticket?id=${t.id}`} className="min-w-0 truncate hover:text-accent"><span className="font-mono text-xs text-muted">{t.number}</span> {t.subject}<span className="block text-xs text-muted">{formatDate(t.createdAt)}</span></Link>
                   <TicketStatusBadge status={t.status} />
                 </li>
               ))}

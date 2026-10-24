@@ -43,14 +43,14 @@ export default function SellerListingsPage() {
                           <span className="text-xs text-muted">{categories.find((c) => c.slug === l.categorySlug)?.name}</span>
                           {l.isDemo && <DemoBadge />}
                         </div>
-                        <Link href={`/listing/${l.id}`} className="mt-1 block truncate font-semibold hover:text-accent">{l.title}</Link>
+                        <Link href={`/listing?id=${l.id}`} className="mt-1 block truncate font-semibold hover:text-accent">{l.title}</Link>
                         <p className="mt-0.5 flex items-center gap-3 text-sm text-muted">
                           <span className="font-semibold text-ink">{formatUZS(l.priceUzs)}</span>
                           <span className="flex items-center gap-1"><Eye className="h-3.5 w-3.5" aria-hidden /> {l.views}</span>
                         </p>
                       </div>
                       <div className="flex flex-wrap gap-2">
-                        <Link href={`/seller/edit/${l.id}`} className="btn-ghost !px-3 !py-2"><Pencil className="h-4 w-4" aria-hidden /> Изменить</Link>
+                        <Link href={`/seller/edit?id=${l.id}`} className="btn-ghost !px-3 !py-2"><Pencil className="h-4 w-4" aria-hidden /> Изменить</Link>
                         {l.status === "active" && (
                           <ConfirmButton
                             label="Приостановить"

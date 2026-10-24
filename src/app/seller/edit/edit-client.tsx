@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { ShieldAlert } from "lucide-react";
 import { ListingForm } from "@/components/listing-form";
 import { RequireAuth } from "@/components/require-auth";
@@ -26,4 +27,10 @@ export function EditListingClient({ id }: { id: string }) {
       }}
     </RequireAuth>
   );
+}
+
+/** Читает id из адреса (?id=...): так работает и статическая публикация. */
+export function EditPageClient() {
+  const id = useSearchParams().get("id") ?? "";
+  return <EditListingClient id={id} />;
 }
