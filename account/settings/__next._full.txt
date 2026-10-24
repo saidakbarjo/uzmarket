@@ -1,0 +1,41 @@
+1:"$Sreact.fragment"
+2:"/uzmarket/_next/static/chunks/0umf92h1sb77c.js"
+3:"/uzmarket/_next/static/chunks/0jjg8ah0aoxck.js"
+4:"/uzmarket/_next/static/chunks/1swppu7_thud8.js"
+5:"/uzmarket/_next/static/chunks/11mjaf6c6dwpt.js"
+6:I[93963,["$2","$3","$4","$5"],"Header"]
+7:I[39756,["$2","$3","$4","$5"],"default"]
+8:"/uzmarket/_next/static/chunks/1j1ppwofwn1eg.js"
+9:I[58298,["$2","$3","$4","$5","$8"],"default"]
+a:I[37457,["$2","$3","$4","$5"],"default"]
+b:I[5014,["$2","$3","$4","$5"],"default"]
+c:I[22016,["$2","$3","$4","$5"],""]
+d:I[54231,["$2","$3","$4","$5"],"Footer"]
+e:I[38286,["$2","$3","$4","$5"],"Toaster"]
+10:"ClientSegmentRoot"
+11:I[92825,["$2","$3","$4","$5"],"$10"]
+12:"/uzmarket/_next/static/chunks/1nnfrg8f87fg2.js"
+13:I[51638,["$2","$3","$4","$5","$12"],"default"]
+18:I[47257,["$2","$3","$4","$5"],"ClientPageRoot"]
+19:"/uzmarket/_next/static/chunks/1npawyqjinzs-.js"
+1a:I[41626,["$2","$3","$4","$5","$12","$19"],"default"]
+1d:I[97367,["$2","$3","$4","$5"],"OutletBoundary"]
+1e:"$Sreact.suspense"
+20:"ViewportBoundary"
+21:I[97367,["$2","$3","$4","$5"],"$20"]
+23:"MetadataBoundary"
+24:I[97367,["$2","$3","$4","$5"],"$23"]
+26:I[68027,["$2","$3","$4","$5"],"default",1]
+:HL["/uzmarket/_next/static/chunks/2a8e82bkmcpxv.css","style"]
+16:X
+17:[["children",{"s":"__PAGE__","h":512,"d":{"r":["$","$1","c",{"children":[["$","$L18",null,{"Component":"$1a","serverProvidedParams":{"searchParams":{},"params":"$f:0:1:d:r:props:children:1:props:serverProvidedParams:params","promises":["$@1b","$@1c"]}}],[["$","script","script-0",{"src":"/uzmarket/_next/static/chunks/1npawyqjinzs-.js","async":true,"nonce":"$undefined"}]],["$","$L1d",null,{"children":["$","$1e",null,{"name":"Next.MetadataOutlet","children":"$@1f"}]}]]}],"p":false,"v":null}}]]
+15:[["children",{"s":"settings","h":512,"d":{"r":["$","$1","c",{"children":[null,["$","$L7",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$La",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],"p":false,"v":"$16"},"c":"$Q17"}]]
+f:[["children",{"s":"account","h":512,"d":{"r":["$","$1","c",{"children":[[["$","script","script-0",{"src":"/uzmarket/_next/static/chunks/1nnfrg8f87fg2.js","async":true,"nonce":"$undefined"}]],["$","$L11",null,{"Component":"$13","slots":{"children":["$","$L7",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$La",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]},"serverProvidedParams":{"params":{},"promises":["$@14"]}}]]}],"p":false,"v":null},"c":"$Q15"}]]
+0:{"P":null,"c":["","account","settings",""],"q":"","i":false,"t":{"t":{"s":"","h":528,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/uzmarket/_next/static/chunks/2a8e82bkmcpxv.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/uzmarket/_next/static/chunks/0umf92h1sb77c.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/uzmarket/_next/static/chunks/0jjg8ah0aoxck.js","async":true,"nonce":"$undefined"}],["$","script","script-2",{"src":"/uzmarket/_next/static/chunks/1swppu7_thud8.js","async":true,"nonce":"$undefined"}],["$","script","script-3",{"src":"/uzmarket/_next/static/chunks/11mjaf6c6dwpt.js","async":true,"nonce":"$undefined"}]],["$","html",null,{"lang":"ru","children":["$","body",null,{"children":[["$","a",null,{"href":"#main","className":"sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[200] focus:rounded-lg focus:bg-accent focus:px-3 focus:py-2 focus:text-white","children":"Перейти к содержимому"}],["$","$L6",null,{}],["$","main",null,{"id":"main","className":"container-page animate-fade-up py-8 sm:py-10","children":["$","$L7",null,{"parallelRouterKey":"children","error":"$9","errorStyles":[],"errorScripts":[["$","script","script-0",{"src":"/uzmarket/_next/static/chunks/1j1ppwofwn1eg.js","async":true,"nonce":"$undefined"}]],"template":["$","$La",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","div",null,{"className":"card mx-auto flex max-w-md flex-col items-center gap-3 px-6 py-14 text-center","children":[["$","div",null,{"className":"flex h-14 w-14 items-center justify-center rounded-2xl bg-panel-2 text-accent","children":["$","$Lb",null,{"ref":"$undefined","icon":{"name":"compass","size":24,"node":[["circle",{"cx":"12","cy":"12","r":"10","key":"1mglay"}],["path",{"d":"m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z","key":"9ktpf1"}]]},"className":"h-7 w-7","aria-hidden":true}]}],["$","p",null,{"className":"font-display text-5xl font-extrabold text-line","children":"404"}],["$","h1",null,{"className":"font-display text-xl font-semibold","children":"Страница не найдена"}],["$","p",null,{"className":"text-sm text-muted","children":"Возможно, ссылка устарела или была введена с ошибкой."}],["$","div",null,{"className":"mt-2 flex gap-2","children":[["$","$Lc",null,{"href":"/","className":"btn-primary","children":"На главную"}],["$","$Lc",null,{"href":"/catalog","className":"btn-ghost","children":"В каталог"}]]}]]}],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}],["$","$Ld",null,{}],["$","$Le",null,{}]]}]}]]}],"p":false,"v":null},"c":"$Qf"},"h":{"r":["$","$1","h",{"children":[null,["$","$L21",null,{"children":"$L22"}],["$","$L24",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$1e",null,{"name":"Next.Metadata","children":"$L25"}]}],null]}],null]}],"p":false,"v":null}},"m":"$undefined","G":["$26",[["$","link","0",{"rel":"stylesheet","href":"/uzmarket/_next/static/chunks/2a8e82bkmcpxv.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]]],"S":true,"r":"$undefined","s":"$undefined","a":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"tZCEcGaLEcaNsS7J0psHB"}
+16:C
+14:"$f:0:1:d:r:props:children:1:props:serverProvidedParams:params"
+1b:{}
+1c:"$f:0:1:d:r:props:children:1:props:serverProvidedParams:params"
+22:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#0a0d16"}]]
+1f:null
+25:[["$","title","0",{"children":"UZMARKET — цифровой маркетплейс Узбекистана"}],["$","meta","1",{"name":"description","content":"Игровая валюта, ключи, подписки, дизайн и цифровые услуги в сумах. Демонстрационная версия: реальные деньги не переводятся."}]]
