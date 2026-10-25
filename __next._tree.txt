@@ -1,3 +1,3 @@
-:HL["/uzmarket/_next/static/chunks/2a8e82bkmcpxv.css","style"]
+:HL["/uzmarket/_next/static/chunks/0nacjqr6lfvm4.css","style"]
 1:[["children",{"s":"__PAGE__","h":160}]]
-0:{"b":"tZCEcGaLEcaNsS7J0psHB","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"6C3drh8fdkT1gX9BFNqBm","t":{"t":{"s":"","h":80,"c":"$Q1"}}}

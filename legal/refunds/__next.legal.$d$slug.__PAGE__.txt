@@ -1,43 +1,41 @@
 1:"$Sreact.fragment"
 2:"/uzmarket/_next/static/chunks/0umf92h1sb77c.js"
-3:"/uzmarket/_next/static/chunks/0jjg8ah0aoxck.js"
-4:"/uzmarket/_next/static/chunks/1swppu7_thud8.js"
-5:"/uzmarket/_next/static/chunks/11mjaf6c6dwpt.js"
-6:I[93963,["$2","$3","$4","$5"],"Header"]
-7:I[39756,["$2","$3","$4","$5"],"default"]
-8:"/uzmarket/_next/static/chunks/1j1ppwofwn1eg.js"
-9:I[58298,["$2","$3","$4","$5","$8"],"default"]
-a:I[37457,["$2","$3","$4","$5"],"default"]
-b:I[5014,["$2","$3","$4","$5"],"default"]
-c:I[22016,["$2","$3","$4","$5"],""]
-d:I[54231,["$2","$3","$4","$5"],"Footer"]
-e:I[38286,["$2","$3","$4","$5"],"Toaster"]
-17:I[38286,["$2","$3","$4","$5"],"Notice"]
-1d:"ViewportBoundary"
-1e:I[97367,["$2","$3","$4","$5"],"$1d"]
-1f:"MetadataBoundary"
-20:I[97367,["$2","$3","$4","$5"],"$1f"]
-21:"$Sreact.suspense"
-:HL["/uzmarket/_next/static/chunks/2a8e82bkmcpxv.css","style"]
-10:X
-13:X
-13:C
-16:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$1","c",{"children":[["$","article",null,{"className":"mx-auto max-w-3xl space-y-6","children":[["$","h1",null,{"className":"font-display text-3xl font-extrabold","children":"Возвраты и споры"}],["$","$L17",null,{"tone":"warn","children":"Черновик для демонстрационной версии. Перед запуском для публики текст должен быть проверен юристом и приведён в соответствие с законодательством Республики Узбекистан. Не является юридической консультацией."}],[["$","section","1. Условия возврата",{"className":"space-y-2","children":[["$","h2",null,{"className":"font-display text-lg font-semibold","children":"1. Условия возврата"}],[["$","p","0",{"className":"text-[15px] leading-relaxed text-ink/85","children":"Условия возврата указываются продавцом в объявлении и должны соответствовать правилам площадки. Покупатель видит их до создания заказа."}]]]}],["$","section","2. Как открыть спор",{"className":"space-y-2","children":[["$","h2",null,{"className":"font-display text-lg font-semibold","children":"2. Как открыть спор"}],[["$","p","0",{"className":"text-[15px] leading-relaxed text-ink/85","children":"На странице заказа выберите «Открыть спор», укажите причину, опишите проблему и приложите доказательства (ссылки на скриншоты, видео, файлы)."}]]]}],["$","section","3. Рассмотрение",{"className":"space-y-2","children":[["$","h2",null,{"className":"font-display text-lg font-semibold","children":"3. Рассмотрение"}],[["$","p","0",{"className":"text-[15px] leading-relaxed text-ink/85","children":"Обращение рассматривает администратор. Статусы: «Открыто», «На рассмотрении», «Решено», «Отклонено»."}]]]}],["$","section","4. Важно",{"className":"space-y-2","children":["$L18",["$L19"]]}]],"$L1a"]}],null,"$L1b"]}],"p":"$@1c","v":null,"s":"$10"}}]]
-14:[["children",{"s":{"n":"slug","t":"d","k":"refunds","s":[]},"h":96,"d":{"r":["$","$1","c",{"children":[null,["$","$L7",null,{"parallelRouterKey":"children","template":["$","$La",null,{}]}]]}],"p":"$@15","v":"$13","s":"$10"},"c":"$Q16"}]]
-11:[["children",{"s":"legal","h":96,"d":{"r":["$","$1","c",{"children":[null,["$","$L7",null,{"parallelRouterKey":"children","template":["$","$La",null,{}]}]]}],"p":"$@12","v":"$13","s":"$10"},"c":"$Q14"}]]
-0:{"t":{"t":{"s":"","h":80,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/uzmarket/_next/static/chunks/2a8e82bkmcpxv.css","precedence":"next"}],["$","script","script-0",{"src":"/uzmarket/_next/static/chunks/0umf92h1sb77c.js","async":true}],["$","script","script-1",{"src":"/uzmarket/_next/static/chunks/0jjg8ah0aoxck.js","async":true}],["$","script","script-2",{"src":"/uzmarket/_next/static/chunks/1swppu7_thud8.js","async":true}],["$","script","script-3",{"src":"/uzmarket/_next/static/chunks/11mjaf6c6dwpt.js","async":true}]],["$","html",null,{"lang":"ru","children":["$","body",null,{"children":[["$","a",null,{"href":"#main","className":"sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[200] focus:rounded-lg focus:bg-accent focus:px-3 focus:py-2 focus:text-white","children":"Перейти к содержимому"}],["$","$L6",null,{}],["$","main",null,{"id":"main","className":"container-page animate-fade-up py-8 sm:py-10","children":["$","$L7",null,{"parallelRouterKey":"children","error":"$9","errorStyles":[],"errorScripts":[["$","script","script-0",{"src":"/uzmarket/_next/static/chunks/1j1ppwofwn1eg.js","async":true}]],"template":["$","$La",null,{}],"notFound":[["$","div",null,{"className":"card mx-auto flex max-w-md flex-col items-center gap-3 px-6 py-14 text-center","children":[["$","div",null,{"className":"flex h-14 w-14 items-center justify-center rounded-2xl bg-panel-2 text-accent","children":["$","$Lb",null,{"icon":{"name":"compass","size":24,"node":[["circle",{"cx":"12","cy":"12","r":"10","key":"1mglay"}],["path",{"d":"m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z","key":"9ktpf1"}]]},"className":"h-7 w-7","aria-hidden":true}]}],["$","p",null,{"className":"font-display text-5xl font-extrabold text-line","children":"404"}],["$","h1",null,{"className":"font-display text-xl font-semibold","children":"Страница не найдена"}],["$","p",null,{"className":"text-sm text-muted","children":"Возможно, ссылка устарела или была введена с ошибкой."}],["$","div",null,{"className":"mt-2 flex gap-2","children":[["$","$Lc",null,{"href":"/","className":"btn-primary","children":"На главную"}],["$","$Lc",null,{"href":"/catalog","className":"btn-ghost","children":"В каталог"}]]}]]}],[]]}]}],["$","$Ld",null,{}],["$","$Le",null,{}]]}]}]]}],"p":"$@f","v":null,"s":"$10"},"c":"$Q11"},"h":{"r":["$","$1","h",{"children":[null,["$","$L1e",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#0a0d16"}]]}],["$","$L20",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$21",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Возвраты и споры · UZMARKET"}],["$","meta","1",{"name":"description","content":"Игровая валюта, ключи, подписки, дизайн и цифровые услуги в сумах. Демонстрационная версия: реальные деньги не переводятся."}]]}]}],null]}],null]}],"p":"$@22","v":null,"s":"$10"}},"a":"$@23","u":"$@24","b":"tZCEcGaLEcaNsS7J0psHB"}
-25:I[97367,["$2","$3","$4","$5"],"OutletBoundary"]
-18:["$","h2",null,{"className":"font-display text-lg font-semibold","children":"4. Важно"}]
-19:["$","p","0",{"className":"text-[15px] leading-relaxed text-ink/85","children":"Площадка не обещает автоматический возврат денег. В демо-режиме возврат — тестовая операция без движения средств."}]
-1a:["$","nav",null,{"className":"flex flex-wrap gap-3 border-t border-line pt-6 text-sm","aria-label":"Другие документы","children":[["$","$Lc","terms",{"href":"/legal/terms","className":"text-accent hover:underline","children":"Пользовательское соглашение"}],["$","$Lc","privacy",{"href":"/legal/privacy","className":"text-accent hover:underline","children":"Политика конфиденциальности"}],["$","$Lc","rules",{"href":"/legal/rules","className":"text-accent hover:underline","children":"Правила площадки"}]]}]
-1b:["$","$L25",null,{"children":["$","$21",null,{"name":"Next.MetadataOutlet","children":"$@26"}]}]
-10:300
-26:null
-24:true
-10:C
-23:0
-15:"$undefined"
-12:"$undefined"
-f:"$undefined"
-22:"$undefined"
-1c:"$undefined"
+3:"/uzmarket/_next/static/chunks/3l31dws0-fu56.js"
+4:"/uzmarket/_next/static/chunks/2eljmus80bd27.js"
+5:I[93963,["$2","$3","$4"],"Header"]
+6:I[39756,["$2","$3","$4"],"default"]
+7:"/uzmarket/_next/static/chunks/1j1ppwofwn1eg.js"
+8:I[58298,["$2","$3","$4","$7"],"default"]
+9:I[37457,["$2","$3","$4"],"default"]
+a:I[5014,["$2","$3","$4"],"default"]
+b:I[22016,["$2","$3","$4"],""]
+c:I[54231,["$2","$3","$4"],"Footer"]
+d:I[38286,["$2","$3","$4"],"Toaster"]
+16:I[38286,["$2","$3","$4"],"Notice"]
+1b:"ViewportBoundary"
+1c:I[97367,["$2","$3","$4"],"$1b"]
+1d:"MetadataBoundary"
+1e:I[97367,["$2","$3","$4"],"$1d"]
+1f:"$Sreact.suspense"
+:HL["/uzmarket/_next/static/chunks/0nacjqr6lfvm4.css","style"]
+f:X
+12:X
+12:C
+15:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$1","c",{"children":[["$","article",null,{"className":"mx-auto max-w-3xl space-y-6","children":[["$","h1",null,{"className":"font-display text-3xl font-extrabold","children":"Возвраты и споры"}],["$","$L16",null,{"tone":"warn","children":"Черновик для демонстрационной версии. Перед запуском для публики текст должен быть проверен юристом и приведён в соответствие с законодательством Республики Узбекистан. Не является юридической консультацией."}],[["$","section","1. Условия возврата",{"className":"space-y-2","children":[["$","h2",null,{"className":"font-display text-lg font-semibold","children":"1. Условия возврата"}],[["$","p","0",{"className":"text-[15px] leading-relaxed text-ink/85","children":"Условия возврата указываются продавцом в объявлении и должны соответствовать правилам площадки. Покупатель видит их до создания заказа."}]]]}],["$","section","2. Как открыть спор",{"className":"space-y-2","children":[["$","h2",null,{"className":"font-display text-lg font-semibold","children":"2. Как открыть спор"}],[["$","p","0",{"className":"text-[15px] leading-relaxed text-ink/85","children":"На странице заказа выберите «Открыть спор», укажите причину, опишите проблему и приложите доказательства (ссылки на скриншоты, видео, файлы)."}]]]}],["$","section","3. Рассмотрение",{"className":"space-y-2","children":[["$","h2",null,{"className":"font-display text-lg font-semibold","children":"3. Рассмотрение"}],[["$","p","0",{"className":"text-[15px] leading-relaxed text-ink/85","children":"Обращение рассматривает администратор. Обе стороны описывают ситуацию и прикладывают доказательства; администратор может запросить дополнительные сведения и принимает решение (возврат покупателю или завершение заказа в пользу продавца). Все решения записываются в журнал."}]]]}],"$L17"],"$L18"]}],null,"$L19"]}],"p":"$@1a","v":null,"s":"$f"}}]]
+13:[["children",{"s":{"n":"slug","t":"d","k":"refunds","s":[]},"h":96,"d":{"r":["$","$1","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","template":["$","$L9",null,{}]}]]}],"p":"$@14","v":"$12","s":"$f"},"c":"$Q15"}]]
+10:[["children",{"s":"legal","h":96,"d":{"r":["$","$1","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","template":["$","$L9",null,{}]}]]}],"p":"$@11","v":"$12","s":"$f"},"c":"$Q13"}]]
+0:{"t":{"t":{"s":"","h":80,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/uzmarket/_next/static/chunks/0nacjqr6lfvm4.css","precedence":"next"}],["$","script","script-0",{"src":"/uzmarket/_next/static/chunks/0umf92h1sb77c.js","async":true}],["$","script","script-1",{"src":"/uzmarket/_next/static/chunks/3l31dws0-fu56.js","async":true}],["$","script","script-2",{"src":"/uzmarket/_next/static/chunks/2eljmus80bd27.js","async":true}]],["$","html",null,{"lang":"ru","children":["$","body",null,{"children":[["$","a",null,{"href":"#main","className":"sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[200] focus:rounded-lg focus:bg-accent focus:px-3 focus:py-2 focus:text-white","children":"Перейти к содержимому"}],["$","$L5",null,{}],["$","main",null,{"id":"main","className":"container-page animate-fade-up py-8 sm:py-10","children":["$","$L6",null,{"parallelRouterKey":"children","error":"$8","errorStyles":[],"errorScripts":[["$","script","script-0",{"src":"/uzmarket/_next/static/chunks/1j1ppwofwn1eg.js","async":true}]],"template":["$","$L9",null,{}],"notFound":[["$","div",null,{"className":"card mx-auto flex max-w-md flex-col items-center gap-3 px-6 py-14 text-center","children":[["$","div",null,{"className":"flex h-14 w-14 items-center justify-center rounded-2xl bg-panel-2 text-accent","children":["$","$La",null,{"icon":{"name":"compass","size":24,"node":[["circle",{"cx":"12","cy":"12","r":"10","key":"1mglay"}],["path",{"d":"m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z","key":"9ktpf1"}]]},"className":"h-7 w-7","aria-hidden":true}]}],["$","p",null,{"className":"font-display text-5xl font-extrabold text-line","children":"404"}],["$","h1",null,{"className":"font-display text-xl font-semibold","children":"Страница не найдена"}],["$","p",null,{"className":"text-sm text-muted","children":"Возможно, ссылка устарела или была введена с ошибкой."}],["$","div",null,{"className":"mt-2 flex gap-2","children":[["$","$Lb",null,{"href":"/","className":"btn-primary","children":"На главную"}],["$","$Lb",null,{"href":"/catalog","className":"btn-ghost","children":"В каталог"}]]}]]}],[]]}]}],["$","$Lc",null,{}],["$","$Ld",null,{}]]}]}]]}],"p":"$@e","v":null,"s":"$f"},"c":"$Q10"},"h":{"r":["$","$1","h",{"children":[null,["$","$L1c",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#0a0d16"}]]}],["$","$L1e",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$1f",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Возвраты и споры · UZMARKET GAMING"}],["$","meta","1",{"name":"description","content":"Скины, игровая валюта и услуги по CS2, PUBG, Roblox, Minecraft, Fortnite, Brawl Stars, Standoff 2 и Valorant в сумах. Демонстрационная версия: реальные деньги не переводятся."}]]}]}],null]}],null]}],"p":"$@20","v":null,"s":"$f"}},"a":"$@21","u":"$@22","b":"6C3drh8fdkT1gX9BFNqBm"}
+23:I[97367,["$2","$3","$4"],"OutletBoundary"]
+17:["$","section","4. Важно",{"className":"space-y-2","children":[["$","h2",null,{"className":"font-display text-lg font-semibold","children":"4. Важно"}],[["$","p","0",{"className":"text-[15px] leading-relaxed text-ink/85","children":"Площадка не обещает автоматический возврат денег. В демо-режиме возврат — тестовая операция без движения средств."}]]]}]
+18:["$","nav",null,{"className":"flex flex-wrap gap-3 border-t border-line pt-6 text-sm","aria-label":"Другие документы","children":[["$","$Lb","terms",{"href":"/legal/terms","className":"text-accent hover:underline","children":"Пользовательское соглашение"}],["$","$Lb","privacy",{"href":"/legal/privacy","className":"text-accent hover:underline","children":"Политика конфиденциальности"}],["$","$Lb","rules",{"href":"/legal/rules","className":"text-accent hover:underline","children":"Правила площадки"}]]}]
+19:["$","$L23",null,{"children":["$","$1f",null,{"name":"Next.MetadataOutlet","children":"$@24"}]}]
+f:300
+24:null
+22:true
+f:C
+21:0
+14:"$undefined"
+11:"$undefined"
+e:"$undefined"
+20:"$undefined"
+1a:"$undefined"

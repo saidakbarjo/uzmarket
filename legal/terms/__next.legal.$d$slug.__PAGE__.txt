@@ -1,43 +1,45 @@
 1:"$Sreact.fragment"
 2:"/uzmarket/_next/static/chunks/0umf92h1sb77c.js"
-3:"/uzmarket/_next/static/chunks/0jjg8ah0aoxck.js"
-4:"/uzmarket/_next/static/chunks/1swppu7_thud8.js"
-5:"/uzmarket/_next/static/chunks/11mjaf6c6dwpt.js"
-6:I[93963,["$2","$3","$4","$5"],"Header"]
-7:I[39756,["$2","$3","$4","$5"],"default"]
-8:"/uzmarket/_next/static/chunks/1j1ppwofwn1eg.js"
-9:I[58298,["$2","$3","$4","$5","$8"],"default"]
-a:I[37457,["$2","$3","$4","$5"],"default"]
-b:I[5014,["$2","$3","$4","$5"],"default"]
-c:I[22016,["$2","$3","$4","$5"],""]
-d:I[54231,["$2","$3","$4","$5"],"Footer"]
-e:I[38286,["$2","$3","$4","$5"],"Toaster"]
-17:I[38286,["$2","$3","$4","$5"],"Notice"]
-1d:"ViewportBoundary"
-1e:I[97367,["$2","$3","$4","$5"],"$1d"]
-1f:"MetadataBoundary"
-20:I[97367,["$2","$3","$4","$5"],"$1f"]
-21:"$Sreact.suspense"
-:HL["/uzmarket/_next/static/chunks/2a8e82bkmcpxv.css","style"]
-10:X
-13:X
-13:C
-16:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$1","c",{"children":[["$","article",null,{"className":"mx-auto max-w-3xl space-y-6","children":[["$","h1",null,{"className":"font-display text-3xl font-extrabold","children":"Пользовательское соглашение"}],["$","$L17",null,{"tone":"warn","children":"Черновик для демонстрационной версии. Перед запуском для публики текст должен быть проверен юристом и приведён в соответствие с законодательством Республики Узбекистан. Не является юридической консультацией."}],[["$","section","1. Общие положения",{"className":"space-y-2","children":[["$","h2",null,{"className":"font-display text-lg font-semibold","children":"1. Общие положения"}],[["$","p","0",{"className":"text-[15px] leading-relaxed text-ink/85","children":"UZMARKET — демонстрационная площадка для размещения предложений по цифровым товарам и услугам. Основатель и руководитель проекта: Saidakbar."}],["$","p","1",{"className":"text-[15px] leading-relaxed text-ink/85","children":"Используя сайт, вы подтверждаете, что понимаете: в текущей версии реальные платежи не принимаются, а все сделки являются тестовыми."}]]]}],["$","section","2. Аккаунт",{"className":"space-y-2","children":[["$","h2",null,{"className":"font-display text-lg font-semibold","children":"2. Аккаунт"}],[["$","p","0",{"className":"text-[15px] leading-relaxed text-ink/85","children":"Вы отвечаете за сохранность своих данных для входа. Запрещено передавать аккаунт третьим лицам и создавать аккаунты с чужими данными."}],["$","p","1",{"className":"text-[15px] leading-relaxed text-ink/85","children":"Площадка вправе ограничить доступ к аккаунту при нарушении правил."}]]]}],"$L18","$L19"],"$L1a"]}],null,"$L1b"]}],"p":"$@1c","v":null,"s":"$10"}}]]
-14:[["children",{"s":{"n":"slug","t":"d","k":"terms","s":[]},"h":96,"d":{"r":["$","$1","c",{"children":[null,["$","$L7",null,{"parallelRouterKey":"children","template":["$","$La",null,{}]}]]}],"p":"$@15","v":"$13","s":"$10"},"c":"$Q16"}]]
-11:[["children",{"s":"legal","h":96,"d":{"r":["$","$1","c",{"children":[null,["$","$L7",null,{"parallelRouterKey":"children","template":["$","$La",null,{}]}]]}],"p":"$@12","v":"$13","s":"$10"},"c":"$Q14"}]]
-0:{"t":{"t":{"s":"","h":80,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/uzmarket/_next/static/chunks/2a8e82bkmcpxv.css","precedence":"next"}],["$","script","script-0",{"src":"/uzmarket/_next/static/chunks/0umf92h1sb77c.js","async":true}],["$","script","script-1",{"src":"/uzmarket/_next/static/chunks/0jjg8ah0aoxck.js","async":true}],["$","script","script-2",{"src":"/uzmarket/_next/static/chunks/1swppu7_thud8.js","async":true}],["$","script","script-3",{"src":"/uzmarket/_next/static/chunks/11mjaf6c6dwpt.js","async":true}]],["$","html",null,{"lang":"ru","children":["$","body",null,{"children":[["$","a",null,{"href":"#main","className":"sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[200] focus:rounded-lg focus:bg-accent focus:px-3 focus:py-2 focus:text-white","children":"Перейти к содержимому"}],["$","$L6",null,{}],["$","main",null,{"id":"main","className":"container-page animate-fade-up py-8 sm:py-10","children":["$","$L7",null,{"parallelRouterKey":"children","error":"$9","errorStyles":[],"errorScripts":[["$","script","script-0",{"src":"/uzmarket/_next/static/chunks/1j1ppwofwn1eg.js","async":true}]],"template":["$","$La",null,{}],"notFound":[["$","div",null,{"className":"card mx-auto flex max-w-md flex-col items-center gap-3 px-6 py-14 text-center","children":[["$","div",null,{"className":"flex h-14 w-14 items-center justify-center rounded-2xl bg-panel-2 text-accent","children":["$","$Lb",null,{"icon":{"name":"compass","size":24,"node":[["circle",{"cx":"12","cy":"12","r":"10","key":"1mglay"}],["path",{"d":"m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z","key":"9ktpf1"}]]},"className":"h-7 w-7","aria-hidden":true}]}],["$","p",null,{"className":"font-display text-5xl font-extrabold text-line","children":"404"}],["$","h1",null,{"className":"font-display text-xl font-semibold","children":"Страница не найдена"}],["$","p",null,{"className":"text-sm text-muted","children":"Возможно, ссылка устарела или была введена с ошибкой."}],["$","div",null,{"className":"mt-2 flex gap-2","children":[["$","$Lc",null,{"href":"/","className":"btn-primary","children":"На главную"}],["$","$Lc",null,{"href":"/catalog","className":"btn-ghost","children":"В каталог"}]]}]]}],[]]}]}],["$","$Ld",null,{}],["$","$Le",null,{}]]}]}]]}],"p":"$@f","v":null,"s":"$10"},"c":"$Q11"},"h":{"r":["$","$1","h",{"children":[null,["$","$L1e",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#0a0d16"}]]}],["$","$L20",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$21",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Пользовательское соглашение · UZMARKET"}],["$","meta","1",{"name":"description","content":"Игровая валюта, ключи, подписки, дизайн и цифровые услуги в сумах. Демонстрационная версия: реальные деньги не переводятся."}]]}]}],null]}],null]}],"p":"$@22","v":null,"s":"$10"}},"a":"$@23","u":"$@24","b":"tZCEcGaLEcaNsS7J0psHB"}
-25:I[97367,["$2","$3","$4","$5"],"OutletBoundary"]
-18:["$","section","3. Заказы и оплата",{"className":"space-y-2","children":[["$","h2",null,{"className":"font-display text-lg font-semibold","children":"3. Заказы и оплата"}],[["$","p","0",{"className":"text-[15px] leading-relaxed text-ink/85","children":"Цена заказа фиксируется в момент его создания и не может быть изменена продавцом."}],["$","p","1",{"className":"text-[15px] leading-relaxed text-ink/85","children":"В демо-режиме оплата является симуляцией и не приводит к движению денег. Модель хранения и выплаты средств будет определена и опубликована до подключения реальных платежей."}]]]}]
-19:["$","section","4. Ответственность",{"className":"space-y-2","children":[["$","h2",null,{"className":"font-display text-lg font-semibold","children":"4. Ответственность"}],[["$","p","0",{"className":"text-[15px] leading-relaxed text-ink/85","children":"Продавец отвечает за соответствие товара описанию и за законность предложения. Площадка не гарантирует автоматический возврат средств; спорные случаи рассматриваются администратором по предоставленным доказательствам."}]]]}]
-1a:["$","nav",null,{"className":"flex flex-wrap gap-3 border-t border-line pt-6 text-sm","aria-label":"Другие документы","children":[["$","$Lc","privacy",{"href":"/legal/privacy","className":"text-accent hover:underline","children":"Политика конфиденциальности"}],["$","$Lc","rules",{"href":"/legal/rules","className":"text-accent hover:underline","children":"Правила площадки"}],["$","$Lc","refunds",{"href":"/legal/refunds","className":"text-accent hover:underline","children":"Возвраты и споры"}]]}]
-1b:["$","$L25",null,{"children":["$","$21",null,{"name":"Next.MetadataOutlet","children":"$@26"}]}]
-10:300
-26:null
-24:true
-10:C
-23:0
-15:"$undefined"
-12:"$undefined"
-f:"$undefined"
-22:"$undefined"
-1c:"$undefined"
+3:"/uzmarket/_next/static/chunks/3l31dws0-fu56.js"
+4:"/uzmarket/_next/static/chunks/2eljmus80bd27.js"
+5:I[93963,["$2","$3","$4"],"Header"]
+6:I[39756,["$2","$3","$4"],"default"]
+7:"/uzmarket/_next/static/chunks/1j1ppwofwn1eg.js"
+8:I[58298,["$2","$3","$4","$7"],"default"]
+9:I[37457,["$2","$3","$4"],"default"]
+a:I[5014,["$2","$3","$4"],"default"]
+b:I[22016,["$2","$3","$4"],""]
+c:I[54231,["$2","$3","$4"],"Footer"]
+d:I[38286,["$2","$3","$4"],"Toaster"]
+16:I[38286,["$2","$3","$4"],"Notice"]
+1f:"ViewportBoundary"
+20:I[97367,["$2","$3","$4"],"$1f"]
+21:"MetadataBoundary"
+22:I[97367,["$2","$3","$4"],"$21"]
+23:"$Sreact.suspense"
+:HL["/uzmarket/_next/static/chunks/0nacjqr6lfvm4.css","style"]
+f:X
+12:X
+12:C
+15:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$1","c",{"children":[["$","article",null,{"className":"mx-auto max-w-3xl space-y-6","children":[["$","h1",null,{"className":"font-display text-3xl font-extrabold","children":"Пользовательское соглашение"}],["$","$L16",null,{"tone":"warn","children":"Черновик для демонстрационной версии. Перед запуском для публики текст должен быть проверен юристом и приведён в соответствие с законодательством Республики Узбекистан. Не является юридической консультацией."}],[["$","section","1. Общие положения",{"className":"space-y-2","children":[["$","h2",null,{"className":"font-display text-lg font-semibold","children":"1. Общие положения"}],[["$","p","0",{"className":"text-[15px] leading-relaxed text-ink/85","children":"UZMARKET GAMING — демонстрационная площадка, где продавцы размещают предложения по играм, а покупатели оформляют заказы. Основатель и руководитель проекта: Saidakbar."}],["$","p","1",{"className":"text-[15px] leading-relaxed text-ink/85","children":"Используя сайт, вы подтверждаете, что понимаете: в текущей версии реальные платежи не принимаются, а все сделки являются тестовыми."}]]]}],["$","section","2. Аккаунт",{"className":"space-y-2","children":[["$","h2",null,{"className":"font-display text-lg font-semibold","children":"2. Аккаунт"}],[["$","p","0",{"className":"text-[15px] leading-relaxed text-ink/85","children":"Вы отвечаете за сохранность своих данных для входа. Запрещено передавать аккаунт третьим лицам и создавать аккаунты с чужими данными."}],["$","p","1",{"className":"text-[15px] leading-relaxed text-ink/85","children":"Площадка вправе ограничить доступ к аккаунту при нарушении правил."}]]]}],["$","section","3. Заказы и оплата",{"className":"space-y-2","children":["$L17",["$L18","$L19","$L1a"]]}],"$L1b"],"$L1c"]}],null,"$L1d"]}],"p":"$@1e","v":null,"s":"$f"}}]]
+13:[["children",{"s":{"n":"slug","t":"d","k":"terms","s":[]},"h":96,"d":{"r":["$","$1","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","template":["$","$L9",null,{}]}]]}],"p":"$@14","v":"$12","s":"$f"},"c":"$Q15"}]]
+10:[["children",{"s":"legal","h":96,"d":{"r":["$","$1","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","template":["$","$L9",null,{}]}]]}],"p":"$@11","v":"$12","s":"$f"},"c":"$Q13"}]]
+0:{"t":{"t":{"s":"","h":80,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/uzmarket/_next/static/chunks/0nacjqr6lfvm4.css","precedence":"next"}],["$","script","script-0",{"src":"/uzmarket/_next/static/chunks/0umf92h1sb77c.js","async":true}],["$","script","script-1",{"src":"/uzmarket/_next/static/chunks/3l31dws0-fu56.js","async":true}],["$","script","script-2",{"src":"/uzmarket/_next/static/chunks/2eljmus80bd27.js","async":true}]],["$","html",null,{"lang":"ru","children":["$","body",null,{"children":[["$","a",null,{"href":"#main","className":"sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[200] focus:rounded-lg focus:bg-accent focus:px-3 focus:py-2 focus:text-white","children":"Перейти к содержимому"}],["$","$L5",null,{}],["$","main",null,{"id":"main","className":"container-page animate-fade-up py-8 sm:py-10","children":["$","$L6",null,{"parallelRouterKey":"children","error":"$8","errorStyles":[],"errorScripts":[["$","script","script-0",{"src":"/uzmarket/_next/static/chunks/1j1ppwofwn1eg.js","async":true}]],"template":["$","$L9",null,{}],"notFound":[["$","div",null,{"className":"card mx-auto flex max-w-md flex-col items-center gap-3 px-6 py-14 text-center","children":[["$","div",null,{"className":"flex h-14 w-14 items-center justify-center rounded-2xl bg-panel-2 text-accent","children":["$","$La",null,{"icon":{"name":"compass","size":24,"node":[["circle",{"cx":"12","cy":"12","r":"10","key":"1mglay"}],["path",{"d":"m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z","key":"9ktpf1"}]]},"className":"h-7 w-7","aria-hidden":true}]}],["$","p",null,{"className":"font-display text-5xl font-extrabold text-line","children":"404"}],["$","h1",null,{"className":"font-display text-xl font-semibold","children":"Страница не найдена"}],["$","p",null,{"className":"text-sm text-muted","children":"Возможно, ссылка устарела или была введена с ошибкой."}],["$","div",null,{"className":"mt-2 flex gap-2","children":[["$","$Lb",null,{"href":"/","className":"btn-primary","children":"На главную"}],["$","$Lb",null,{"href":"/catalog","className":"btn-ghost","children":"В каталог"}]]}]]}],[]]}]}],["$","$Lc",null,{}],["$","$Ld",null,{}]]}]}]]}],"p":"$@e","v":null,"s":"$f"},"c":"$Q10"},"h":{"r":["$","$1","h",{"children":[null,["$","$L20",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#0a0d16"}]]}],["$","$L22",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$23",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Пользовательское соглашение · UZMARKET GAMING"}],["$","meta","1",{"name":"description","content":"Скины, игровая валюта и услуги по CS2, PUBG, Roblox, Minecraft, Fortnite, Brawl Stars, Standoff 2 и Valorant в сумах. Демонстрационная версия: реальные деньги не переводятся."}]]}]}],null]}],null]}],"p":"$@24","v":null,"s":"$f"}},"a":"$@25","u":"$@26","b":"6C3drh8fdkT1gX9BFNqBm"}
+27:I[97367,["$2","$3","$4"],"OutletBoundary"]
+17:["$","h2",null,{"className":"font-display text-lg font-semibold","children":"3. Заказы и оплата"}]
+18:["$","p","0",{"className":"text-[15px] leading-relaxed text-ink/85","children":"Цена заказа и комиссия площадки фиксируются в момент создания заказа и не могут быть изменены продавцом; последующее изменение тарифа не влияет на уже созданные заказы."}]
+19:["$","p","1",{"className":"text-[15px] leading-relaxed text-ink/85","children":"Комиссия площадки (по умолчанию 5%, может отличаться для игр и отдельных продавцов) показывается до подтверждения заказа."}]
+1a:["$","p","2",{"className":"text-[15px] leading-relaxed text-ink/85","children":"В демо-режиме оплата является симуляцией и не приводит к движению денег. Модель хранения и выплаты средств будет определена и опубликована до подключения реальных платежей."}]
+1b:["$","section","4. Ответственность",{"className":"space-y-2","children":[["$","h2",null,{"className":"font-display text-lg font-semibold","children":"4. Ответственность"}],[["$","p","0",{"className":"text-[15px] leading-relaxed text-ink/85","children":"Продавец отвечает за соответствие товара описанию и за законность предложения. Площадка не гарантирует автоматический возврат средств; спорные случаи рассматриваются администратором по предоставленным доказательствам."}]]]}]
+1c:["$","nav",null,{"className":"flex flex-wrap gap-3 border-t border-line pt-6 text-sm","aria-label":"Другие документы","children":[["$","$Lb","privacy",{"href":"/legal/privacy","className":"text-accent hover:underline","children":"Политика конфиденциальности"}],["$","$Lb","rules",{"href":"/legal/rules","className":"text-accent hover:underline","children":"Правила площадки"}],["$","$Lb","refunds",{"href":"/legal/refunds","className":"text-accent hover:underline","children":"Возвраты и споры"}]]}]
+1d:["$","$L27",null,{"children":["$","$23",null,{"name":"Next.MetadataOutlet","children":"$@28"}]}]
+f:300
+28:null
+26:true
+f:C
+25:0
+14:"$undefined"
+11:"$undefined"
+e:"$undefined"
+24:"$undefined"
+1e:"$undefined"

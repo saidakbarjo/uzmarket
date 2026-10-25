@@ -1,0 +1,5 @@
+:HL["/uzmarket/_next/static/chunks/0nacjqr6lfvm4.css","style"]
+3:[["children",{"s":"__PAGE__","h":160}]]
+2:[["children",{"s":"finance","h":96,"c":"$Q3"}]]
+1:[["children",{"s":"seller","h":96,"c":"$Q2"}]]
+0:{"b":"6C3drh8fdkT1gX9BFNqBm","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
