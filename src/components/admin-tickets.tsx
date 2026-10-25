@@ -40,7 +40,10 @@ export function AdminTickets({ kinds }: { kinds: TicketKind[] }) {
           {t.status === "open" && (
             <button type="button" className="btn-ghost !px-3 !py-1.5 !text-xs" onClick={() => change(t, "in_review", "Взято на рассмотрение")}>В работу</button>
           )}
-          {["open", "in_review"].includes(t.status) && (
+          {t.kind === "dispute" && !["resolved", "rejected"].includes(t.status) && (
+            <Link href={`/support/ticket?id=${t.id}`} className="btn-primary !px-3 !py-1.5 !text-xs">Рассмотреть</Link>
+          )}
+          {t.kind !== "dispute" && ["open", "in_review", "need_info"].includes(t.status) && (
             <>
               <button type="button" className="btn-ghost !px-3 !py-1.5 !text-xs" onClick={() => change(t, "resolved", "Обращение решено")}>Решено</button>
               <ConfirmButton
@@ -53,7 +56,7 @@ export function AdminTickets({ kinds }: { kinds: TicketKind[] }) {
               />
             </>
           )}
-          {["resolved", "rejected"].includes(t.status) && (
+          {t.kind !== "dispute" && ["resolved", "rejected"].includes(t.status) && (
             <button type="button" className="btn-ghost !px-3 !py-1.5 !text-xs" onClick={() => change(t, "in_review", "Возвращено на рассмотрение")}>Переоткрыть</button>
           )}
         </div>

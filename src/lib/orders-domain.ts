@@ -18,6 +18,7 @@ export type OrderAction =
   | "deliver"
   | "confirm"
   | "open_dispute"
+  | "review_refund"
   | "refund"
   | "resolve_dispute_complete";
 
@@ -48,8 +49,9 @@ const RULES: Record<OrderAction, Rule> = {
   deliver: { from: ["paid", "in_progress"], to: "delivered", who: ["seller"], note: "Продавец отметил заказ как выданный." },
   confirm: { from: ["delivered"], to: "completed", who: ["buyer"], note: "Покупатель подтвердил получение. Заказ завершён." },
   open_dispute: { from: ["paid", "in_progress", "delivered"], to: "disputed", who: ["buyer"], note: "Покупатель открыл спор." },
-  refund: { from: ["paid", "in_progress", "delivered", "disputed"], to: "refunded", who: ["admin"], note: "Возврат оформлен в тестовом режиме (DEMO — без движения денег)." },
-  resolve_dispute_complete: { from: ["disputed"], to: "completed", who: ["admin"], note: "Спор решён в пользу выполнения заказа." },
+  review_refund: { from: ["disputed"], to: "refund_review", who: ["admin"], note: "Администратор рассматривает возврат." },
+  refund: { from: ["paid", "in_progress", "delivered", "disputed", "refund_review"], to: "refunded", who: ["admin"], note: "Возврат оформлен в тестовом режиме (DEMO — без движения денег)." },
+  resolve_dispute_complete: { from: ["disputed", "refund_review"], to: "completed", who: ["admin"], note: "Спор решён в пользу выполнения заказа." },
 };
 
 export function roleOf(order: Order, actor: Actor | "system"): "buyer" | "seller" | "admin" | "system" | null {
@@ -139,11 +141,12 @@ export const STATUS_LABELS: Record<OrderStatus, string> = {
   pending_payment: "Ожидает оплаты",
   paid: "Оплачен (тест)",
   in_progress: "В работе",
-  delivered: "Выдан",
+  delivered: "Товар передан · ждёт подтверждения",
   completed: "Завершён",
-  disputed: "Спор",
+  disputed: "Открыт спор",
+  refund_review: "Возврат рассматривается",
   cancelled: "Отменён",
-  refunded: "Возврат (тест)",
+  refunded: "Возвращён (тест)",
 };
 
 export function availableActions(order: Order, actor: Actor | null): OrderAction[] {

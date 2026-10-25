@@ -3,11 +3,15 @@ import { calcFee, formatUZS } from "@/lib/money";
 import { listingSchema, registerSchema, reviewSchema, ticketSchema } from "@/lib/validation";
 
 const validListing = {
-  title: "Логотип для бренда",
-  categorySlug: "design",
-  description: "Разработка логотипа: три концепции и две правки.",
+  title: "Скин для CS2 в отличном состоянии",
+  gameSlug: "cs2",
+  productType: "item",
+  description: "Передача скина через обмен Steam, с подтверждением в чате заказа.",
   priceUzs: 350_000,
-  deliveryMethod: "file",
+  stock: 1,
+  available: true,
+  images: [],
+  deliveryMethod: "chat",
   deliveryDays: 3,
   refundTerms: "Возврат до начала работы.",
   fulfillmentTerms: "Файлы передаются через чат заказа.",
@@ -35,8 +39,12 @@ describe("валидация объявления", () => {
     expect(listingSchema.safeParse({ ...validListing, description: "я".repeat(3001) }).success).toBe(false);
   });
 
-  it("запрещает неизвестную категорию и отрицательный срок", () => {
-    expect(listingSchema.safeParse({ ...validListing, categorySlug: "weapons" }).success).toBe(false);
+  it("запрещает неверную игру, тип, количество и отрицательный срок", () => {
+    expect(listingSchema.safeParse({ ...validListing, gameSlug: "Bad Game!" }).success).toBe(false);
+    expect(listingSchema.safeParse({ ...validListing, productType: "weapons" }).success).toBe(false);
+    expect(listingSchema.safeParse({ ...validListing, stock: -1 }).success).toBe(false);
+    expect(listingSchema.safeParse({ ...validListing, images: ["http://evil.example/x.png"] }).success).toBe(false);
+    expect(listingSchema.safeParse({ ...validListing, images: ["a", "b", "c", "d", "e"].map(() => "data:image/jpeg;base64,AAAA") }).success).toBe(false);
     expect(listingSchema.safeParse({ ...validListing, deliveryDays: -1 }).success).toBe(false);
   });
 });

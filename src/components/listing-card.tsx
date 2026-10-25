@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BadgeCheck, Clock, Heart } from "lucide-react";
-import { categories } from "@/lib/data/seed";
 import { formatUZS } from "@/lib/money";
 import { toggleFavorite, useCurrentUser, useDemoState } from "@/lib/store";
 import { toast } from "@/lib/toast";
 import type { Listing } from "@/lib/types";
-import { DemoBadge, ListingImage, Stars } from "@/components/ui";
+import { Avatar, Badge, DemoBadge, ListingImage, Stars } from "@/components/ui";
+import { productTypeLabel } from "@/lib/product-types";
+import { isInStock } from "@/lib/catalog";
 
 export function FavoriteButton({ listingId, variant = "icon" }: { listingId: string; variant?: "icon" | "full" }) {
   const router = useRouter();
@@ -53,25 +54,28 @@ export function FavoriteButton({ listingId, variant = "icon" }: { listingId: str
 export function ListingCard({ listing }: { listing: Listing }) {
   const s = useDemoState();
   const seller = s.profiles.find((p) => p.id === listing.sellerId);
-  const cat = categories.find((c) => c.slug === listing.categorySlug);
+  const game = s.games.find((g) => g.slug === listing.gameSlug);
+  const inStock = isInStock(listing);
 
   return (
     <article className="card card-hover group relative flex flex-col overflow-hidden">
       <Link href={`/listing?id=${listing.id}`} className="absolute inset-0 z-10" aria-label={listing.title} />
       <div className="relative">
-        <ListingImage slug={listing.categorySlug} hue={listing.imageHue} className="aspect-[16/10] w-full transition duration-300 group-hover:scale-[1.03]" />
+        <ListingImage gameSlug={listing.gameSlug} images={listing.images} hue={listing.imageHue} className="aspect-[16/10] w-full transition duration-300 group-hover:scale-[1.03]" />
         <div className="absolute left-3 top-3 z-20 flex gap-1.5">
           {listing.isDemo && <DemoBadge />}
+          {!inStock && <Badge tone="danger">Нет в наличии</Badge>}
         </div>
         <div className="absolute right-3 top-3 z-20">
           <FavoriteButton listingId={listing.id} />
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-3 p-4">
-        <p className="text-xs font-medium text-accent">{cat?.name}</p>
+        <p className="text-xs font-medium text-accent">{game?.name} · {productTypeLabel(listing.productType)}</p>
         <h3 className="line-clamp-2 min-h-[2.75rem] text-[15px] font-semibold leading-snug">{listing.title}</h3>
         <div className="mt-auto flex items-center justify-between gap-3 text-xs text-muted">
           <span className="flex min-w-0 items-center gap-1.5">
+            {seller && <Avatar user={seller} className="h-5 w-5 !text-[10px]" />}
             <span className="truncate font-medium text-ink/90">{seller?.username ?? "Продавец"}</span>
             {seller?.verified && <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-accent-2" aria-label="Проверенный продавец" />}
           </span>

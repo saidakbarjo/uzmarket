@@ -5,7 +5,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft, ChevronRight, SearchX, SlidersHorizontal, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ListingCard } from "@/components/listing-card";
-import { CategoryIcon, EmptyState, PageHeader } from "@/components/ui";
+import { EmptyState, GameIcon, PageHeader } from "@/components/ui";
+import { PRODUCT_TYPES } from "@/lib/product-types";
 import {
   PAGE_SIZE,
   filterListings,
@@ -14,7 +15,6 @@ import {
   type CatalogFilters,
   type SortKey,
 } from "@/lib/catalog";
-import { categories } from "@/lib/data/seed";
 import { useDemoState, useHydrated } from "@/lib/store";
 
 export function CatalogClient() {
@@ -33,11 +33,15 @@ export function CatalogClient() {
   const maxRef = useRef<HTMLInputElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const results = useMemo(() => filterListings(s.listings, s.profiles, filters), [s.listings, s.profiles, filters]);
+  const enabledSlugs = useMemo(() => new Set(s.games.filter((g) => g.enabled).map((g) => g.slug)), [s.games]);
+  const results = useMemo(
+    () => filterListings(s.listings.filter((l) => enabledSlugs.has(l.gameSlug)), s.profiles, filters),
+    [s.listings, s.profiles, filters, enabledSlugs],
+  );
   const totalPages = Math.max(1, Math.ceil(results.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
   const pageItems = results.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
-  const visibleCategories = categories.filter((c) => !s.disabledCategories.includes(c.slug));
+  const visibleGames = s.games.filter((g) => g.enabled).sort((a, b) => a.sortOrder - b.sortOrder);
 
   // если фильтры изменились снаружи (например, поиск из шапки) — обновляем поля ввода
   useEffect(() => {
@@ -92,7 +96,9 @@ export function CatalogClient() {
 
   const activeCount =
     (filters.q ? 1 : 0) +
-    (filters.category ? 1 : 0) +
+    (filters.game ? 1 : 0) +
+    (filters.type ? 1 : 0) +
+    (filters.inStock ? 1 : 0) +
     (filters.minPrice != null ? 1 : 0) +
     (filters.maxPrice != null ? 1 : 0) +
     (filters.minRating > 0 ? 1 : 0);
@@ -116,36 +122,46 @@ export function CatalogClient() {
           defaultValue={filters.q}
           onChange={debounced}
           className="input"
-          placeholder="Например: логотип"
+          placeholder="Например: скин, робуксы, буст"
           maxLength={100}
         />
       </div>
 
       <fieldset>
-        <legend className="mb-2 text-sm font-medium">Категория</legend>
+        <legend className="mb-2 text-sm font-medium">Игра</legend>
         <div className="space-y-1">
           <button
             type="button"
-            onClick={() => apply({ category: "" })}
-            aria-pressed={filters.category === ""}
-            className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm transition ${filters.category === "" ? "bg-accent/15 font-semibold text-ink" : "text-muted hover:bg-panel-2"}`}
+            onClick={() => apply({ game: "" })}
+            aria-pressed={filters.game === ""}
+            className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm transition ${filters.game === "" ? "bg-accent/15 font-semibold text-ink" : "text-muted hover:bg-panel-2"}`}
           >
-            Все категории
+            Все игры
           </button>
-          {visibleCategories.map((c) => (
+          {visibleGames.map((g) => (
             <button
-              key={c.slug}
+              key={g.slug}
               type="button"
-              onClick={() => apply({ category: c.slug })}
-              aria-pressed={filters.category === c.slug}
-              className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm transition ${filters.category === c.slug ? "bg-accent/15 font-semibold text-ink" : "text-muted hover:bg-panel-2"}`}
+              onClick={() => apply({ game: g.slug })}
+              aria-pressed={filters.game === g.slug}
+              className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm transition ${filters.game === g.slug ? "bg-accent/15 font-semibold text-ink" : "text-muted hover:bg-panel-2"}`}
             >
-              <CategoryIcon slug={c.slug} className="h-4 w-4 shrink-0" />
-              <span className="truncate">{c.name}</span>
+              <GameIcon slug={g.slug} className="h-6 w-6" />
+              <span className="truncate">{g.name}</span>
             </button>
           ))}
         </div>
       </fieldset>
+
+      <div>
+        <label htmlFor="ptype" className="mb-1.5 block text-sm font-medium">Тип товара</label>
+        <select id="ptype" className="input" value={filters.type} onChange={(e) => apply({ type: e.target.value as CatalogFilters["type"] })}>
+          <option value="">Любой</option>
+          {PRODUCT_TYPES.map((t) => (
+            <option key={t.value} value={t.value}>{t.label}</option>
+          ))}
+        </select>
+      </div>
 
       <fieldset>
         <legend className="mb-2 text-sm font-medium">Цена, сум</legend>
@@ -155,6 +171,11 @@ export function CatalogClient() {
         </div>
         {priceInvalid && <p role="alert" className="mt-1.5 text-xs text-danger">Минимальная цена больше максимальной</p>}
       </fieldset>
+
+      <label className="flex items-center gap-2 text-sm">
+        <input type="checkbox" checked={filters.inStock} onChange={(e) => apply({ inStock: e.target.checked })} className="h-4 w-4 accent-[var(--color-accent)]" />
+        Только в наличии
+      </label>
 
       <div>
         <label htmlFor="rating" className="mb-1.5 block text-sm font-medium">Рейтинг продавца</label>

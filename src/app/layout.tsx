@@ -7,11 +7,11 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "UZMARKET — цифровой маркетплейс Узбекистана",
-    template: "%s · UZMARKET",
+    default: "UZMARKET GAMING — игровой маркетплейс Узбекистана",
+    template: "%s · UZMARKET GAMING",
   },
   description:
-    "Игровая валюта, ключи, подписки, дизайн и цифровые услуги в сумах. Демонстрационная версия: реальные деньги не переводятся.",
+    "Скины, игровая валюта и услуги по CS2, PUBG, Roblox, Minecraft, Fortnite, Brawl Stars, Standoff 2 и Valorant в сумах. Демонстрационная версия: реальные деньги не переводятся.",
 };
 
 export const viewport: Viewport = {

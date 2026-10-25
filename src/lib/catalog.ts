@@ -1,10 +1,12 @@
-import type { CategorySlug, Listing, Profile } from "@/lib/types";
+import type { Listing, Profile, ProductType } from "@/lib/types";
 
 export type SortKey = "new" | "old" | "price_asc" | "price_desc";
 
 export interface CatalogFilters {
   q: string;
-  category: CategorySlug | "";
+  game: string; // slug игры, "" — все
+  type: ProductType | "";
+  inStock: boolean; // только в наличии
   minPrice: number | null;
   maxPrice: number | null;
   minRating: number; // 0 = любой
@@ -13,7 +15,9 @@ export interface CatalogFilters {
 
 export const DEFAULT_FILTERS: CatalogFilters = {
   q: "",
-  category: "",
+  game: "",
+  type: "",
+  inStock: false,
   minPrice: null,
   maxPrice: null,
   minRating: 0,
@@ -30,11 +34,14 @@ export function parseNumber(value: string | null | undefined): number | null {
 
 export function filtersFromParams(params: URLSearchParams): CatalogFilters {
   const sort = params.get("sort");
-  const category = params.get("category") ?? "";
+  const game = (params.get("game") ?? "").slice(0, 40);
+  const type = params.get("type") ?? "";
   const rating = Number(params.get("rating") ?? 0);
   return {
     q: (params.get("q") ?? "").slice(0, 100),
-    category: category as CatalogFilters["category"],
+    game,
+    type: (["item", "currency", "service", "key", "other"].includes(type) ? type : "") as CatalogFilters["type"],
+    inStock: params.get("stock") === "1",
     minPrice: parseNumber(params.get("min")),
     maxPrice: parseNumber(params.get("max")),
     minRating: Number.isFinite(rating) ? Math.min(5, Math.max(0, rating)) : 0,
@@ -45,12 +52,19 @@ export function filtersFromParams(params: URLSearchParams): CatalogFilters {
 export function filtersToParams(f: CatalogFilters): URLSearchParams {
   const p = new URLSearchParams();
   if (f.q) p.set("q", f.q);
-  if (f.category) p.set("category", f.category);
+  if (f.game) p.set("game", f.game);
+  if (f.type) p.set("type", f.type);
+  if (f.inStock) p.set("stock", "1");
   if (f.minPrice != null) p.set("min", String(f.minPrice));
   if (f.maxPrice != null) p.set("max", String(f.maxPrice));
   if (f.minRating > 0) p.set("rating", String(f.minRating));
   if (f.sort !== "new") p.set("sort", f.sort);
   return p;
+}
+
+/** Товар можно купить: продавец не снял «в наличии» и остаток не нулевой. */
+export function isInStock(l: Pick<Listing, "available" | "stock">): boolean {
+  return l.available && (l.stock === null || l.stock > 0);
 }
 
 export function filterListings(
@@ -64,7 +78,9 @@ export function filterListings(
     if (l.status !== "active") return false;
     const seller = byId.get(l.sellerId);
     if (!seller || seller.blocked) return false;
-    if (f.category && l.categorySlug !== f.category) return false;
+    if (f.game && l.gameSlug !== f.game) return false;
+    if (f.type && l.productType !== f.type) return false;
+    if (f.inStock && !isInStock(l)) return false;
     if (q && !(l.title.toLowerCase().includes(q) || l.description.toLowerCase().includes(q))) return false;
     if (f.minPrice != null && l.priceUzs < f.minPrice) return false;
     if (f.maxPrice != null && l.priceUzs > f.maxPrice) return false;

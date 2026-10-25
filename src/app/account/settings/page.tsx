@@ -4,7 +4,9 @@ import { useRouter } from "next/navigation";
 import { LogOut, RotateCcw } from "lucide-react";
 import { RequireAuth } from "@/components/require-auth";
 import { ConfirmButton, Notice, PageHeader } from "@/components/ui";
-import { setLang, useLang } from "@/lib/i18n";
+import { LANGS, setLang, useLang, type Lang } from "@/lib/i18n";
+
+const LANG_NAMES: Record<Lang, string> = { ru: "Русский", uz: "O‘zbekcha", en: "English" };
 import { logout, resetDemoData } from "@/lib/store";
 import { toast } from "@/lib/toast";
 
@@ -19,11 +21,11 @@ export default function SettingsPage() {
 
           <section className="card space-y-3 p-5 sm:p-6">
             <h2 className="font-semibold">Язык интерфейса</h2>
-            <p className="text-sm text-muted">Основной язык — русский. Ключевые элементы доступны на узбекском.</p>
+            <p className="text-sm text-muted">Основной язык — русский. Ключевые элементы доступны на узбекском и английском.</p>
             <div className="flex gap-2" role="group" aria-label="Язык интерфейса">
-              {(["ru", "uz"] as const).map((l) => (
+              {LANGS.map((l) => (
                 <button key={l} type="button" aria-pressed={lang === l} onClick={() => setLang(l)} className={lang === l ? "btn-primary" : "btn-ghost"}>
-                  {l === "ru" ? "Русский" : "O‘zbekcha"}
+                  {LANG_NAMES[l]}
                 </button>
               ))}
             </div>
@@ -33,7 +35,7 @@ export default function SettingsPage() {
             <h2 className="font-semibold">Аккаунт</h2>
             <dl className="grid gap-3 text-sm sm:grid-cols-2">
               <div><dt className="text-muted">E-mail</dt><dd className="font-medium">{user.email}</dd></div>
-              <div><dt className="text-muted">Роль</dt><dd className="font-medium">{user.role === "admin" ? "Администратор (демо)" : "Пользователь"}</dd></div>
+              <div><dt className="text-muted">Роль</dt><dd className="font-medium">{user.role === "admin" ? "Администратор (демо)" : user.isSeller ? "Пользователь · продавец" : "Пользователь"}</dd></div>
             </dl>
             <button
               type="button"

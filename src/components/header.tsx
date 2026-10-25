@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Bell, LayoutDashboard, LogOut, Menu, Plus, Search, Shield, X } from "lucide-react";
+import { Bell, LayoutDashboard, LogOut, Menu, Plus, Search, Shield, Store, X } from "lucide-react";
 import { useState, type FormEvent } from "react";
-import { setLang, useLang, useT } from "@/lib/i18n";
+import { LANGS, setLang, useLang, useT, type Lang } from "@/lib/i18n";
 import { logout, useCurrentUser, useDemoState } from "@/lib/store";
 import { DEMO_BANNER } from "@/lib/payments/provider";
 import { toast } from "@/lib/toast";
@@ -19,11 +19,13 @@ export function Logo({ className = "" }: { className?: string }) {
         </svg>
       </span>
       <span className="font-display text-lg font-extrabold tracking-tight">
-        UZ<span className="bg-gradient-to-r from-accent to-accent-2 bg-clip-text text-transparent">MARKET</span>
+        UZ<span className="bg-gradient-to-r from-accent to-accent-2 bg-clip-text text-transparent">MARKET</span> <span className="text-xs font-semibold tracking-widest text-muted">GAMING</span>
       </span>
     </Link>
   );
 }
+
+const nextLang = (l: Lang): Lang => LANGS[(LANGS.indexOf(l) + 1) % LANGS.length];
 
 export function Header() {
   const t = useT();
@@ -89,12 +91,12 @@ export function Header() {
           <div className="ml-auto flex items-center gap-2 lg:ml-0">
             <button
               type="button"
-              onClick={() => setLang(lang === "ru" ? "uz" : "ru")}
+              onClick={() => setLang(nextLang(lang))}
               className="hidden rounded-lg border border-line px-2.5 py-1.5 text-xs font-bold text-muted transition hover:text-ink sm:block"
               aria-label="Сменить язык интерфейса"
-              title="Русский / O‘zbekcha"
+              title="RU / UZ / EN"
             >
-              {lang === "ru" ? "UZ" : "RU"}
+              {nextLang(lang).toUpperCase()}
             </button>
 
             <Link href="/seller/new" className="btn-primary hidden !py-2 sm:inline-flex">
@@ -109,6 +111,11 @@ export function Header() {
                     <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold text-white">{unread}</span>
                   )}
                 </Link>
+                {user.isSeller && (
+                  <Link href="/seller" className="btn-ghost !px-3 !py-2">
+                    <Store className="h-4 w-4" aria-hidden /> Кабинет
+                  </Link>
+                )}
                 {user.role === "admin" && (
                   <Link href="/admin" className="btn-ghost !px-3 !py-2">
                     <Shield className="h-4 w-4" aria-hidden /> Админ
@@ -158,6 +165,7 @@ export function Header() {
                 <>
                   {link("/account", `${t("nav.account")} — ${user.username}`)}
                   {link("/account/notifications", `Уведомления${unread ? ` (${unread})` : ""}`)}
+                  {user.isSeller && link("/seller", "Кабинет продавца")}
                   {user.role === "admin" && link("/admin", "Админ-панель")}
                   <button type="button" onClick={onLogout} className="rounded-lg px-3 py-2 text-left text-sm font-medium text-muted hover:bg-panel-2">
                     {t("nav.logout")}
@@ -174,8 +182,8 @@ export function Header() {
               <Link href="/seller/new" onClick={() => setOpen(false)} className="btn-primary flex-1">
                 <Plus className="h-4 w-4" aria-hidden /> {t("nav.sell")}
               </Link>
-              <button type="button" onClick={() => setLang(lang === "ru" ? "uz" : "ru")} className="btn-ghost" aria-label="Сменить язык интерфейса">
-                {lang === "ru" ? "UZ" : "RU"}
+              <button type="button" onClick={() => setLang(nextLang(lang))} className="btn-ghost" aria-label="Сменить язык интерфейса">
+                {nextLang(lang).toUpperCase()}
               </button>
             </div>
           </div>

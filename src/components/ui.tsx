@@ -1,68 +1,59 @@
 "use client";
 
 import Link from "next/link";
-import {
-  AlertTriangle,
-  AppWindow,
-  CheckCircle2,
-  Coins,
-  FlaskConical,
-  Gamepad2,
-  Info,
-  KeyRound,
-  Loader2,
-  Package,
-  Palette,
-  Repeat,
-  Star,
-  Swords,
-  UserRound,
-  X,
-  type LucideIcon,
-} from "lucide-react";
+import { AlertTriangle, CheckCircle2, FlaskConical, Info, Loader2, Package, Star, X } from "lucide-react";
 import { useEffect, useId, useState, type ReactNode } from "react";
-import { categories } from "@/lib/data/seed";
 import { STATUS_LABELS } from "@/lib/orders-domain";
+import { useDemoState } from "@/lib/store";
 import { dismiss, useToasts } from "@/lib/toast";
-import type { CategorySlug, OrderStatus, TicketStatus } from "@/lib/types";
+import { PAYOUT_STATUS_LABELS } from "@/lib/payouts";
+import type { Game, OrderStatus, PayoutStatus, Profile, TicketStatus } from "@/lib/types";
 
-/* ───── иконки категорий ───── */
-const ICONS: Record<string, LucideIcon> = {
-  Gamepad2,
-  Coins,
-  Swords,
-  KeyRound,
-  AppWindow,
-  Repeat,
-  UserRound,
-  Palette,
-  Package,
-};
-
-/** Иконки категорий вычисляются один раз на уровне модуля, а не во время рендера. */
-const ICON_BY_SLUG: Record<string, LucideIcon> = Object.fromEntries(
-  categories.map((c) => [c.slug, ICONS[c.icon] ?? Package]),
-);
-
-export function CategoryIcon({ slug, className }: { slug: CategorySlug; className?: string }) {
-  const Icon = ICON_BY_SLUG[slug] ?? Package;
-  return <Icon className={className} aria-hidden />;
+/* ───── игры ───── */
+export function useGame(slug: string): Game | undefined {
+  return useDemoState().games.find((g) => g.slug === slug);
 }
 
-/** Локальная заглушка изображения: градиент + иконка категории. Никаких внешних картинок. */
+/** Квадратный значок игры: аббревиатура на цветном фоне (без внешних картинок). */
+export function GameIcon({ slug, className = "h-8 w-8" }: { slug: string; className?: string }) {
+  const g = useGame(slug);
+  const h = g?.hue ?? 250;
+  return (
+    <span
+      aria-hidden
+      className={`inline-flex shrink-0 items-center justify-center rounded-lg text-[10px] font-bold tracking-tight text-white ${className}`}
+      style={{ background: `linear-gradient(135deg, hsl(${h} 70% 45%), hsl(${(h + 50) % 360} 60% 28%))` }}
+    >
+      {g?.abbr ?? "?"}
+    </span>
+  );
+}
+
+/** Изображение товара: загруженная картинка либо локальная заглушка с логотипом-аббревиатурой игры. */
 export function ListingImage({
-  slug,
+  gameSlug,
+  images,
+  index = 0,
   hue,
   className = "",
   label,
 }: {
-  slug: CategorySlug;
+  gameSlug: string;
+  images?: string[];
+  index?: number;
   hue?: number;
   className?: string;
   label?: string;
 }) {
-  const base = categories.find((c) => c.slug === slug)?.hue ?? 250;
-  const h = hue ?? base;
+  const g = useGame(gameSlug);
+  const src = images?.[index];
+  if (src) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src={src} alt={label ?? "Изображение товара"} className={`object-cover ${className}`} loading="lazy" />
+    );
+  }
+  const h = hue ?? g?.hue ?? 250;
   return (
     <div
       role="img"
@@ -79,8 +70,27 @@ export function ListingImage({
           backgroundSize: "22px 22px",
         }}
       />
-      <CategoryIcon slug={slug} className="relative h-1/3 w-1/3 max-h-16 max-w-16 text-white/85 drop-shadow-lg" />
+      <span className="relative font-display text-3xl font-black tracking-tight text-white/85 drop-shadow-lg sm:text-4xl">{g?.abbr ?? <Package className="h-8 w-8" />}</span>
     </div>
+  );
+}
+
+/** Аватар пользователя: "hue:NNN" — цветной круг с инициалом, иначе загруженное изображение. */
+export function Avatar({ user, className = "h-9 w-9" }: { user: Pick<Profile, "username" | "avatar">; className?: string }) {
+  const av = user.avatar;
+  if (av && av.startsWith("data:image/")) {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={av} alt="" className={`shrink-0 rounded-full object-cover ${className}`} />;
+  }
+  const h = av?.startsWith("hue:") ? Number(av.slice(4)) : 250;
+  return (
+    <span
+      aria-hidden
+      className={`inline-flex shrink-0 items-center justify-center rounded-full text-sm font-bold text-white ${className}`}
+      style={{ background: `linear-gradient(135deg, hsl(${h} 65% 48%), hsl(${(h + 60) % 360} 60% 30%))` }}
+    >
+      {user.username.slice(0, 1).toUpperCase()}
+    </span>
   );
 }
 
@@ -123,6 +133,7 @@ const STATUS_TONE: Record<OrderStatus, "neutral" | "ok" | "warn" | "danger" | "a
   delivered: "accent",
   completed: "ok",
   disputed: "danger",
+  refund_review: "warn",
   cancelled: "neutral",
   refunded: "neutral",
 };
@@ -134,6 +145,7 @@ export function OrderStatusBadge({ status }: { status: OrderStatus }) {
 const TICKET_LABELS: Record<TicketStatus, string> = {
   open: "Открыто",
   in_review: "На рассмотрении",
+  need_info: "Нужны сведения",
   resolved: "Решено",
   rejected: "Отклонено",
 };
@@ -144,6 +156,11 @@ export function TicketStatusBadge({ status }: { status: TicketStatus }) {
 }
 
 export const ticketStatusLabels = TICKET_LABELS;
+
+const PAYOUT_TONE: Record<PayoutStatus, "neutral" | "ok" | "warn" | "danger" | "accent"> = { created: "warn", in_review: "accent", approved: "accent", paid: "ok", rejected: "danger" };
+export function PayoutStatusBadge({ status }: { status: PayoutStatus }) {
+  return <Badge tone={PAYOUT_TONE[status]}>{PAYOUT_STATUS_LABELS[status]}</Badge>;
+}
 
 /* ───── рейтинг ───── */
 export function Stars({ value, size = "h-4 w-4" }: { value: number; size?: string }) {

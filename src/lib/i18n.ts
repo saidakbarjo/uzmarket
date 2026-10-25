@@ -2,14 +2,16 @@
 
 import { useSyncExternalStore } from "react";
 
-export type Lang = "ru" | "uz";
+export type Lang = "ru" | "uz" | "en";
+export const LANGS: Lang[] = ["ru", "uz", "en"];
 const KEY = "uzmarket.lang";
 const listeners = new Set<() => void>();
 
 function read(): Lang {
   if (typeof window === "undefined") return "ru";
   try {
-    return window.localStorage.getItem(KEY) === "uz" ? "uz" : "ru";
+    const v = window.localStorage.getItem(KEY);
+    return v === "uz" || v === "en" ? v : "ru";
   } catch {
     return "ru";
   }
@@ -37,27 +39,28 @@ export function useLang(): Lang {
 
 /** Основной язык интерфейса — русский. Узбекский — дополнительный (ключевые элементы). */
 const dict = {
-  "nav.catalog": { ru: "Каталог", uz: "Katalog" },
-  "nav.sell": { ru: "Продать товар", uz: "Tovar sotish" },
-  "nav.login": { ru: "Войти", uz: "Kirish" },
-  "nav.register": { ru: "Регистрация", uz: "Ro‘yxatdan o‘tish" },
-  "nav.support": { ru: "Поддержка", uz: "Yordam" },
-  "nav.account": { ru: "Кабинет", uz: "Kabinet" },
-  "nav.logout": { ru: "Выйти", uz: "Chiqish" },
-  "search.placeholder": { ru: "Поиск товаров и услуг…", uz: "Tovar va xizmatlarni qidiring…" },
-  "hero.title": { ru: "Цифровые товары и услуги Узбекистана в одном месте", uz: "O‘zbekistondagi raqamli tovar va xizmatlar bir joyda" },
+  "nav.catalog": { ru: "Каталог", uz: "Katalog", en: "Catalog" },
+  "nav.sell": { ru: "Продать товар", uz: "Tovar sotish", en: "Sell" },
+  "nav.login": { ru: "Войти", uz: "Kirish", en: "Log in" },
+  "nav.register": { ru: "Регистрация", uz: "Ro‘yxatdan o‘tish", en: "Sign up" },
+  "nav.support": { ru: "Поддержка", uz: "Yordam", en: "Support" },
+  "nav.account": { ru: "Кабинет", uz: "Kabinet", en: "Account" },
+  "nav.logout": { ru: "Выйти", uz: "Chiqish", en: "Log out" },
+  "search.placeholder": { ru: "Поиск скинов, валюты, услуг…", uz: "Skin, valyuta, xizmatlarni qidiring…", en: "Search skins, currency, services…" },
+  "hero.title": { ru: "Игровой маркетплейс Узбекистана: продавцы, скины, валюта и услуги", uz: "O‘zbekiston o‘yin bozori: sotuvchilar, skinlar, valyuta va xizmatlar", en: "Uzbekistan's gaming marketplace: sellers, skins, currency and services" },
   "hero.subtitle": {
-    ru: "Игровая валюта, ключи, подписки, дизайн и многое другое. Цены в сумах, общение с продавцом и понятный статус каждой сделки.",
-    uz: "O‘yin valyutasi, kalitlar, obunalar, dizayn va boshqalar. Narxlar so‘mda, sotuvchi bilan muloqot va har bir bitimning aniq holati.",
+    ru: "CS2, PUBG, Roblox, Minecraft, Fortnite, Brawl Stars, Standoff 2, Valorant. Цены в сумах, прозрачная комиссия и понятный статус каждого заказа.",
+    uz: "CS2, PUBG, Roblox, Minecraft, Fortnite, Brawl Stars, Standoff 2, Valorant. Narxlar so‘mda, shaffof komissiya va har bir buyurtmaning aniq holati.",
+    en: "CS2, PUBG, Roblox, Minecraft, Fortnite, Brawl Stars, Standoff 2, Valorant. Prices in UZS, transparent commission and a clear status for every order.",
   },
-  "hero.cta": { ru: "Открыть каталог", uz: "Katalogni ochish" },
-  "section.popularCategories": { ru: "Популярные категории", uz: "Mashhur toifalar" },
-  "section.popular": { ru: "Популярные товары", uz: "Mashhur tovarlar" },
-  "section.recent": { ru: "Недавно добавленные", uz: "Yaqinda qo‘shilganlar" },
-  "section.how": { ru: "Как это работает", uz: "Bu qanday ishlaydi" },
-  "section.faq": { ru: "Частые вопросы", uz: "Ko‘p so‘raladigan savollar" },
-  "demo.banner": { ru: "DEMO — реальные деньги не переводятся", uz: "DEMO — haqiqiy pul o‘tkazilmaydi" },
-  "footer.legal": { ru: "Юридическая информация", uz: "Huquqiy ma’lumot" },
+  "hero.cta": { ru: "Открыть каталог", uz: "Katalogni ochish", en: "Browse catalog" },
+  "section.popularCategories": { ru: "Игры", uz: "O‘yinlar", en: "Games" },
+  "section.popular": { ru: "Популярные товары", uz: "Mashhur tovarlar", en: "Popular listings" },
+  "section.recent": { ru: "Недавно добавленные", uz: "Yaqinda qo‘shilganlar", en: "Recently added" },
+  "section.how": { ru: "Как это работает", uz: "Bu qanday ishlaydi", en: "How it works" },
+  "section.faq": { ru: "Частые вопросы", uz: "Ko‘p so‘raladigan savollar", en: "FAQ" },
+  "demo.banner": { ru: "DEMO — реальные деньги не переводятся", uz: "DEMO — haqiqiy pul o‘tkazilmaydi", en: "DEMO — no real money is transferred" },
+  "footer.legal": { ru: "Юридическая информация", uz: "Huquqiy ma’lumot", en: "Legal" },
 } as const;
 
 export type DictKey = keyof typeof dict;

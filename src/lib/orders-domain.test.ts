@@ -13,10 +13,13 @@ function makeOrder(status: Order["status"] = "pending_payment"): Order {
     number: "UZM-1",
     listingId: "l1",
     listingTitle: "Тест",
+    gameSlug: "cs2",
     buyerId: "buyer",
     sellerId: "seller",
+    unitPriceUzs: 100_000,
+    quantity: 1,
     priceUzs: 100_000,
-    feeUzs: 5_000,
+    commission: { percent: 5, source: "default", payer: "seller", feeUzs: 5_000, buyerFeeUzs: 0, sellerFeeUzs: 5_000, totalUzs: 100_000, sellerNetUzs: 95_000, minFeeApplied: false },
     status,
     createdAt: "2026-10-01T00:00:00Z",
     updatedAt: "2026-10-01T00:00:00Z",
@@ -69,7 +72,8 @@ describe("orders-domain: переходы статусов", () => {
     const o0 = makeOrder();
     const o1 = applyAction(o0, "pay_success", buyer);
     expect(o1.priceUzs).toBe(100_000);
-    expect(o1.feeUzs).toBe(5_000);
+    expect(o1.commission.feeUzs).toBe(5_000);
+    expect(o1.commission).toEqual(o0.commission);
     expect(o1.buyerId).toBe("buyer");
     expect(o1.sellerId).toBe("seller");
     expect(o0.status).toBe("pending_payment"); // исходный объект не мутирован

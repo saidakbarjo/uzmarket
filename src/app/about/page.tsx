@@ -9,9 +9,9 @@ export default function AboutPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-10">
       <header>
-        <h1 className="font-display text-3xl font-extrabold sm:text-4xl">О площадке UZMARKET</h1>
+        <h1 className="font-display text-3xl font-extrabold sm:text-4xl">О площадке UZMARKET GAMING</h1>
         <p className="mt-4 text-lg text-muted">
-          UZMARKET — маркетплейс цифровых товаров и услуг для Узбекистана: игровая валюта, ключи, подписки, программы, дизайн и разработка. Цены в сумах, интерфейс на русском и узбекском языках.
+          UZMARKET GAMING — игровой маркетплейс с продавцами для Узбекистана: CS2, PUBG Mobile, PUBG: Battlegrounds, Roblox, Minecraft, Fortnite, Brawl Stars, Standoff 2 и Valorant. Цены в сумах, площадка берёт прозрачную комиссию с продаж, интерфейс на русском (с узбекским и английским).
         </p>
       </header>
 
@@ -22,14 +22,14 @@ export default function AboutPage() {
         <div>
           <h2 id="founder" className="text-sm font-semibold uppercase tracking-wide text-muted">Основатель и руководитель</h2>
           <p className="font-display text-2xl font-bold">{FOUNDER_USERNAME}</p>
-          <p className="mt-1 text-sm text-muted">Создатель проекта и глава UZMARKET. Отвечает за развитие платформы, правила площадки и взаимодействие с партнёрами.</p>
+          <p className="mt-1 text-sm text-muted">Создатель проекта, глава UZMARKET и владелец площадки: получает комиссию с продаж. Отвечает за развитие платформы, правила площадки и взаимодействие с партнёрами.</p>
         </div>
       </section>
 
       <section className="grid gap-4 sm:grid-cols-3">
         {[
           { icon: Globe2, title: "Для Узбекистана", text: "Суммы в UZS, русский и узбекский языки, ориентация на локальные платёжные сервисы в будущем." },
-          { icon: Scale, title: "Прозрачные правила", text: "Фиксированная цена заказа, хронология событий и разбор споров администратором." },
+          { icon: Scale, title: "Прозрачные правила", text: "Цена и комиссия фиксируются в заказе, каждый шаг пишется в журнал, споры разбирает администратор." },
           { icon: FlaskConical, title: "Демо-этап", text: "Сейчас платформа работает в демонстрационном режиме без реальных денег." },
         ].map((b) => (
           <div key={b.title} className="card p-5">

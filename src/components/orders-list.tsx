@@ -67,7 +67,7 @@ export function OrdersList({
                     <p className="text-xs text-muted">{o.buyerId === userId ? "Продавец" : "Покупатель"}: {counterpart?.username ?? "—"}</p>
                   </div>
                   <div className="flex shrink-0 items-center gap-4">
-                    <span className="font-display font-bold">{formatUZS(o.priceUzs)}</span>
+                    <span className="font-display font-bold" title={o.buyerId === userId ? "К оплате" : "Ваш доход"}>{formatUZS(o.buyerId === userId ? o.commission.totalUzs : o.commission.sellerNetUzs)}</span>
                     <OrderStatusBadge status={o.status} />
                     <ArrowRight className="hidden h-4 w-4 text-muted sm:block" aria-hidden />
                   </div>

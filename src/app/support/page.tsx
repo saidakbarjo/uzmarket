@@ -4,7 +4,7 @@ import Link from "next/link";
 import { LifeBuoy, Plus } from "lucide-react";
 import { RequireAuth } from "@/components/require-auth";
 import { EmptyState, Notice, PageHeader, TicketStatusBadge, formatDate } from "@/components/ui";
-import { useDemoState } from "@/lib/store";
+import { ticketsForUser, useDemoState } from "@/lib/store";
 import type { TicketKind } from "@/lib/types";
 
 const KIND: Record<TicketKind, string> = { support: "Вопрос", dispute: "Спор", complaint: "Жалоба" };
@@ -25,7 +25,7 @@ export default function SupportPage() {
 
       <RequireAuth>
         {(u) => {
-          const mine = s.tickets.filter((t) => t.authorId === u.id).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+          const mine = ticketsForUser(s, u).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
           return mine.length === 0 ? (
             <EmptyState icon={<LifeBuoy className="h-7 w-7" aria-hidden />} title="Обращений пока нет" text="Если возникнет вопрос или проблема с заказом — напишите нам." action={{ href: "/support/new", label: "Создать обращение" }} />
           ) : (

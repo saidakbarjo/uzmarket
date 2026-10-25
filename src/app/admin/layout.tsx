@@ -1,8 +1,12 @@
 "use client";
 
 import {
-  FolderTree,
+  Banknote,
+  Gamepad2,
   Gavel,
+  History,
+  Landmark,
+  Percent,
   LayoutDashboard,
   ListChecks,
   MessageSquareWarning,
@@ -21,6 +25,8 @@ import { useDemoState } from "@/lib/store";
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const s = useDemoState();
   const openDisputes = s.tickets.filter((t) => t.kind === "dispute" && ["open", "in_review"].includes(t.status)).length;
+  const pendingListings = s.listings.filter((l) => l.status === "pending").length;
+  const pendingPayouts = s.payouts.filter((p) => ["created", "in_review", "approved"].includes(p.status)).length;
   const openComplaints = s.tickets.filter((t) => t.kind === "complaint" && ["open", "in_review"].includes(t.status)).length;
   return (
     <RequireAuth role="admin">
@@ -37,11 +43,15 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                   { href: "/admin", label: "Обзор", icon: LayoutDashboard },
                   { href: "/admin/users", label: "Пользователи", icon: Users },
                   { href: "/admin/sellers", label: "Продавцы", icon: Store },
-                  { href: "/admin/listings", label: "Объявления", icon: Package },
+                  { href: "/admin/listings", label: "Объявления и модерация", icon: Package, badge: pendingListings },
                   { href: "/admin/orders", label: "Заказы", icon: ListChecks },
                   { href: "/admin/disputes", label: "Споры", icon: Gavel, badge: openDisputes },
                   { href: "/admin/complaints", label: "Жалобы", icon: MessageSquareWarning, badge: openComplaints },
-                  { href: "/admin/categories", label: "Категории", icon: FolderTree },
+                  { href: "/admin/games", label: "Игры", icon: Gamepad2 },
+                  { href: "/admin/commissions", label: "Комиссии", icon: Percent },
+                  { href: "/admin/payouts", label: "Заявки на вывод", icon: Banknote, badge: pendingPayouts },
+                  { href: "/admin/finance", label: "Финансовые операции", icon: Landmark },
+                  { href: "/admin/audit", label: "Журнал действий", icon: History },
                   { href: "/admin/reviews", label: "Отзывы", icon: Star },
                   { href: "/admin/settings", label: "Настройки", icon: Settings },
                 ]}

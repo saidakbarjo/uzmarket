@@ -1,21 +1,22 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_FILTERS, averageRating, filterListings, filtersFromParams, filtersToParams } from "@/lib/catalog";
-import { seedListings, seedProfiles, categories } from "@/lib/data/seed";
+import { seedGames, seedListings, seedProfiles } from "@/lib/data/seed";
 
 describe("данные", () => {
-  it("минимум 20 объявлений, у каждого продавец и категория", () => {
+  it("минимум 20 объявлений, у каждого продавец и игра", () => {
     expect(seedListings.length).toBeGreaterThanOrEqual(20);
-    const slugs = new Set(categories.map((c) => c.slug));
+    const slugs = new Set(seedGames.map((g) => g.slug));
     for (const l of seedListings) {
-      expect(slugs.has(l.categorySlug)).toBe(true);
+      expect(slugs.has(l.gameSlug)).toBe(true);
       expect(seedProfiles.some((p) => p.id === l.sellerId)).toBe(true);
       expect(Number.isInteger(l.priceUzs)).toBe(true);
       expect(l.priceUzs).toBeGreaterThan(0);
     }
   });
 
-  it("представлены все 9 категорий", () => {
-    const used = new Set(seedListings.map((l) => l.categorySlug));
+  it("только 9 разрешённых игр, и на каждой есть объявления", () => {
+    expect(seedGames.map((g) => g.slug).sort()).toEqual(["brawl-stars", "cs2", "fortnite", "minecraft", "pubg", "pubg-mobile", "roblox", "standoff2", "valorant"]);
+    const used = new Set(seedListings.map((l) => l.gameSlug));
     expect(used.size).toBe(9);
   });
 });
@@ -25,19 +26,29 @@ describe("фильтры каталога", () => {
     filterListings(seedListings, seedProfiles, { ...DEFAULT_FILTERS, ...patch });
 
   it("без фильтров возвращает все активные", () => {
-    expect(run({})).toHaveLength(seedListings.length);
+    expect(run({})).toHaveLength(seedListings.filter((l) => l.status === "active").length);
   });
 
   it("поиск по названию", () => {
-    const r = run({ q: "логотип" });
+    const r = run({ q: "скин" });
     expect(r.length).toBeGreaterThan(0);
-    expect(r.every((l) => (l.title + l.description).toLowerCase().includes("логотип"))).toBe(true);
+    expect(r.every((l) => (l.title + l.description).toLowerCase().includes("скин"))).toBe(true);
   });
 
-  it("категория", () => {
-    const r = run({ category: "keys" });
+  it("игра и тип товара", () => {
+    const r = run({ game: "cs2" });
     expect(r.length).toBeGreaterThan(0);
-    expect(r.every((l) => l.categorySlug === "keys")).toBe(true);
+    expect(r.every((l) => l.gameSlug === "cs2")).toBe(true);
+    const t = run({ type: "service" });
+    expect(t.length).toBeGreaterThan(0);
+    expect(t.every((l) => l.productType === "service")).toBe(true);
+  });
+
+  it("«только в наличии» скрывает снятые с наличия", () => {
+    const all = run({});
+    const stock = run({ inStock: true });
+    expect(stock.length).toBeLessThan(all.length);
+    expect(stock.every((l) => l.available && (l.stock === null || l.stock > 0))).toBe(true);
   });
 
   it("мин. и макс. цена", () => {
@@ -74,15 +85,18 @@ describe("фильтры каталога", () => {
   });
 
   it("скрывает приостановленные объявления и объявления заблокированных продавцов", () => {
+    const base = filterListings(seedListings, seedProfiles, DEFAULT_FILTERS).length;
     const paused = seedListings.map((l, i) => (i === 0 ? { ...l, status: "paused" as const } : l));
-    expect(filterListings(paused, seedProfiles, DEFAULT_FILTERS)).toHaveLength(seedListings.length - 1);
+    expect(filterListings(paused, seedProfiles, DEFAULT_FILTERS)).toHaveLength(base - 1);
+    const moderated = seedListings.map((l, i) => (i === 1 ? { ...l, status: "pending" as const } : l));
+    expect(filterListings(moderated, seedProfiles, DEFAULT_FILTERS)).toHaveLength(base - 1);
     const blocked = seedProfiles.map((p) => (p.id === "u-nur" ? { ...p, blocked: true } : p));
     const visible = filterListings(seedListings, blocked, DEFAULT_FILTERS);
     expect(visible.some((l) => l.sellerId === "u-nur")).toBe(false);
   });
 
   it("параметры URL туда-обратно", () => {
-    const f = { ...DEFAULT_FILTERS, q: "ключ", category: "keys" as const, minPrice: 1000, maxPrice: 5000, minRating: 4, sort: "price_asc" as const };
+    const f = { ...DEFAULT_FILTERS, q: "ключ", game: "cs2", type: "key" as const, inStock: true, minPrice: 1000, maxPrice: 5000, minRating: 4, sort: "price_asc" as const };
     expect(filtersFromParams(filtersToParams(f))).toEqual(f);
   });
 

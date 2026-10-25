@@ -23,7 +23,8 @@ import { useState, type FormEvent } from "react";
 import { RequireAuth } from "@/components/require-auth";
 import { ReviewForm } from "@/components/review-form";
 import { ConfirmButton, DemoBadge, EmptyState, Field, Notice, OrderStatusBadge, formatDate } from "@/components/ui";
-import { FEE_PERCENT, formatUZS } from "@/lib/money";
+import { PAYER_LABELS, SOURCE_LABELS } from "@/lib/commission";
+import { formatUZS } from "@/lib/money";
 import { availableActions, canView, roleOf, STATUS_LABELS, type OrderAction } from "@/lib/orders-domain";
 import { DEMO_BANNER } from "@/lib/payments/provider";
 import {
@@ -82,6 +83,7 @@ function OrderView({ order, user }: { order: Order; user: Profile }) {
   }
 
   const closed = ["completed", "cancelled", "refunded"].includes(order.status);
+  const c = order.commission;
   const canSellerEditNote = role === "seller" && ["paid", "in_progress"].includes(order.status);
 
   return (
@@ -139,7 +141,7 @@ function OrderView({ order, user }: { order: Order; user: Profile }) {
           {order.status === "delivered" && role === "buyer" && (
             <section className="card space-y-3 border-ok/40 p-5" aria-labelledby="confirm">
               <h2 id="confirm" className="flex items-center gap-2 font-semibold"><PackageCheck className="h-5 w-5 text-ok" aria-hidden /> Проверьте результат</h2>
-              <p className="text-sm text-muted">Продавец отметил заказ как выданный. Если всё в порядке — подтвердите получение. Если нет — откройте спор.</p>
+              <p className="text-sm text-muted">Продавец передал товар. Если всё в порядке — подтвердите получение. Если нет — откройте спор.</p>
               <div className="flex flex-wrap gap-2">
                 {actions.includes("confirm") && (
                   <ConfirmButton
@@ -157,10 +159,10 @@ function OrderView({ order, user }: { order: Order; user: Profile }) {
             </section>
           )}
 
-          {order.status === "disputed" && (
+          {(order.status === "disputed" || order.status === "refund_review") && (
             <Notice tone="danger">
-              <b>По заказу открыт спор.</b> Администратор рассмотрит обращение и приложенные доказательства. Площадка не обещает автоматический возврат денег.{" "}
-              {ticket && <Link href={`/support/ticket?id=${ticket.id}`} className="font-semibold text-accent hover:underline">Открыть обращение {ticket.number}</Link>}
+              <b>{order.status === "refund_review" ? "Администратор рассматривает возврат." : "По заказу открыт спор."}</b> Обе стороны могут описать ситуацию и приложить доказательства на странице спора. Площадка не обещает автоматический возврат — решение принимает администратор.{" "}
+              {ticket && <Link href={`/support/ticket?id=${ticket.id}`} className="font-semibold text-accent hover:underline">Открыть спор {ticket.number}</Link>}
             </Notice>
           )}
 
@@ -182,7 +184,10 @@ function OrderView({ order, user }: { order: Order; user: Profile }) {
                   <button type="button" className="btn-primary" onClick={() => run("start", "Заказ взят в работу")}><Play className="h-4 w-4" aria-hidden /> Приступить к выполнению</button>
                 )}
                 {actions.includes("deliver") && (
-                  <button type="button" className="btn-primary" onClick={() => run("deliver", "Заказ отмечен как выданный")}><PackageCheck className="h-4 w-4" aria-hidden /> Отметить «Выдан»</button>
+                  <button type="button" className="btn-primary" onClick={() => run("deliver", "Заказ отмечен как выданный")}><PackageCheck className="h-4 w-4" aria-hidden /> Отметить «Товар передан»</button>
+                )}
+                {actions.includes("review_refund") && (
+                  <button type="button" className="btn-ghost" onClick={() => run("review_refund", "Возврат переведён на рассмотрение")}><Undo2 className="h-4 w-4" aria-hidden /> Рассмотреть возврат</button>
                 )}
                 {actions.includes("resolve_dispute_complete") && (
                   <ConfirmButton
@@ -294,10 +299,24 @@ function OrderView({ order, user }: { order: Order; user: Profile }) {
               <div className="flex justify-between gap-3"><dt className="text-muted">Покупатель</dt><dd className="font-medium">{buyer?.username ?? "—"}</dd></div>
               <div className="flex justify-between gap-3"><dt className="text-muted">Продавец</dt><dd className="font-medium">{seller?.username ?? "—"}</dd></div>
               <div className="flex justify-between gap-3"><dt className="text-muted">Создан</dt><dd>{formatDate(order.createdAt, true)}</dd></div>
-              <div className="border-t border-line pt-3">
-                <div className="flex justify-between gap-3"><dt className="text-muted">Цена (зафиксирована)</dt><dd className="font-display text-lg font-bold">{formatUZS(order.priceUzs)}</dd></div>
-                <div className="mt-1 flex justify-between gap-3 text-xs"><dt className="text-muted">Комиссия (демо, {FEE_PERCENT}%)</dt><dd>{formatUZS(order.feeUzs)}</dd></div>
-                <div className="mt-1 flex justify-between gap-3 text-xs"><dt className="text-muted">Продавцу (условно)</dt><dd>{formatUZS(order.priceUzs - order.feeUzs)}</dd></div>
+              <div className="space-y-1.5 border-t border-line pt-3" data-testid="order-money">
+                <div className="flex justify-between gap-3"><dt className="text-muted">Цена за единицу</dt><dd>{formatUZS(order.unitPriceUzs)}</dd></div>
+                <div className="flex justify-between gap-3"><dt className="text-muted">Количество</dt><dd>{order.quantity}</dd></div>
+                <div className="flex justify-between gap-3"><dt className="text-muted">Стоимость товара</dt><dd>{formatUZS(order.priceUzs)}</dd></div>
+                {(role === "buyer" || role === "admin") && c.buyerFeeUzs > 0 && (
+                  <div className="flex justify-between gap-3"><dt className="text-muted">Сервисный сбор покупателя</dt><dd>+{formatUZS(c.buyerFeeUzs)}</dd></div>
+                )}
+                {(role === "buyer" || role === "admin") && (
+                  <div className="flex justify-between gap-3 font-semibold"><dt>Итого к оплате</dt><dd className="font-display text-lg">{formatUZS(c.totalUzs)}</dd></div>
+                )}
+                {(role === "seller" || role === "admin") && (
+                  <>
+                    <div className="flex justify-between gap-3"><dt className="text-muted">Комиссия площадки {c.percent}% ({SOURCE_LABELS[c.source]})</dt><dd>{formatUZS(c.feeUzs)}</dd></div>
+                    {c.sellerFeeUzs > 0 && <div className="flex justify-between gap-3 text-xs"><dt className="text-muted">из них удержано с продавца</dt><dd>−{formatUZS(c.sellerFeeUzs)}</dd></div>}
+                    <div className="flex justify-between gap-3 font-semibold"><dt>Доход продавца</dt><dd className="font-display text-lg">{formatUZS(c.sellerNetUzs)}</dd></div>
+                  </>
+                )}
+                <p className="pt-1 text-xs text-muted">Комиссию платит: {PAYER_LABELS[c.payer]}. Условия зафиксированы при создании заказа и не меняются.</p>
               </div>
             </dl>
             <p className="mt-4 text-xs text-muted">Статусы в демо-режиме не означают реальных денежных операций.</p>

@@ -20,7 +20,8 @@ export default function AdminOrdersPage() {
     { key: "title", header: "Товар", render: (o) => <span className="line-clamp-2">{o.listingTitle}</span> },
     { key: "buyer", header: "Покупатель", render: (o) => name(o.buyerId) },
     { key: "seller", header: "Продавец", render: (o) => name(o.sellerId) },
-    { key: "price", header: "Сумма", render: (o) => <span className="whitespace-nowrap">{formatUZS(o.priceUzs)}</span> },
+    { key: "price", header: "Сумма", render: (o) => <span className="whitespace-nowrap">{formatUZS(o.commission.totalUzs)}</span> },
+    { key: "fee", header: "Комиссия", render: (o) => <span className="whitespace-nowrap">{formatUZS(o.commission.feeUzs)}</span> },
     { key: "status", header: "Статус", render: (o) => <OrderStatusBadge status={o.status} /> },
     { key: "date", header: "Создан", render: (o) => formatDate(o.createdAt) },
   ];

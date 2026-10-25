@@ -2,30 +2,25 @@
 
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { BadgeCheck, CalendarDays, Clock, Flag, Pencil, PackageCheck, RotateCcw, SearchX, ShieldAlert, ShoppingCart, Truck } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FavoriteButton, ListingCard } from "@/components/listing-card";
-import { Badge, DemoBadge, EmptyState, ListingImage, Notice, Stars, formatDate } from "@/components/ui";
-import { categories } from "@/lib/data/seed";
-import { calcFee, formatUZS, FEE_PERCENT } from "@/lib/money";
-import { createOrder, useCurrentUser, useDemoState } from "@/lib/store";
-import { toast } from "@/lib/toast";
-import { averageRating } from "@/lib/catalog";
-
-const DELIVERY_LABELS = {
-  chat: "Передача в чате заказа",
-  key: "Цифровой ключ / код",
-  manual: "Выполняется продавцом вручную",
-  file: "Файл или ссылка на скачивание",
-} as const;
+import { Avatar, Badge, DemoBadge, EmptyState, ListingImage, Notice, Stars, formatDate } from "@/components/ui";
+import { averageRating, isInStock } from "@/lib/catalog";
+import { MAX_QTY, quote } from "@/lib/checkout";
+import { formatUZS } from "@/lib/money";
+import { DELIVERY_LABELS, productTypeLabel } from "@/lib/product-types";
+import { registerView, useCurrentUser, useDemoState } from "@/lib/store";
 
 export function ListingClient({ id }: { id: string }) {
-  const router = useRouter();
   const s = useDemoState();
   const { user, ready } = useCurrentUser();
-  const [busy, setBusy] = useState(false);
   const [imgIdx, setImgIdx] = useState(0);
+  const [qty, setQty] = useState(1);
+
+  useEffect(() => {
+    if (id) registerView(id);
+  }, [id]);
 
   const listing = s.listings.find((l) => l.id === id);
   const seller = listing ? s.profiles.find((p) => p.id === listing.sellerId) : undefined;
@@ -36,7 +31,7 @@ export function ListingClient({ id }: { id: string }) {
   const similar = useMemo(
     () =>
       listing
-        ? s.listings.filter((l) => l.categorySlug === listing.categorySlug && l.id !== listing.id && l.status === "active").slice(0, 3)
+        ? s.listings.filter((l) => l.gameSlug === listing.gameSlug && l.id !== listing.id && l.status === "active").slice(0, 3)
         : [],
     [s.listings, listing],
   );
@@ -52,58 +47,55 @@ export function ListingClient({ id }: { id: string }) {
     );
   }
 
-  const cat = categories.find((c) => c.slug === listing.categorySlug);
+  const game = s.games.find((g) => g.slug === listing.gameSlug);
+  const inStock = isInStock(listing);
+  const maxQty = listing.stock === null ? MAX_QTY : Math.max(1, Math.min(MAX_QTY, listing.stock));
+  const safeQty = Math.min(Math.max(1, qty), maxQty);
+  const q = quote(listing, safeQty, s.commission);
   const isOwner = user?.id === listing.sellerId;
-  const unavailable = listing.status !== "active" || seller.blocked;
-  const fee = calcFee(listing.priceUzs);
+  const unavailable = listing.status !== "active" || seller.blocked || !game?.enabled;
   const avg = averageRating(reviews.map((r) => r.rating));
-  const hues = [0, 35, -35, 70].map((d) => ((cat?.hue ?? 250) + d + 360) % 360);
-
-  function buy() {
-    if (!listing) return;
-    setBusy(true);
-    const r = createOrder(listing.id);
-    setBusy(false);
-    if (r.ok) {
-      toast.success(`Заказ ${r.data.number} создан. Осталось тестово оплатить.`);
-      router.push(`/orders?id=${r.data.id}`);
-    } else {
-      toast.error(r.error);
-    }
-  }
+  const imgCount = Math.max(1, listing.images.length);
+  const sellerProfile = s.sellerProfiles.find((x) => x.userId === seller.id);
 
   return (
     <div className="space-y-12">
       <nav aria-label="Навигация" className="text-sm text-muted">
         <Link href="/catalog" className="hover:text-ink">Каталог</Link>
         <span className="mx-2">/</span>
-        <Link href={`/catalog?category=${listing.categorySlug}`} className="hover:text-ink">{cat?.name}</Link>
+        <Link href={`/catalog?game=${listing.gameSlug}`} className="hover:text-ink">{game?.name}</Link>
       </nav>
 
       <div className="grid gap-8 lg:grid-cols-[1fr_24rem]">
         <div className="space-y-8">
           {/* Галерея */}
           <div>
-            <ListingImage slug={listing.categorySlug} hue={hues[imgIdx]} className="aspect-[16/9] w-full rounded-2xl border border-line" label={`${listing.title} — изображение ${imgIdx + 1}`} />
-            <div className="mt-3 grid grid-cols-4 gap-3">
-              {hues.map((h, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => setImgIdx(i)}
-                  aria-label={`Показать изображение ${i + 1}`}
-                  aria-pressed={imgIdx === i}
-                  className={`overflow-hidden rounded-xl border-2 transition ${imgIdx === i ? "border-accent" : "border-transparent opacity-70 hover:opacity-100"}`}
-                >
-                  <ListingImage slug={listing.categorySlug} hue={h} className="aspect-[16/10] w-full" />
-                </button>
-              ))}
-            </div>
+            <ListingImage gameSlug={listing.gameSlug} images={listing.images} index={imgIdx} hue={listing.imageHue} className="aspect-[16/9] w-full rounded-2xl border border-line" label={`${listing.title} — изображение ${imgIdx + 1}`} />
+            {listing.images.length > 1 && (
+              <div className="mt-3 grid grid-cols-4 gap-3">
+                {Array.from({ length: imgCount }).map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setImgIdx(i)}
+                    aria-label={`Показать изображение ${i + 1}`}
+                    aria-pressed={imgIdx === i}
+                    className={`overflow-hidden rounded-xl border-2 transition ${imgIdx === i ? "border-accent" : "border-transparent opacity-70 hover:opacity-100"}`}
+                  >
+                    <ListingImage gameSlug={listing.gameSlug} images={listing.images} index={i} className="aspect-[16/10] w-full" />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <Badge tone="accent">{cat?.name}</Badge>
+              <Badge tone="accent">{game?.name}</Badge>
+              <Badge>{productTypeLabel(listing.productType)}</Badge>
+              {!inStock && <Badge tone="danger">Нет в наличии</Badge>}
+              {listing.status === "pending" && <Badge tone="warn">На модерации</Badge>}
+              {listing.status === "rejected" && <Badge tone="danger">Отклонено</Badge>}
               {listing.isDemo && <DemoBadge label="Тестовое объявление" />}
               {listing.status === "paused" && <Badge tone="warn">Приостановлено</Badge>}
               {listing.status === "blocked" && <Badge tone="danger">Заблокировано</Badge>}
@@ -154,6 +146,12 @@ export function ListingClient({ id }: { id: string }) {
                     </div>
                     <div className="mt-1.5"><Stars value={r.rating} /></div>
                     <p className="mt-2 text-sm text-ink/90">{r.text}</p>
+                    {r.sellerReply && (
+                      <div className="mt-3 rounded-lg border-l-2 border-accent bg-panel-2 p-3 text-sm">
+                        <p className="text-xs font-semibold text-accent">Ответ продавца · {formatDate(r.sellerReply.at)}</p>
+                        <p className="mt-1 text-ink/90">{r.sellerReply.text}</p>
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -164,9 +162,27 @@ export function ListingClient({ id }: { id: string }) {
         {/* Боковая панель покупки */}
         <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
           <div className="card p-5">
-            <p className="text-sm text-muted">Цена</p>
+            <p className="text-sm text-muted">Цена за единицу</p>
             <p className="font-display text-3xl font-extrabold">{formatUZS(listing.priceUzs)}</p>
-            <p className="mt-1 text-xs text-muted">Комиссия площадки (демо, {FEE_PERCENT}%): {formatUZS(fee)} — удерживается с продавца.</p>
+            <p className="mt-1 text-xs text-muted">
+              {listing.stock === null ? "Без ограничения по количеству" : inStock ? `В наличии: ${listing.stock} шт.` : "Нет в наличии"}
+            </p>
+
+            {!unavailable && !isOwner && inStock && (
+              <div className="mt-4">
+                <label htmlFor="qty" className="mb-1 block text-sm font-medium">Количество</label>
+                <input id="qty" type="number" min={1} max={maxQty} value={safeQty} onChange={(e) => setQty(Math.floor(Number(e.target.value)) || 1)} className="input" />
+                {q.ok ? (
+                  <dl className="mt-3 space-y-1 text-sm" aria-live="polite" data-testid="price-preview">
+                    <div className="flex justify-between gap-3"><dt className="text-muted">Товар</dt><dd>{formatUZS(q.data.priceUzs)}</dd></div>
+                    {q.data.commission.buyerFeeUzs > 0 && <div className="flex justify-between gap-3"><dt className="text-muted">Сервисный сбор</dt><dd>+{formatUZS(q.data.commission.buyerFeeUzs)}</dd></div>}
+                    <div className="flex justify-between gap-3 border-t border-line pt-1 font-semibold"><dt>К оплате</dt><dd>{formatUZS(q.data.commission.totalUzs)}</dd></div>
+                  </dl>
+                ) : (
+                  <p role="alert" className="mt-2 text-xs text-danger">{q.error}</p>
+                )}
+              </div>
+            )}
 
             <div className="mt-5 space-y-2.5">
               {unavailable ? (
@@ -184,10 +200,12 @@ export function ListingClient({ id }: { id: string }) {
                   <Link href={`/login?next=${encodeURIComponent(`/listing?id=${listing.id}`)}`} className="btn-primary w-full"><ShoppingCart className="h-4 w-4" aria-hidden /> Войти и купить</Link>
                   <Link href="/register" className="btn-ghost w-full">Регистрация</Link>
                 </>
+              ) : !inStock ? (
+                <Notice tone="warn">Товара нет в наличии.</Notice>
               ) : (
-                <button type="button" onClick={buy} disabled={busy} className="btn-primary w-full !py-3">
+                <Link href={`/checkout?id=${listing.id}&qty=${safeQty}`} className="btn-primary w-full !py-3" aria-disabled={!q.ok}>
                   <ShoppingCart className="h-4 w-4" aria-hidden /> Купить
-                </button>
+                </Link>
               )}
               {!isOwner && <FavoriteButton listingId={listing.id} variant="full" />}
             </div>
@@ -209,12 +227,10 @@ export function ListingClient({ id }: { id: string }) {
           <div className="card p-5">
             <p className="mb-3 text-sm font-semibold">Продавец</p>
             <div className="flex items-center gap-3">
-              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-accent to-accent-2 font-display text-lg font-bold text-white">
-                {seller.username.slice(0, 1).toUpperCase()}
-              </span>
+              <Avatar user={seller} className="h-12 w-12" />
               <div className="min-w-0">
                 <p className="flex items-center gap-1.5 font-semibold">
-                  <span className="truncate">{seller.username}</span>
+                  <Link href={`/shop?id=${seller.id}`} className="truncate hover:text-accent">{sellerProfile?.shopName ?? seller.username}</Link>
                   {seller.verified && <BadgeCheck className="h-4 w-4 shrink-0 text-accent-2" aria-label="Проверенный продавец" />}
                 </p>
                 {seller.isDemo && <DemoBadge label="Тестовый профиль" />}
