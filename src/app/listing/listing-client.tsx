@@ -74,7 +74,7 @@ export function ListingClient({ id }: { id: string }) {
         <div className="space-y-8">
           {/* Галерея */}
           <div>
-            <ListingImage gameSlug={listing.gameSlug} images={listing.images} index={imgIdx} hue={listing.imageHue} className="aspect-[21/9] w-full rounded-xl border border-line" label={`${listing.title} — изображение ${imgIdx + 1}`} />
+            <ListingImage gameSlug={listing.gameSlug} images={listing.images} index={imgIdx} hue={listing.imageHue} type={listing.productType} seed={listing.id} centerArt className="aspect-[21/9] w-full rounded-xl border border-line" label={`${listing.title} — изображение ${imgIdx + 1}`} />
             {listing.images.length > 1 && (
               <div className="mt-3 grid grid-cols-4 gap-3">
                 {Array.from({ length: imgCount }).map((_, i) => (
@@ -86,7 +86,7 @@ export function ListingClient({ id }: { id: string }) {
                     aria-pressed={imgIdx === i}
                     className={`overflow-hidden rounded-xl border-2 transition ${imgIdx === i ? "border-accent" : "border-transparent opacity-70 hover:opacity-100"}`}
                   >
-                    <ListingImage gameSlug={listing.gameSlug} images={listing.images} index={i} className="aspect-[16/10] w-full" />
+                    <ListingImage gameSlug={listing.gameSlug} images={listing.images} index={i} type={listing.productType} seed={listing.id} className="aspect-[16/10] w-full" />
                   </button>
                 ))}
               </div>

@@ -60,7 +60,7 @@ export function ListingCard({ listing }: { listing: Listing }) {
     <article className="group relative flex flex-col overflow-hidden rounded-xl border border-line bg-panel transition duration-200 hover:border-accent/60">
       <Link href={`/listing?id=${listing.id}`} className="absolute inset-0 z-10" aria-label={listing.title} />
       <div className="relative">
-        <ListingImage gameSlug={listing.gameSlug} images={listing.images} hue={listing.imageHue} className="aspect-[16/10] w-full" />
+        <ListingImage gameSlug={listing.gameSlug} images={listing.images} hue={listing.imageHue} type={listing.productType} seed={listing.id} className="aspect-[16/10] w-full" />
         <div className="absolute left-3 top-3 z-20 flex gap-1.5">
           {listing.isDemo && <DemoBadge />}
           {!inStock && <Badge tone="danger">Нет в наличии</Badge>}

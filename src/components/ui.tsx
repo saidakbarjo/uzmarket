@@ -7,7 +7,8 @@ import { STATUS_LABELS } from "@/lib/orders-domain";
 import { useDemoState } from "@/lib/store";
 import { dismiss, useToasts } from "@/lib/toast";
 import { PAYOUT_STATUS_LABELS } from "@/lib/payouts";
-import type { Game, OrderStatus, PayoutStatus, Profile, TicketStatus } from "@/lib/types";
+import { ProductArt } from "@/components/product-art";
+import type { Game, OrderStatus, PayoutStatus, ProductType, Profile, TicketStatus } from "@/lib/types";
 
 /* ───── игры ───── */
 export function useGame(slug: string): Game | undefined {
@@ -44,6 +45,9 @@ export function ListingImage({
   hue,
   className = "",
   label,
+  type,
+  seed,
+  centerArt = false,
 }: {
   gameSlug: string;
   images?: string[];
@@ -51,6 +55,9 @@ export function ListingImage({
   hue?: number;
   className?: string;
   label?: string;
+  type?: ProductType;
+  seed?: string;
+  centerArt?: boolean;
 }) {
   const g = useGame(gameSlug);
   const src = images?.[index];
@@ -70,7 +77,8 @@ export function ListingImage({
     >
       <div className="ornament absolute inset-0 opacity-[0.09]" />
       <span aria-hidden className="absolute -right-2 -top-3 font-display text-[5.5rem] font-black leading-none tracking-tighter text-white/[0.14] sm:text-[6.5rem]">{g?.abbr ?? ""}</span>
-      <span className="relative m-3 rounded-md bg-black/35 px-2 py-1 font-display text-[11px] font-semibold text-white/90 backdrop-blur-sm">{g?.name ?? <Package className="h-4 w-4" />}</span>
+      {type && <ProductArt type={type} hue={h} seed={seed} className={`absolute top-1/2 aspect-square h-[70%] sm:h-[84%] drop-shadow-[0_8px_14px_rgba(0,0,0,0.35)] ${centerArt ? "left-1/2 -translate-x-1/2 -translate-y-[48%]" : "right-[2%] -translate-y-[40%] sm:right-[5%] sm:-translate-y-[48%]"}`} />}
+      <span className="relative m-2 max-w-[48%] truncate rounded-md bg-black/35 px-1.5 py-0.5 font-display text-[10px] font-semibold text-white/90 backdrop-blur-sm sm:m-3 sm:max-w-[60%] sm:px-2 sm:py-1 sm:text-[11px]">{g?.name ?? <Package className="h-4 w-4" />}</span>
     </div>
   );
 }

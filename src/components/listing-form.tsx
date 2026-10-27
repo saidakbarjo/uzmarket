@@ -235,7 +235,7 @@ export function ListingForm({ existing }: { existing?: Listing }) {
         {!preview && (
           <div className="card p-5">
             <p className="mb-3 text-sm font-semibold">Обложка</p>
-            <ListingImage gameSlug={form.gameSlug} images={form.images} className="aspect-[16/10] w-full rounded-xl" />
+            <ListingImage gameSlug={form.gameSlug} images={form.images} type={form.productType} className="aspect-[16/10] w-full rounded-xl" />
           </div>
         )}
         <div className="card p-5 text-sm" aria-live="polite">

@@ -38,7 +38,7 @@ export default function SellerListingsPage() {
                   const st = sold ? { tone: "neutral" as const, label: "Продано" } : STATUS[l.status];
                   return (
                     <li key={l.id} className="card flex flex-col gap-4 p-4 sm:flex-row sm:items-center">
-                      <ListingImage gameSlug={l.gameSlug} images={l.images} hue={l.imageHue} className="aspect-[16/10] w-full shrink-0 rounded-xl sm:w-40" />
+                      <ListingImage gameSlug={l.gameSlug} images={l.images} hue={l.imageHue} type={l.productType} seed={l.id} className="aspect-[16/10] w-full shrink-0 rounded-xl sm:w-40" />
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
                           <Badge tone={st.tone}>{st.label}</Badge>

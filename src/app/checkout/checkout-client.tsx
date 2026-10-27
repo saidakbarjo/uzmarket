@@ -49,7 +49,7 @@ export function CheckoutClient() {
             <PageHeader title="Подтверждение заказа" subtitle="Проверьте сумму и условия. Заказ создаётся с зафиксированной ценой и комиссией." />
             <div className="card space-y-5 p-5 sm:p-6">
               <div className="flex gap-4">
-                <ListingImage gameSlug={listing.gameSlug} images={listing.images} className="aspect-[16/10] w-32 shrink-0 rounded-xl" />
+                <ListingImage gameSlug={listing.gameSlug} images={listing.images} type={listing.productType} seed={listing.id} className="aspect-[16/10] w-32 shrink-0 rounded-xl" />
                 <div className="min-w-0">
                   <Link href={`/listing?id=${listing.id}`} className="font-semibold hover:text-accent">{listing.title}</Link>
                   <p className="mt-1 text-sm text-muted">Продавец: {seller?.username}</p>
