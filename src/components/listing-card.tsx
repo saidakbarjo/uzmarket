@@ -54,14 +54,13 @@ export function FavoriteButton({ listingId, variant = "icon" }: { listingId: str
 export function ListingCard({ listing }: { listing: Listing }) {
   const s = useDemoState();
   const seller = s.profiles.find((p) => p.id === listing.sellerId);
-  const game = s.games.find((g) => g.slug === listing.gameSlug);
-  const inStock = isInStock(listing);
+    const inStock = isInStock(listing);
 
   return (
-    <article className="card card-hover group relative flex flex-col overflow-hidden">
+    <article className="group relative flex flex-col overflow-hidden rounded-xl border border-line bg-panel transition duration-200 hover:border-accent/60">
       <Link href={`/listing?id=${listing.id}`} className="absolute inset-0 z-10" aria-label={listing.title} />
       <div className="relative">
-        <ListingImage gameSlug={listing.gameSlug} images={listing.images} hue={listing.imageHue} className="aspect-[16/10] w-full transition duration-300 group-hover:scale-[1.03]" />
+        <ListingImage gameSlug={listing.gameSlug} images={listing.images} hue={listing.imageHue} className="aspect-[16/10] w-full" />
         <div className="absolute left-3 top-3 z-20 flex gap-1.5">
           {listing.isDemo && <DemoBadge />}
           {!inStock && <Badge tone="danger">Нет в наличии</Badge>}
@@ -70,25 +69,26 @@ export function ListingCard({ listing }: { listing: Listing }) {
           <FavoriteButton listingId={listing.id} />
         </div>
       </div>
-      <div className="flex flex-1 flex-col gap-3 p-4">
-        <p className="text-xs font-medium text-accent">{game?.name} · {productTypeLabel(listing.productType)}</p>
-        <h3 className="line-clamp-2 min-h-[2.75rem] text-[15px] font-semibold leading-snug">{listing.title}</h3>
+      <div className="flex flex-1 flex-col gap-2.5 p-3.5 sm:p-4">
+        <p className="text-xs text-muted">{productTypeLabel(listing.productType)}</p>
+        <h3 className="line-clamp-2 min-h-[2.6rem] text-[14px] font-semibold leading-snug sm:text-[15px]">{listing.title}</h3>
         <div className="mt-auto flex items-center justify-between gap-3 text-xs text-muted">
-          <span className="flex min-w-0 items-center gap-1.5">
+          <span className="flex min-w-0 flex-1 items-center gap-1.5">
             {seller && <Avatar user={seller} className="h-5 w-5 !text-[10px]" />}
-            <span className="truncate font-medium text-ink/90">{seller?.username ?? "Продавец"}</span>
+            <span className="min-w-0 truncate font-medium text-ink/90">{seller?.username ?? "Продавец"}</span>
             {seller?.verified && <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-accent-2" aria-label="Проверенный продавец" />}
           </span>
           {seller && seller.reviewsCount > 0 && (
             <span className="flex shrink-0 items-center gap-1">
-              <Stars value={seller.rating} size="h-3 w-3" />
+              <span className="hidden sm:inline-flex"><Stars value={seller.rating} size="h-3 w-3" /></span>
+              <span className="text-gold sm:hidden" aria-hidden>★</span>
               <span>{seller.rating.toFixed(1)}</span>
             </span>
           )}
         </div>
         <div className="flex items-end justify-between gap-2 border-t border-line pt-3">
-          <p className="font-display text-lg font-bold">{formatUZS(listing.priceUzs)}</p>
-          <span className="flex items-center gap-1 text-xs text-muted">
+          <p className="font-display text-[14px] font-semibold text-gold sm:text-base">{formatUZS(listing.priceUzs)}</p>
+          <span className="hidden shrink-0 items-center gap-1 whitespace-nowrap text-xs text-muted sm:flex">
             <Clock className="h-3.5 w-3.5" aria-hidden />
             {listing.deliveryDays === 0 ? "сразу" : `до ${listing.deliveryDays} дн.`}
           </span>
@@ -100,7 +100,7 @@ export function ListingCard({ listing }: { listing: Listing }) {
 
 export function ListingGridSkeleton({ count = 6 }: { count?: number }) {
   return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+    <div className="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-2 xl:grid-cols-3">
       {Array.from({ length: count }).map((_, i) => (
         <div key={i} className="card overflow-hidden" aria-hidden>
           <div className="aspect-[16/10] animate-pulse bg-panel-2" />

@@ -15,7 +15,7 @@ export function SideNav({ items, title }: { items: NavItem[]; title: string }) {
   const pathname = usePathname();
   return (
     <nav aria-label={title} className="card p-2">
-      <p className="px-3 pb-2 pt-2 text-xs font-semibold uppercase tracking-wide text-muted">{title}</p>
+      <p className="px-3 pb-2 pt-2 text-xs font-semibold text-muted">{title}</p>
       <ul className="flex gap-1 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0">
         {items.map((it) => {
           const active = it.href === items[0].href ? pathname === it.href : pathname === it.href || pathname.startsWith(it.href + "/");
@@ -30,7 +30,7 @@ export function SideNav({ items, title }: { items: NavItem[]; title: string }) {
               >
                 <it.icon className={`h-4 w-4 ${active ? "text-accent" : ""}`} aria-hidden />
                 {it.label}
-                {!!it.badge && <span className="ml-auto rounded-full bg-accent px-1.5 text-[10px] font-bold text-white">{it.badge}</span>}
+                {!!it.badge && <span className="ml-auto rounded-full bg-accent px-1.5 text-[10px] font-bold text-bg">{it.badge}</span>}
               </Link>
             </li>
           );

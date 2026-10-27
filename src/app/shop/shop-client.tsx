@@ -39,7 +39,7 @@ export function ShopClient() {
       <section aria-labelledby="sl">
         <h2 id="sl" className="mb-5 font-display text-xl font-bold">Товары ({listings.length})</h2>
         {listings.length === 0 ? <p className="card p-5 text-sm text-muted">Активных объявлений нет.</p> : (
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">{listings.map((l) => <ListingCard key={l.id} listing={l} />)}</div>
+          <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">{listings.map((l) => <ListingCard key={l.id} listing={l} />)}</div>
         )}
       </section>
 

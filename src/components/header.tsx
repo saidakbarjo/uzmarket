@@ -12,14 +12,13 @@ import { toast } from "@/lib/toast";
 export function Logo({ className = "" }: { className?: string }) {
   return (
     <Link href="/" className={`flex items-center gap-2.5 ${className}`} aria-label="UZMARKET — на главную">
-      <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-accent to-accent-2 shadow-lg shadow-accent/30">
-        <svg viewBox="0 0 24 24" className="h-5 w-5 text-white" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-          <path d="M5 4v9a5 5 0 0 0 10 0V4" />
-          <path d="M19 4v16" />
-        </svg>
-      </span>
-      <span className="font-display text-lg font-extrabold tracking-tight">
-        UZ<span className="bg-gradient-to-r from-accent to-accent-2 bg-clip-text text-transparent">MARKET</span> <span className="text-xs font-semibold tracking-widest text-muted">GAMING</span>
+      <svg viewBox="0 0 36 36" className="h-9 w-9 shrink-0" aria-hidden>
+        <path d="M18 1 35 18 18 35 1 18Z" fill="#2dd4c0" />
+        <path d="M18 8 28 18 18 28 8 18Z" fill="#0f1022" />
+        <path d="M13.5 13v6a4.5 4.5 0 0 0 9 0v-6" fill="none" stroke="#f5b544" strokeWidth="2.4" strokeLinecap="round" />
+      </svg>
+      <span className="font-display text-[17px] font-bold leading-none tracking-tight">
+        UZMARKET <span className="font-medium text-accent">gaming</span>
       </span>
     </Link>
   );
@@ -108,7 +107,7 @@ export function Header() {
                 <Link href="/account/notifications" className="relative rounded-lg p-2 text-muted hover:bg-panel-2 hover:text-ink" aria-label={`Уведомления${unread ? `: ${unread} новых` : ""}`}>
                   <Bell className="h-5 w-5" />
                   {unread > 0 && (
-                    <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold text-white">{unread}</span>
+                    <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold text-bg">{unread}</span>
                   )}
                 </Link>
                 {user.isSeller && (

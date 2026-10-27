@@ -1,25 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import {
-  ArrowRight,
-  BadgeCheck,
-  ChevronDown,
-  FileSearch,
-  Lock,
-  MessageSquare,
-  Plus,
-  ScrollText,
-  Search,
-  ShieldCheck,
-  Sparkles,
-  Wallet,
-  Zap,
-} from "lucide-react";
-import { useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { ArrowRight, BadgeCheck, ChevronDown, Search } from "lucide-react";
+import { useMemo, useState, type FormEvent } from "react";
 import { ListingCard } from "@/components/listing-card";
-import { Avatar, GameIcon, Stars } from "@/components/ui";
+import { Avatar, Stars, coverStyle } from "@/components/ui";
 import { useT } from "@/lib/i18n";
+import { formatUZS } from "@/lib/money";
 import { filterListings, DEFAULT_FILTERS } from "@/lib/catalog";
 import { useCurrentUser, useDemoState } from "@/lib/store";
 
@@ -50,95 +38,133 @@ const FAQ = [
   },
 ];
 
+const QUICK = ["UC", "V-Bucks", "Robux", "голда", "гемы", "тренировка"];
+
+const STEPS = [
+  { title: "Найдите товар", text: "Выберите игру и тип товара, отфильтруйте по цене и рейтингу продавца." },
+  { title: "Проверьте сумму", text: "До оплаты видны цена, комиссия площадки и итог. Они фиксируются в заказе." },
+  { title: "Оплатите (тест)", text: "В демо оплата имитируется, реальные деньги не переводятся." },
+  { title: "Подтвердите получение", text: "Всё в порядке — подтвердите заказ. Нет — откройте спор." },
+];
+
 export default function HomePage() {
   const t = useT();
+  const router = useRouter();
   const s = useDemoState();
   const { user, ready } = useCurrentUser();
+  const [q, setQ] = useState("");
 
   const enabledSlugs = useMemo(() => new Set(s.games.filter((g) => g.enabled).map((g) => g.slug)), [s.games]);
   const active = useMemo(
     () => filterListings(s.listings.filter((l) => enabledSlugs.has(l.gameSlug)), s.profiles, DEFAULT_FILTERS),
     [s.listings, s.profiles, enabledSlugs],
   );
-  const popular = useMemo(() => [...active].sort((a, b) => b.views - a.views).slice(0, 6), [active]);
-  const recent = useMemo(() => active.slice(0, 6), [active]);
-  const visibleGames = s.games.filter((g) => g.enabled).sort((a, b) => a.sortOrder - b.sortOrder);
+  const popular = useMemo(() => [...active].sort((a, b) => b.views - a.views).slice(0, 8), [active]);
+  const recent = useMemo(() => active.slice(0, 4), [active]);
+  const visibleGames = useMemo(() => s.games.filter((g) => g.enabled).sort((a, b) => a.sortOrder - b.sortOrder), [s.games]);
+  const counts = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const l of active) m.set(l.gameSlug, (m.get(l.gameSlug) ?? 0) + 1);
+    return m;
+  }, [active]);
+  const featured = useMemo(() => [...visibleGames].sort((a, b) => (counts.get(b.slug) ?? 0) - (counts.get(a.slug) ?? 0))[0]?.slug, [visibleGames, counts]);
+  const mosaic = useMemo(() => [...visibleGames].sort((a, b) => Number(b.slug === featured) - Number(a.slug === featured)), [visibleGames, featured]);
   const topSellers = useMemo(
     () => s.profiles.filter((p) => p.isSeller && !p.blocked && p.reviewsCount > 0).sort((a, b) => b.rating - a.rating || b.salesCount - a.salesCount).slice(0, 4),
     [s.profiles],
   );
 
-  return (
-    <div className="space-y-20">
-      {/* Hero */}
-      <section className="relative overflow-hidden rounded-3xl border border-line bg-panel px-6 py-12 sm:px-12 sm:py-16">
-        <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-accent/25 blur-3xl" aria-hidden />
-        <div className="pointer-events-none absolute -bottom-24 left-1/3 h-72 w-72 rounded-full bg-accent-2/20 blur-3xl" aria-hidden />
-        <div className="relative max-w-3xl">
-          <span className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">
-            <Sparkles className="h-3.5 w-3.5" aria-hidden /> Демо-версия · реальные деньги не переводятся
-          </span>
-          <h1 className="mt-5 font-display text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl">{t("hero.title")}</h1>
-          <p className="mt-4 max-w-2xl text-base text-muted sm:text-lg">{t("hero.subtitle")}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/catalog" className="btn-primary !px-6 !py-3">
-              <Search className="h-4 w-4" aria-hidden /> {t("hero.cta")}
-            </Link>
-            <Link href="/seller/new" className="btn-ghost !px-6 !py-3">
-              <Plus className="h-4 w-4" aria-hidden /> {t("nav.sell")}
-            </Link>
-            {ready && !user && (
-              <Link href="/register" className="btn-ghost !px-6 !py-3">
-                {t("nav.register")}
-              </Link>
-            )}
-          </div>
-          <dl className="mt-10 grid max-w-xl grid-cols-3 gap-4 text-sm">
-            <div>
-              <dt className="text-muted">Объявлений</dt>
-              <dd className="font-display text-2xl font-bold">{active.length}</dd>
-            </div>
-            <div>
-              <dt className="text-muted">Игр</dt>
-              <dd className="font-display text-2xl font-bold">{visibleGames.length}</dd>
-            </div>
-            <div>
-              <dt className="text-muted">Валюта</dt>
-              <dd className="font-display text-2xl font-bold">UZS</dd>
-            </div>
-          </dl>
-        </div>
-      </section>
+  function onSearch(e: FormEvent) {
+    e.preventDefault();
+    router.push(q.trim() ? `/catalog?q=${encodeURIComponent(q.trim())}` : "/catalog");
+  }
 
-      {/* Игры */}
-      <section aria-labelledby="cats">
-        <div className="mb-6 flex items-end justify-between gap-4">
-          <h2 id="cats" className="font-display text-2xl font-bold">Игры</h2>
-          <Link href="/catalog" className="flex items-center gap-1 text-sm font-medium text-accent hover:underline">
-            Все товары <ArrowRight className="h-4 w-4" aria-hidden />
-          </Link>
-        </div>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-          {visibleGames.map((g) => {
-            const count = active.filter((l) => l.gameSlug === g.slug).length;
-            return (
-              <Link key={g.slug} href={`/catalog?game=${g.slug}`} className="card card-hover flex flex-col gap-3 p-4">
-                <GameIcon slug={g.slug} className="h-11 w-11 text-xs" />
-                <span className="text-sm font-semibold leading-snug">{g.name}</span>
-                <span className="text-xs text-muted">{count} предложений</span>
+  return (
+    <div className="space-y-16 sm:space-y-20">
+      {/* Hero: поиск и мозаика игр */}
+      <section aria-labelledby="hero" className="relative -mt-2">
+        <div className="ornament pointer-events-none absolute inset-x-0 -top-10 h-72 opacity-[0.05] [mask-image:linear-gradient(to_bottom,black,transparent)]" aria-hidden />
+        <div className="relative max-w-3xl">
+          <h1 id="hero" className="text-[1.9rem] font-semibold leading-[1.12] sm:text-5xl">{t("hero.title")}</h1>
+          <p className="mt-4 max-w-xl text-base text-muted sm:text-lg">{t("hero.subtitle")}</p>
+          <form onSubmit={onSearch} role="search" className="mt-7 flex max-w-2xl gap-2">
+            <label htmlFor="hero-q" className="sr-only">Поиск товаров</label>
+            <input
+              id="hero-q"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Например: 660 UC, скины Valorant, V-Bucks"
+              className="input !rounded-xl !py-3.5 !text-base"
+              autoComplete="off"
+            />
+            <button type="submit" className="btn-primary shrink-0 !px-5 !py-3.5">
+              <Search className="h-4 w-4" aria-hidden /> <span className="hidden sm:inline">Найти</span><span className="sr-only sm:hidden">Найти</span>
+            </button>
+          </form>
+          <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
+            <span className="text-muted">Часто ищут:</span>
+            {QUICK.map((w) => (
+              <Link key={w} href={`/catalog?q=${encodeURIComponent(w)}`} className="rounded-full border border-line px-3 py-1 text-ink/90 transition hover:border-accent hover:text-accent">
+                {w}
               </Link>
+            ))}
+          </div>
+        </div>
+
+        <ul className="relative mt-9 grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-6" aria-label="Игры">
+          {mosaic.map((g, i) => {
+            const big = g.slug === featured && visibleGames.length >= 5;
+            return (
+              <li
+                key={g.slug}
+                className={big ? "col-span-2 row-span-2" : ""}
+                style={{ animation: "tile-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both", animationDelay: `${i * 55}ms` }}
+              >
+                <Link
+                  href={`/catalog?game=${g.slug}`}
+                  className={`group relative isolate flex h-full flex-col justify-end overflow-hidden rounded-xl border border-white/10 p-3.5 transition hover:border-accent/70 ${big ? "min-h-[8rem] sm:min-h-[14rem] sm:p-5" : "min-h-[6.5rem] sm:min-h-[6.75rem]"}`}
+                  style={coverStyle(g.hue)}
+                >
+                  <span className="ornament absolute inset-0 opacity-[0.08] transition group-hover:opacity-[0.16]" aria-hidden />
+                  <span aria-hidden className={`absolute -right-1 -top-2 font-display font-black leading-none tracking-tighter text-white/[0.16] ${big ? "text-[7rem] sm:text-[9rem]" : "text-[3.4rem]"}`}>{g.abbr}</span>
+                  <span className="relative">
+                    <span className={`block font-display font-semibold leading-tight text-white ${big ? "text-lg sm:text-2xl" : "text-[13px] sm:text-sm"}`}>{g.name}</span>
+                    <span className="mt-0.5 block text-xs text-white/70">{counts.get(g.slug) ?? 0} предложений</span>
+                  </span>
+                </Link>
+              </li>
             );
           })}
+        </ul>
+        <div className="mt-5 flex flex-wrap items-center gap-3 text-sm">
+          <Link href="/seller/new" className="btn-ghost">Продать товар</Link>
+          {ready && !user && <Link href="/register" className="text-accent hover:underline">Создать аккаунт</Link>}
+          <span className="text-muted">Демо-версия: реальные деньги не переводятся.</span>
         </div>
       </section>
 
-      {/* Лучшие продавцы */}
+      {/* Популярное */}
+      <section aria-labelledby="popular">
+        <div className="mb-5 flex items-end justify-between gap-4">
+          <h2 id="popular" className="text-xl font-semibold sm:text-2xl">{t("section.popular")}</h2>
+          <Link href="/catalog" className="flex shrink-0 items-center gap-1 whitespace-nowrap text-sm font-medium text-accent hover:underline">
+            Весь каталог <ArrowRight className="h-4 w-4" aria-hidden />
+          </Link>
+        </div>
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+          {popular.map((l) => (
+            <ListingCard key={l.id} listing={l} />
+          ))}
+        </div>
+      </section>
+
+      {/* Продавцы */}
       {topSellers.length > 0 && (
         <section aria-labelledby="sellers">
-          <h2 id="sellers" className="mb-6 font-display text-2xl font-bold">Лучшие продавцы</h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <h2 id="sellers" className="mb-5 text-xl font-semibold sm:text-2xl">Лучшие продавцы</h2>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {topSellers.map((p) => (
-              <Link key={p.id} href={`/shop?id=${p.id}`} className="card card-hover flex items-center gap-3 p-4">
+              <Link key={p.id} href={`/shop?id=${p.id}`} className="flex items-center gap-3 rounded-xl border border-line bg-panel p-4 transition hover:border-accent/60">
                 <Avatar user={p} className="h-12 w-12" />
                 <span className="min-w-0">
                   <span className="flex items-center gap-1 truncate font-semibold">
@@ -155,98 +181,60 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* Популярные */}
-      <section aria-labelledby="popular">
-        <h2 id="popular" className="mb-6 font-display text-2xl font-bold">{t("section.popular")}</h2>
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {popular.map((l) => (
-            <ListingCard key={l.id} listing={l} />
-          ))}
-        </div>
-      </section>
-
-      {/* Недавние */}
+      {/* Новое */}
       <section aria-labelledby="recent">
-        <div className="mb-6 flex items-end justify-between gap-4">
-          <h2 id="recent" className="font-display text-2xl font-bold">{t("section.recent")}</h2>
-          <Link href="/catalog?sort=new" className="flex items-center gap-1 text-sm font-medium text-accent hover:underline">
+        <div className="mb-5 flex items-end justify-between gap-4">
+          <h2 id="recent" className="text-xl font-semibold sm:text-2xl">{t("section.recent")}</h2>
+          <Link href="/catalog?sort=new" className="flex shrink-0 items-center gap-1 whitespace-nowrap text-sm font-medium text-accent hover:underline">
             Смотреть все <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         </div>
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {recent.map((l) => (
             <ListingCard key={l.id} listing={l} />
           ))}
         </div>
       </section>
 
-      {/* Преимущества */}
-      <section aria-labelledby="adv">
-        <h2 id="adv" className="mb-6 font-display text-2xl font-bold">Почему UZMARKET</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            { icon: Wallet, title: "Прозрачная комиссия", text: "Все суммы в UZS: комиссия и доход продавца видны до оформления заказа." },
-            { icon: BadgeCheck, title: "Профили продавцов", text: "Рейтинг, отзывы и количество продаж — вы видите репутацию до покупки." },
-            { icon: MessageSquare, title: "Чат по заказу", text: "Вся переписка и информация о выполнении хранятся в карточке заказа." },
-            { icon: Zap, title: "Русский и узбекский", text: "Интерфейс на русском, ключевые элементы — на узбекском языке." },
-          ].map((a) => (
-            <div key={a.title} className="card p-5">
-              <a.icon className="h-6 w-6 text-accent" aria-hidden />
-              <h3 className="mt-3 font-semibold">{a.title}</h3>
-              <p className="mt-1.5 text-sm text-muted">{a.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Как это работает */}
+      {/* Как это работает: шаги идут по порядку */}
       <section aria-labelledby="how">
-        <h2 id="how" className="mb-6 font-display text-2xl font-bold">{t("section.how")}</h2>
-        <ol className="grid gap-4 md:grid-cols-4">
-          {[
-            { n: 1, icon: Search, title: "Найдите товар", text: "Выберите игру, тип товара и воспользуйтесь фильтрами по цене, наличию и рейтингу продавца." },
-            { n: 2, icon: ScrollText, title: "Оформите заказ", text: "Проверьте условия выполнения и возврата, создайте заказ с фиксированной ценой." },
-            { n: 3, icon: Wallet, title: "Оплатите (тест)", text: "В демо-режиме оплата тестовая. DEMO — реальные деньги не переводятся." },
-            { n: 4, icon: ShieldCheck, title: "Получите и подтвердите", text: "Проверьте результат и подтвердите получение — или откройте спор." },
-          ].map((step) => (
-            <li key={step.n} className="card relative p-5">
-              <span className="absolute right-4 top-4 font-display text-4xl font-extrabold text-line">{step.n}</span>
-              <step.icon className="h-6 w-6 text-accent-2" aria-hidden />
-              <h3 className="mt-3 font-semibold">{step.title}</h3>
+        <h2 id="how" className="mb-6 text-xl font-semibold sm:text-2xl">{t("section.how")}</h2>
+        <ol className="grid gap-x-6 gap-y-7 md:grid-cols-4">
+          {STEPS.map((step, i) => (
+            <li key={step.title} className="relative border-t-2 border-accent/70 pt-4">
+              <span className="font-display text-sm font-semibold text-accent">{i + 1}</span>
+              <h3 className="mt-1 font-semibold">{step.title}</h3>
               <p className="mt-1.5 text-sm text-muted">{step.text}</p>
             </li>
           ))}
         </ol>
       </section>
 
-      {/* Безопасность */}
-      <section aria-labelledby="safe" className="card overflow-hidden">
-        <div className="grid gap-0 lg:grid-cols-2">
-          <div className="p-6 sm:p-8">
-            <h2 id="safe" className="font-display text-2xl font-bold">Безопасность сделок</h2>
-            <p className="mt-3 text-sm text-muted">
-              Мы строим площадку вокруг прозрачности: каждый шаг сделки фиксируется, а спорные ситуации рассматриваются людьми.
-            </p>
-            <ul className="mt-5 space-y-4 text-sm">
-              <li className="flex gap-3"><FileSearch className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden /><span><b>Хронология заказа.</b> Статусы и действия сторон записываются и не стираются.</span></li>
-              <li className="flex gap-3"><Lock className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden /><span><b>Фиксированная цена.</b> После создания заказа продавец не может изменить сумму.</span></li>
-              <li className="flex gap-3"><ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden /><span><b>Споры и поддержка.</b> Обращение с доказательствами рассматривает администратор.</span></li>
-            </ul>
-          </div>
-          <div className="border-t border-line bg-warn/5 p-6 sm:p-8 lg:border-l lg:border-t-0">
-            <h3 className="font-semibold text-warn">Честно о демо-режиме</h3>
-            <p className="mt-2 text-sm text-muted">
-              Сейчас деньги не принимаются, а «оплата» — симуляция. Это <b className="text-ink">не эскроу</b> и не защищённая платёжная система. Законная схема удержания
-              средств, договоры и выплаты будут согласованы отдельно до подключения реальных платежей.
-            </p>
-          </div>
+      {/* Комиссия и честность демо */}
+      <section aria-labelledby="fee" className="grid gap-px overflow-hidden rounded-xl border border-line bg-line lg:grid-cols-2">
+        <div className="bg-panel p-6 sm:p-8">
+          <h2 id="fee" className="text-xl font-semibold sm:text-2xl">Комиссия видна заранее</h2>
+          <p className="mt-3 text-sm text-muted">Пример при ставке 5%: товар за {formatUZS(100000)}.</p>
+          <dl className="mt-4 space-y-2 text-sm">
+            <div className="flex justify-between gap-3 border-b border-line pb-2"><dt className="text-muted">Цена товара</dt><dd className="font-semibold">{formatUZS(100000)}</dd></div>
+            <div className="flex justify-between gap-3 border-b border-line pb-2"><dt className="text-muted">Комиссия площадки</dt><dd className="font-semibold">{formatUZS(5000)}</dd></div>
+            <div className="flex justify-between gap-3"><dt className="text-muted">Продавец получит</dt><dd className="font-semibold text-gold">{formatUZS(95000)}</dd></div>
+          </dl>
+          <p className="mt-4 text-sm text-muted">Ставка и сумма записываются в заказ. Если тариф изменится, старые заказы останутся прежними.</p>
+        </div>
+        <div className="bg-panel-2 p-6 sm:p-8">
+          <h3 className="text-lg font-semibold text-warn">Это демо-версия</h3>
+          <p className="mt-3 text-sm text-muted">
+            Оплата здесь имитируется: деньги не принимаются и не переводятся. Это <b className="text-ink">не эскроу</b> и не платёжная система.
+            Реальные платежи и законная схема удержания средств будут подключены отдельно, до запуска для публики.
+          </p>
         </div>
       </section>
 
       {/* FAQ */}
       <section aria-labelledby="faq" className="mx-auto w-full max-w-3xl">
-        <h2 id="faq" className="mb-6 text-center font-display text-2xl font-bold">{t("section.faq")}</h2>
-        <div className="space-y-3">
+        <h2 id="faq" className="mb-6 text-xl font-semibold sm:text-2xl">{t("section.faq")}</h2>
+        <div className="space-y-2.5">
           {FAQ.map((f) => (
             <details key={f.q} className="card group p-0 [&_summary::-webkit-details-marker]:hidden">
               <summary className="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 font-medium">

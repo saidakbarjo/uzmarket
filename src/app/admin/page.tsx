@@ -38,7 +38,7 @@ export default function AdminOverviewPage() {
         {cards.map((c) => (
           <Link key={c.label} href={c.href} className="card card-hover p-4">
             <p className="text-xs text-muted">{c.label}</p>
-            <p className="mt-1 break-words font-display text-lg font-bold sm:text-xl">{c.value}</p>
+            <p className="mt-1 whitespace-nowrap font-display text-base font-bold sm:text-lg xl:text-xl">{c.value}</p>
           </Link>
         ))}
       </div>

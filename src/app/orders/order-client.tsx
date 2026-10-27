@@ -268,7 +268,7 @@ function OrderView({ order, user }: { order: Order; user: Profile }) {
                 const system = m.authorId === "system";
                 return (
                   <div key={m.id} className={`flex ${system ? "justify-center" : mine ? "justify-end" : "justify-start"}`}>
-                    <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${system ? "border border-line bg-panel-2 text-xs text-muted" : mine ? "bg-gradient-to-r from-accent to-accent-2 text-white" : "bg-panel-2"}`}>
+                    <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${system ? "border border-line bg-panel-2 text-xs text-muted" : mine ? "bg-accent text-bg" : "bg-panel-2"}`}>
                       {!system && <p className={`mb-0.5 text-xs font-semibold ${mine ? "text-white/80" : "text-accent"}`}>{nameOf(m.authorId)}</p>}
                       <p className="whitespace-pre-wrap break-words">{m.text}</p>
                       <p className={`mt-1 text-[10px] ${mine ? "text-white/70" : "text-muted"}`}>{formatDate(m.at, true)}</p>

@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Toaster } from "@/components/ui";
+import "@fontsource-variable/onest";
+import "@fontsource-variable/unbounded";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0d16",
+  themeColor: "#0f1022",
   width: "device-width",
   initialScale: 1,
 };
@@ -24,11 +26,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ru">
       <body>
-        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[200] focus:rounded-lg focus:bg-accent focus:px-3 focus:py-2 focus:text-white">
+        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[200] focus:rounded-lg focus:bg-accent focus:px-3 focus:py-2 focus:text-bg">
           Перейти к содержимому
         </a>
         <Header />
-        <main id="main" className="container-page animate-fade-up py-8 sm:py-10">
+        <main id="main" className="container-page py-8 sm:py-10">
           {children}
         </main>
         <Footer />

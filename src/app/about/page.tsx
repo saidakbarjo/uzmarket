@@ -16,11 +16,11 @@ export default function AboutPage() {
       </header>
 
       <section className="card flex flex-col gap-4 p-6 sm:flex-row sm:items-center" aria-labelledby="founder">
-        <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-accent to-accent-2 text-white">
+        <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-accent text-bg">
           <Crown className="h-8 w-8" aria-hidden />
         </span>
         <div>
-          <h2 id="founder" className="text-sm font-semibold uppercase tracking-wide text-muted">Основатель и руководитель</h2>
+          <h2 id="founder" className="text-sm font-semibold text-muted">Основатель и руководитель</h2>
           <p className="font-display text-2xl font-bold">{FOUNDER_USERNAME}</p>
           <p className="mt-1 text-sm text-muted">Создатель проекта, глава UZMARKET и владелец площадки: получает комиссию с продаж. Отвечает за развитие платформы, правила площадки и взаимодействие с партнёрами.</p>
         </div>

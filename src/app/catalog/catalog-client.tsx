@@ -228,7 +228,7 @@ export function CatalogClient() {
             />
           ) : (
             <>
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+              <div className="grid grid-cols-2 gap-3 sm:gap-5 xl:grid-cols-3">
                 {pageItems.map((l) => (
                   <ListingCard key={l.id} listing={l} />
                 ))}
@@ -244,7 +244,7 @@ export function CatalogClient() {
                       type="button"
                       onClick={() => goPage(i + 1)}
                       aria-current={safePage === i + 1 ? "page" : undefined}
-                      className={`h-10 min-w-10 rounded-xl px-3 text-sm font-semibold transition ${safePage === i + 1 ? "bg-accent text-white" : "border border-line bg-panel-2 text-muted hover:text-ink"}`}
+                      className={`h-10 min-w-10 rounded-xl px-3 text-sm font-semibold transition ${safePage === i + 1 ? "bg-accent text-bg" : "border border-line bg-panel-2 text-muted hover:text-ink"}`}
                     >
                       {i + 1}
                     </button>

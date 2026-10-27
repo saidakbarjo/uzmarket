@@ -77,7 +77,7 @@ export default function SellerFinancePage() {
         {cards.map((c) => (
           <div key={c.label} className={`card p-4 ${c.strong ? "border-accent/50" : ""}`}>
             <p className="text-xs text-muted">{c.label}</p>
-            <p className="mt-1 font-display text-xl font-bold sm:text-2xl">{c.value}</p>
+            <p className="mt-1 whitespace-nowrap font-display text-lg font-bold sm:text-xl xl:text-2xl">{c.value}</p>
           </div>
         ))}
       </div>

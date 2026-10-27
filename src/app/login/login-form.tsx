@@ -61,7 +61,7 @@ export function LoginForm() {
       </form>
 
       <div className="mt-6 rounded-xl border border-line bg-panel-2 p-4">
-        <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-muted">
+        <p className="mb-2 flex items-center gap-2 text-xs font-semibold text-muted">
           Тестовые аккаунты <Badge tone="warn">DEMO</Badge>
         </p>
         <p className="mb-3 text-xs text-muted">Публичный тестовый пароль: <code className="rounded bg-bg px-1.5 py-0.5 text-ink">{DEMO_PASSWORD}</code></p>

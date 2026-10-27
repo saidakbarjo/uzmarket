@@ -70,7 +70,7 @@ export function ListingClient({ id }: { id: string }) {
         <div className="space-y-8">
           {/* Галерея */}
           <div>
-            <ListingImage gameSlug={listing.gameSlug} images={listing.images} index={imgIdx} hue={listing.imageHue} className="aspect-[16/9] w-full rounded-2xl border border-line" label={`${listing.title} — изображение ${imgIdx + 1}`} />
+            <ListingImage gameSlug={listing.gameSlug} images={listing.images} index={imgIdx} hue={listing.imageHue} className="aspect-[21/9] w-full rounded-xl border border-line" label={`${listing.title} — изображение ${imgIdx + 1}`} />
             {listing.images.length > 1 && (
               <div className="mt-3 grid grid-cols-4 gap-3">
                 {Array.from({ length: imgCount }).map((_, i) => (
@@ -262,7 +262,7 @@ export function ListingClient({ id }: { id: string }) {
       {similar.length > 0 && (
         <section aria-labelledby="similar">
           <h2 id="similar" className="mb-5 font-display text-xl font-bold">Похожие товары</h2>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
             {similar.map((l) => (
               <ListingCard key={l.id} listing={l} />
             ))}

@@ -21,15 +21,22 @@ export function GameIcon({ slug, className = "h-8 w-8" }: { slug: string; classN
   return (
     <span
       aria-hidden
-      className={`inline-flex shrink-0 items-center justify-center rounded-lg text-[10px] font-bold tracking-tight text-white ${className}`}
-      style={{ background: `linear-gradient(135deg, hsl(${h} 70% 45%), hsl(${(h + 50) % 360} 60% 28%))` }}
+      className={`inline-flex shrink-0 items-center justify-center rounded-lg font-display text-[10px] font-bold tracking-tight text-white ${className}`}
+      style={{ background: `linear-gradient(135deg, hsl(${h} 65% 42%), hsl(${(h + 40) % 360} 60% 26%))` }}
     >
       {g?.abbr ?? "?"}
     </span>
   );
 }
 
-/** Изображение товара: загруженная картинка либо локальная заглушка с логотипом-аббревиатурой игры. */
+/** Цвета обложки по оттенку игры: у каждой игры свой цвет, орнамент общий. */
+export function coverStyle(h: number) {
+  return {
+    background: `radial-gradient(90% 120% at 100% 0%, hsl(${(h + 30) % 360} 70% 46% / 0.55), transparent 62%), linear-gradient(150deg, hsl(${h} 55% 24%), hsl(${(h + 20) % 360} 50% 12%))`,
+  };
+}
+
+/** Изображение товара: загруженная картинка либо локальная обложка с орнаментом и логотипом-аббревиатурой игры. */
 export function ListingImage({
   gameSlug,
   images,
@@ -58,19 +65,12 @@ export function ListingImage({
     <div
       role="img"
       aria-label={label ?? "Изображение товара (заглушка)"}
-      className={`relative isolate flex items-center justify-center overflow-hidden ${className}`}
-      style={{
-        background: `radial-gradient(120% 90% at 20% 10%, hsl(${h} 80% 45% / 0.55), transparent 60%), linear-gradient(135deg, hsl(${h} 45% 16%), hsl(${(h + 50) % 360} 55% 10%))`,
-      }}
+      className={`relative isolate flex items-end overflow-hidden ${className}`}
+      style={coverStyle(h)}
     >
-      <div
-        className="absolute inset-0 opacity-30"
-        style={{
-          backgroundImage: "linear-gradient(rgb(255 255 255 / 0.06) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 0.06) 1px, transparent 1px)",
-          backgroundSize: "22px 22px",
-        }}
-      />
-      <span className="relative font-display text-3xl font-black tracking-tight text-white/85 drop-shadow-lg sm:text-4xl">{g?.abbr ?? <Package className="h-8 w-8" />}</span>
+      <div className="ornament absolute inset-0 opacity-[0.09]" />
+      <span aria-hidden className="absolute -right-2 -top-3 font-display text-[5.5rem] font-black leading-none tracking-tighter text-white/[0.14] sm:text-[6.5rem]">{g?.abbr ?? ""}</span>
+      <span className="relative m-3 rounded-md bg-black/35 px-2 py-1 font-display text-[11px] font-semibold text-white/90 backdrop-blur-sm">{g?.name ?? <Package className="h-4 w-4" />}</span>
     </div>
   );
 }
@@ -120,7 +120,7 @@ export function Badge({
 
 export function DemoBadge({ label = "ТЕСТ" }: { label?: string }) {
   return (
-    <Badge tone="warn" className="uppercase tracking-wide">
+    <Badge tone="warn" >
       <FlaskConical className="h-3 w-3" aria-hidden /> {label}
     </Badge>
   );
