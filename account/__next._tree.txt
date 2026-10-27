@@ -1,5 +1,5 @@
-:HL["/uzmarket/_next/static/chunks/28bd28y8j51du.css","style"]
+:HL["/uzmarket/_next/static/chunks/1eyl4uvsgfbvv.css","style"]
 :HC["/",""]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"account","h":96,"c":"$Q2"}]]
-0:{"b":"E4X1j3Nly9GkRBHeRvLEF","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"pBgbbAYJQuqKZj8NU_imX","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
