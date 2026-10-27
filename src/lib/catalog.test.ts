@@ -71,6 +71,11 @@ describe("фильтры каталога", () => {
     expect(oldest).toEqual([...oldest].sort());
   });
 
+  it("сортировка по популярности (просмотры)", () => {
+    const v = run({ sort: "popular" }).map((l) => l.views);
+    expect(v).toEqual([...v].sort((a, b) => b - a));
+  });
+
   it("рейтинг продавца", () => {
     const r = run({ minRating: 4.8 });
     expect(r.length).toBeGreaterThan(0);

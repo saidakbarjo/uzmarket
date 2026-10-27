@@ -34,7 +34,8 @@ export default function SellerListingsPage() {
             ) : (
               <ul className="space-y-3">
                 {mine.map((l) => {
-                  const st = STATUS[l.status];
+                  const sold = l.status === "active" && l.stock === 0; // остаток закончился — товар продан
+                  const st = sold ? { tone: "neutral" as const, label: "Продано" } : STATUS[l.status];
                   return (
                     <li key={l.id} className="card flex flex-col gap-4 p-4 sm:flex-row sm:items-center">
                       <ListingImage gameSlug={l.gameSlug} images={l.images} hue={l.imageHue} className="aspect-[16/10] w-full shrink-0 rounded-xl sm:w-40" />

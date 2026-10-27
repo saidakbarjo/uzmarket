@@ -1,5 +1,5 @@
 import { platformRevenue } from "@/lib/ledger";
-import type { Game, LedgerEntry, Order, OrderStatus } from "@/lib/types";
+import type { Game, LedgerEntry, Order, OrderStatus, Profile, Review } from "@/lib/types";
 
 /** Статусы, при которых деньги покупателя считаются полученными (оборот). */
 const TURNOVER: OrderStatus[] = ["paid", "in_progress", "delivered", "completed", "disputed", "refund_review"];
@@ -86,4 +86,27 @@ export function sellerSummary(orders: Order[], sellerId: string, views: number):
     netUzs: done.reduce((s, o) => s + o.commission.sellerNetUzs, 0),
     views,
   };
+}
+
+/**
+ * Рейтинг, число отзывов и продаж считаются из фактических отзывов и завершённых заказов,
+ * а не хранятся как произвольные числа. Скрытые отзывы не учитываются.
+ */
+export function deriveProfileStats(profiles: Profile[], reviews: Review[], orders: Order[], hiddenIds: string[] = []): Profile[] {
+  const rv = new Map<string, number[]>();
+  for (const r of reviews) {
+    if (hiddenIds.includes(r.id)) continue;
+    const arr = rv.get(r.sellerId) ?? [];
+    arr.push(r.rating);
+    rv.set(r.sellerId, arr);
+  }
+  const sales = new Map<string, number>();
+  for (const o of orders) if (o.status === "completed") sales.set(o.sellerId, (sales.get(o.sellerId) ?? 0) + 1);
+  return profiles.map((p) => {
+    const arr = rv.get(p.id) ?? [];
+    const rating = arr.length ? Math.round((arr.reduce((s, x) => s + x, 0) / arr.length) * 10) / 10 : 0;
+    const salesCount = sales.get(p.id) ?? 0;
+    if (p.rating === rating && p.reviewsCount === arr.length && p.salesCount === salesCount) return p;
+    return { ...p, rating, reviewsCount: arr.length, salesCount };
+  });
 }

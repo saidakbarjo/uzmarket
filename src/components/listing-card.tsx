@@ -1,28 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { BadgeCheck, Clock, Heart } from "lucide-react";
 import { formatUZS } from "@/lib/money";
 import { toggleFavorite, useCurrentUser, useDemoState } from "@/lib/store";
 import { toast } from "@/lib/toast";
+import { toggleGuestFavorite, useGuestFavorites } from "@/lib/guest";
 import type { Listing } from "@/lib/types";
 import { Avatar, Badge, DemoBadge, ListingImage, Stars } from "@/components/ui";
 import { productTypeLabel } from "@/lib/product-types";
 import { isInStock } from "@/lib/catalog";
 
 export function FavoriteButton({ listingId, variant = "icon" }: { listingId: string; variant?: "icon" | "full" }) {
-  const router = useRouter();
   const { user } = useCurrentUser();
   const s = useDemoState();
-  const active = !!user && (s.favorites[user.id] ?? []).includes(listingId);
+  const guestFavs = useGuestFavorites();
+  const active = user ? (s.favorites[user.id] ?? []).includes(listingId) : guestFavs.includes(listingId);
 
   function onClick(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
     if (!user) {
-      toast.info("Войдите, чтобы добавлять товары в избранное");
-      router.push("/login?next=" + encodeURIComponent(window.location.pathname.replace(process.env.NEXT_PUBLIC_BASE_PATH ?? "", "") + window.location.search));
+      const added = toggleGuestFavorite(listingId);
+      toast.success(added ? "Сохранено на этом устройстве. После входа добавится в аккаунт." : "Удалено из избранного");
       return;
     }
     const r = toggleFavorite(listingId);

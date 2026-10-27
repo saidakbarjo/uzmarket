@@ -8,7 +8,8 @@ import { ListingCard } from "@/components/listing-card";
 import { Avatar, Stars, coverStyle } from "@/components/ui";
 import { useT } from "@/lib/i18n";
 import { formatUZS } from "@/lib/money";
-import { filterListings, DEFAULT_FILTERS } from "@/lib/catalog";
+import { filterListings, DEFAULT_FILTERS, isInStock } from "@/lib/catalog";
+import { useRecentlyViewed } from "@/lib/guest";
 import { useCurrentUser, useDemoState } from "@/lib/store";
 
 const FAQ = [
@@ -53,6 +54,7 @@ export default function HomePage() {
   const s = useDemoState();
   const { user, ready } = useCurrentUser();
   const [q, setQ] = useState("");
+  const recentIds = useRecentlyViewed();
 
   const enabledSlugs = useMemo(() => new Set(s.games.filter((g) => g.enabled).map((g) => g.slug)), [s.games]);
   const active = useMemo(
@@ -68,6 +70,17 @@ export default function HomePage() {
     return m;
   }, [active]);
   const featured = useMemo(() => [...visibleGames].sort((a, b) => (counts.get(b.slug) ?? 0) - (counts.get(a.slug) ?? 0))[0]?.slug, [visibleGames, counts]);
+  /** Лучшая цена по играм: самое дешёвое доступное предложение в каждой игре (без выдуманных скидок). */
+  const bestPrices = useMemo(() => {
+    const best = new Map<string, (typeof active)[number]>();
+    for (const l of active) {
+      if (!isInStock(l)) continue;
+      const cur = best.get(l.gameSlug);
+      if (!cur || l.priceUzs < cur.priceUzs) best.set(l.gameSlug, l);
+    }
+    return [...best.values()].sort((a, b) => a.priceUzs - b.priceUzs).slice(0, 4);
+  }, [active]);
+  const viewed = useMemo(() => recentIds.map((id) => active.find((l) => l.id === id)).filter((l): l is (typeof active)[number] => !!l).slice(0, 4), [recentIds, active]);
   const mosaic = useMemo(() => [...visibleGames].sort((a, b) => Number(b.slug === featured) - Number(a.slug === featured)), [visibleGames, featured]);
   const topSellers = useMemo(
     () => s.profiles.filter((p) => p.isSeller && !p.blocked && p.reviewsCount > 0).sort((a, b) => b.rating - a.rating || b.salesCount - a.salesCount).slice(0, 4),
@@ -194,6 +207,42 @@ export default function HomePage() {
             <ListingCard key={l.id} listing={l} />
           ))}
         </div>
+      </section>
+
+      {/* Лучшая цена */}
+      {bestPrices.length > 0 && (
+        <section aria-labelledby="best">
+          <h2 id="best" className="text-xl font-semibold sm:text-2xl">Лучшие предложения</h2>
+          <p className="mb-5 mt-1 text-sm text-muted">Самая низкая цена в каждой игре среди товаров в наличии.</p>
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+            {bestPrices.map((l) => (
+              <ListingCard key={l.id} listing={l} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Недавно просмотренные (хранятся только в этом браузере) */}
+      {viewed.length > 0 && (
+        <section aria-labelledby="viewed">
+          <h2 id="viewed" className="mb-5 text-xl font-semibold sm:text-2xl">Вы смотрели</h2>
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+            {viewed.map((l) => (
+              <ListingCard key={l.id} listing={l} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Безопасная торговля */}
+      <section aria-labelledby="safe">
+        <h2 id="safe" className="mb-5 text-xl font-semibold sm:text-2xl">Правила безопасной торговли</h2>
+        <ul className="grid gap-x-8 gap-y-4 text-sm sm:grid-cols-2">
+          <li><b>Не передавайте пароли.</b> Площадка и продавцы не просят пароль от вашего игрового аккаунта и коды из писем.</li>
+          <li><b>Общайтесь в чате заказа.</b> Переписка и этапы сделки сохраняются — это поможет при споре.</li>
+          <li><b>Проверьте результат до подтверждения.</b> Подтверждайте получение только когда убедились, что товар соответствует описанию.</li>
+          <li><b>Аккаунты — на ваш риск.</b> Передача аккаунтов может нарушать правила игры и привести к блокировке; восстановить доступ не всегда возможно.</li>
+        </ul>
       </section>
 
       {/* Как это работает: шаги идут по порядку */}

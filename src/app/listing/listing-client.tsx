@@ -10,6 +10,7 @@ import { averageRating, isInStock } from "@/lib/catalog";
 import { MAX_QTY, quote } from "@/lib/checkout";
 import { formatUZS } from "@/lib/money";
 import { DELIVERY_LABELS, productTypeLabel } from "@/lib/product-types";
+import { pushRecentlyViewed } from "@/lib/guest";
 import { registerView, useCurrentUser, useDemoState } from "@/lib/store";
 
 export function ListingClient({ id }: { id: string }) {
@@ -19,7 +20,10 @@ export function ListingClient({ id }: { id: string }) {
   const [qty, setQty] = useState(1);
 
   useEffect(() => {
-    if (id) registerView(id);
+    if (id) {
+      registerView(id);
+      pushRecentlyViewed(id);
+    }
   }, [id]);
 
   const listing = s.listings.find((l) => l.id === id);

@@ -2,19 +2,20 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Bell, LayoutDashboard, LogOut, Menu, Plus, Search, Shield, Store, X } from "lucide-react";
+import { Bell, Heart, LayoutDashboard, LogOut, Menu, Plus, Search, Shield, Store, X } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { LANGS, setLang, useLang, useT, type Lang } from "@/lib/i18n";
 import { logout, useCurrentUser, useDemoState } from "@/lib/store";
 import { DEMO_BANNER } from "@/lib/payments/provider";
 import { toast } from "@/lib/toast";
+import { useGuestFavorites } from "@/lib/guest";
 
 export function Logo({ className = "" }: { className?: string }) {
   return (
     <Link href="/" className={`flex items-center gap-2.5 ${className}`} aria-label="UZMARKET — на главную">
       <svg viewBox="0 0 36 36" className="h-9 w-9 shrink-0" aria-hidden>
-        <path d="M18 1 35 18 18 35 1 18Z" fill="#2dd4c0" />
-        <path d="M18 8 28 18 18 28 8 18Z" fill="#0f1022" />
+        <path d="M18 1 35 18 18 35 1 18Z" fill="#7b6cff" />
+        <path d="M18 8 28 18 18 28 8 18Z" fill="#13141a" />
         <path d="M13.5 13v6a4.5 4.5 0 0 0 9 0v-6" fill="none" stroke="#f5b544" strokeWidth="2.4" strokeLinecap="round" />
       </svg>
       <span className="font-display text-[17px] font-bold leading-none tracking-tight">
@@ -36,6 +37,8 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
 
+  const guestFavs = useGuestFavorites();
+  const favCount = user ? (s.favorites[user.id] ?? []).length : guestFavs.length;
   const unread = user ? s.notifications.filter((n) => n.userId === user.id && !n.read).length : 0;
 
   function onSearch(e: FormEvent) {
@@ -98,6 +101,11 @@ export function Header() {
               {nextLang(lang).toUpperCase()}
             </button>
 
+            <Link href="/favorites" className="relative hidden rounded-lg p-2 text-muted hover:bg-panel-2 hover:text-ink sm:block" aria-label={`Избранное${favCount ? `: ${favCount}` : ""}`}>
+              <Heart className="h-5 w-5" />
+              {favCount > 0 && <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[10px] font-bold text-white">{favCount}</span>}
+            </Link>
+
             <Link href="/seller/new" className="btn-primary hidden !py-2 sm:inline-flex">
               <Plus className="h-4 w-4" aria-hidden /> {t("nav.sell")}
             </Link>
@@ -107,7 +115,7 @@ export function Header() {
                 <Link href="/account/notifications" className="relative rounded-lg p-2 text-muted hover:bg-panel-2 hover:text-ink" aria-label={`Уведомления${unread ? `: ${unread} новых` : ""}`}>
                   <Bell className="h-5 w-5" />
                   {unread > 0 && (
-                    <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold text-bg">{unread}</span>
+                    <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold text-white">{unread}</span>
                   )}
                 </Link>
                 {user.isSeller && (

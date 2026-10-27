@@ -30,7 +30,7 @@ export function SideNav({ items, title }: { items: NavItem[]; title: string }) {
               >
                 <it.icon className={`h-4 w-4 ${active ? "text-accent" : ""}`} aria-hidden />
                 {it.label}
-                {!!it.badge && <span className="ml-auto rounded-full bg-accent px-1.5 text-[10px] font-bold text-bg">{it.badge}</span>}
+                {!!it.badge && <span className="ml-auto rounded-full bg-accent px-1.5 text-[10px] font-bold text-white">{it.badge}</span>}
               </Link>
             </li>
           );

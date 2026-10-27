@@ -16,7 +16,7 @@ export default function AboutPage() {
       </header>
 
       <section className="card flex flex-col gap-4 p-6 sm:flex-row sm:items-center" aria-labelledby="founder">
-        <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-accent text-bg">
+        <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-accent text-white">
           <Crown className="h-8 w-8" aria-hidden />
         </span>
         <div>

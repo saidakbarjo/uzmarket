@@ -28,6 +28,8 @@ import {
   seedSellerProfiles,
 } from "@/lib/data/seed";
 import { seedAudit, seedLedger, seedNotifications, seedOrders, seedPayouts, seedTickets } from "@/lib/data/seed-orders";
+import { deriveProfileStats } from "@/lib/stats";
+import { takeGuestFavorites } from "@/lib/guest";
 import {
   DomainError,
   addMessage,
@@ -119,7 +121,7 @@ export interface DemoState {
 function seedState(): DemoState {
   return {
     version: VERSION,
-    profiles: seedProfiles,
+    profiles: deriveProfileStats(seedProfiles, seedReviews, seedOrders),
     sellerProfiles: seedSellerProfiles,
     games: seedGames,
     listings: seedListings,
@@ -156,7 +158,7 @@ function load() {
     if (!raw) return;
     const parsed = JSON.parse(raw) as DemoState;
     if (parsed && parsed.version === VERSION && Array.isArray(parsed.profiles)) {
-      state = parsed;
+      state = { ...parsed, profiles: deriveProfileStats(parsed.profiles, parsed.reviews, parsed.orders, parsed.hiddenReviewIds ?? []) };
     }
   } catch {
     /* повреждённые данные — остаёмся на сидах */
@@ -183,7 +185,7 @@ function emit() {
 /** Единая точка записи: заменяет состояние целиком (атомарно), сохраняет и уведомляет подписчиков. */
 function commit(next: DemoState) {
   load();
-  state = next;
+  state = { ...next, profiles: deriveProfileStats(next.profiles, next.reviews, next.orders, next.hiddenReviewIds) };
   persist();
   emit();
 }
@@ -419,6 +421,7 @@ export async function register(input: unknown): Promise<Result<Profile>> {
     credentials: { ...state.credentials, [email]: { salt, hash } },
     session: { userId: profile.id },
   });
+  mergeGuestFavorites(profile.id);
   return ok(profile);
 }
 
@@ -439,7 +442,17 @@ export async function login(input: unknown): Promise<Result<Profile>> {
   if (profile.blocked) return fail("Аккаунт заблокирован администратором");
 
   commit({ ...state, session: { userId: profile.id } });
+  mergeGuestFavorites(profile.id);
   return ok(profile);
+}
+
+/** Объединяет избранное гостя с аккаунтом: только существующие объявления, без дубликатов. */
+function mergeGuestFavorites(userId: string) {
+  const guest = takeGuestFavorites();
+  if (guest.length === 0) return;
+  const cur = state.favorites[userId] ?? [];
+  const add = guest.filter((id) => !cur.includes(id) && state.listings.some((l) => l.id === id));
+  if (add.length > 0) commit({ ...state, favorites: { ...state.favorites, [userId]: [...cur, ...add] } });
 }
 
 export function logout() {

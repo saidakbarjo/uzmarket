@@ -1,6 +1,6 @@
 import type { Listing, Profile, ProductType } from "@/lib/types";
 
-export type SortKey = "new" | "old" | "price_asc" | "price_desc";
+export type SortKey = "new" | "old" | "price_asc" | "price_desc" | "popular";
 
 export interface CatalogFilters {
   q: string;
@@ -45,7 +45,7 @@ export function filtersFromParams(params: URLSearchParams): CatalogFilters {
     minPrice: parseNumber(params.get("min")),
     maxPrice: parseNumber(params.get("max")),
     minRating: Number.isFinite(rating) ? Math.min(5, Math.max(0, rating)) : 0,
-    sort: sort === "old" || sort === "price_asc" || sort === "price_desc" ? sort : "new",
+    sort: sort === "old" || sort === "price_asc" || sort === "price_desc" || sort === "popular" ? sort : "new",
   };
 }
 
@@ -94,6 +94,9 @@ export function filterListings(
       break;
     case "price_desc":
       sorted.sort((a, b) => b.priceUzs - a.priceUzs);
+      break;
+    case "popular":
+      sorted.sort((a, b) => b.views - a.views || b.createdAt.localeCompare(a.createdAt)); // views — реальный счётчик просмотров
       break;
     case "old":
       sorted.sort((a, b) => a.createdAt.localeCompare(b.createdAt));

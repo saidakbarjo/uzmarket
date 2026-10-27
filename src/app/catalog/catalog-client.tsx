@@ -206,6 +206,7 @@ export function CatalogClient() {
               <option value="old">Сначала старые</option>
               <option value="price_asc">Цена: по возрастанию</option>
               <option value="price_desc">Цена: по убыванию</option>
+              <option value="popular">Популярные</option>
             </select>
             <button type="button" className="btn-ghost lg:hidden" onClick={() => setShowFilters((v) => !v)} aria-expanded={showFilters}>
               <SlidersHorizontal className="h-4 w-4" aria-hidden /> Фильтры{activeCount ? ` (${activeCount})` : ""}
@@ -244,7 +245,7 @@ export function CatalogClient() {
                       type="button"
                       onClick={() => goPage(i + 1)}
                       aria-current={safePage === i + 1 ? "page" : undefined}
-                      className={`h-10 min-w-10 rounded-xl px-3 text-sm font-semibold transition ${safePage === i + 1 ? "bg-accent text-bg" : "border border-line bg-panel-2 text-muted hover:text-ink"}`}
+                      className={`h-10 min-w-10 rounded-xl px-3 text-sm font-semibold transition ${safePage === i + 1 ? "bg-accent text-white" : "border border-line bg-panel-2 text-muted hover:text-ink"}`}
                     >
                       {i + 1}
                     </button>
