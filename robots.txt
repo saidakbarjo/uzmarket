@@ -1,0 +1,9 @@
+User-Agent: *
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /seller
+Disallow: /orders
+Disallow: /checkout
+
+Sitemap: https://saidakbarjo.github.io/uzmarket/sitemap.xml

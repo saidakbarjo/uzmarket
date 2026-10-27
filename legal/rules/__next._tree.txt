@@ -1,6 +1,6 @@
-:HL["/uzmarket/_next/static/chunks/0wvq9qjus3py5.css","style"]
+:HL["/uzmarket/_next/static/chunks/28bd28y8j51du.css","style"]
 :HC["/",""]
 3:[["children",{"s":"__PAGE__","h":160}]]
 2:[["children",{"s":{"n":"slug","t":"d","k":"rules","s":[]},"h":96,"c":"$Q3"}]]
 1:[["children",{"s":"legal","h":96,"c":"$Q2"}]]
-0:{"b":"yIzKlLtSIeYj3tb6S_qN3","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"E4X1j3Nly9GkRBHeRvLEF","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
