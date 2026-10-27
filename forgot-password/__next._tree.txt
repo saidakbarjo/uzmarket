@@ -1,4 +1,5 @@
-:HL["/uzmarket/_next/static/chunks/0nacjqr6lfvm4.css","style"]
+:HL["/uzmarket/_next/static/chunks/0wvq9qjus3py5.css","style"]
+:HC["/",""]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"forgot-password","h":96,"c":"$Q2"}]]
-0:{"b":"6C3drh8fdkT1gX9BFNqBm","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"yIzKlLtSIeYj3tb6S_qN3","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
