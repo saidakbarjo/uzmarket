@@ -1,5 +1,6 @@
 "use client";
 
+import { FinanceGate } from "@/components/finance-gate";
 import { Wallet } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { DataTable, type Column } from "@/components/data-table";
@@ -22,6 +23,10 @@ const KIND: Record<LedgerEntry["kind"], string> = {
 const money = (n: number) => (n === 0 ? "—" : `${n > 0 ? "+" : "−"}${formatUZS(Math.abs(n))}`);
 
 export default function SellerFinancePage() {
+  return <FinanceGate><SellerFinancePageInner /></FinanceGate>;
+}
+
+function SellerFinancePageInner() {
   const s = useDemoState();
   const { user } = useCurrentUser();
   const [amount, setAmount] = useState("");

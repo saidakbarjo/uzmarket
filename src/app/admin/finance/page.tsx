@@ -1,5 +1,6 @@
 "use client";
 
+import { FinanceGate } from "@/components/finance-gate";
 import { DataTable, type Column } from "@/components/data-table";
 import { PageHeader, formatDate } from "@/components/ui";
 import { formatUZS } from "@/lib/money";
@@ -17,6 +18,10 @@ const KIND: Record<LedgerEntry["kind"], string> = {
 const money = (n: number) => (n === 0 ? "—" : `${n > 0 ? "+" : "−"}${formatUZS(Math.abs(n))}`);
 
 export default function AdminFinancePage() {
+  return <FinanceGate><AdminFinancePageInner /></FinanceGate>;
+}
+
+function AdminFinancePageInner() {
   const s = useDemoState();
   const name = (id: string) => s.profiles.find((p) => p.id === id)?.username ?? "—";
   const rows = [...s.ledger].sort((a, b) => b.at.localeCompare(a.at));

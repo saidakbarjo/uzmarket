@@ -1,5 +1,6 @@
 "use client";
 
+import { DEMO_FINANCE } from "@/lib/flags";
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import { Field, PageHeader } from "@/components/ui";
@@ -27,11 +28,11 @@ function Form({ sp }: { sp: SellerProfile }) {
     <form onSubmit={submit} className="card max-w-2xl space-y-5 p-5 sm:p-6" noValidate>
       <Field label="Название магазина" htmlFor="shop" error={errors.shopName}><input id="shop" className="input" value={form.shopName} onChange={(e) => setForm({ ...form, shopName: e.target.value })} maxLength={40} /></Field>
       <Field label="О магазине" htmlFor="about" error={errors.about}><textarea id="about" rows={4} className="input" value={form.about} onChange={(e) => setForm({ ...form, about: e.target.value })} maxLength={500} /></Field>
-      <Field label="Способ вывода (тест)" htmlFor="pm" error={errors.payoutMethod}>
+      {DEMO_FINANCE && <Field label="Способ вывода (тест)" htmlFor="pm" error={errors.payoutMethod}>
         <select id="pm" className="input" value={form.payoutMethod} onChange={(e) => setForm({ ...form, payoutMethod: e.target.value as PayoutMethod })}>
           {(Object.keys(PAYOUT_METHOD_LABELS) as PayoutMethod[]).map((m) => <option key={m} value={m}>{PAYOUT_METHOD_LABELS[m]}</option>)}
         </select>
-      </Field>
+      </Field>}
       <button type="submit" className="btn-primary">Сохранить</button>
     </form>
   );

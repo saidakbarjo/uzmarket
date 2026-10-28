@@ -6,6 +6,7 @@ import { EmptyState, PageHeader } from "@/components/ui";
 import { formatUZS } from "@/lib/money";
 import { STATUS_LABELS } from "@/lib/orders-domain";
 import { sellerSummary } from "@/lib/stats";
+import { DEMO_FINANCE } from "@/lib/flags";
 import { useDemoState } from "@/lib/store";
 import type { OrderStatus } from "@/lib/types";
 
@@ -46,8 +47,10 @@ export default function SellerStatsPage() {
                   {[
                     { label: "Завершённых продаж", value: String(sum.completed) },
                     { label: "Сумма продаж (тест)", value: formatUZS(gross) },
-                    { label: "Комиссия с продавца", value: formatUZS(fees) },
-                    { label: "Ваш доход (тест)", value: formatUZS(net) },
+                    ...(DEMO_FINANCE ? [
+                      { label: "Комиссия с продавца", value: formatUZS(fees) },
+                      { label: "Ваш доход (тест)", value: formatUZS(net) },
+                    ] : []),
                     { label: "Всего заказов", value: String(sum.ordersTotal) },
                     { label: "Просмотры объявлений", value: String(sum.views) },
                   ].map((c) => (
@@ -75,7 +78,7 @@ export default function SellerStatsPage() {
                   </section>
 
                   <section className="card p-5" aria-labelledby="by-listing">
-                    <h2 id="by-listing" className="mb-4 font-semibold">Доход по объявлениям</h2>
+                    <h2 id="by-listing" className="mb-4 font-semibold">Продажи по объявлениям (тест)</h2>
                     {perListing.length === 0 ? (
                       <p className="text-sm text-muted">У вас нет объявлений.</p>
                     ) : (

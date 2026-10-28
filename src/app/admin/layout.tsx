@@ -1,5 +1,6 @@
 "use client";
 
+import { DEMO_FINANCE } from "@/lib/flags";
 import {
   Banknote,
   Gamepad2,
@@ -49,8 +50,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                   { href: "/admin/complaints", label: "Жалобы", icon: MessageSquareWarning, badge: openComplaints },
                   { href: "/admin/games", label: "Игры", icon: Gamepad2 },
                   { href: "/admin/commissions", label: "Комиссии", icon: Percent },
-                  { href: "/admin/payouts", label: "Заявки на вывод", icon: Banknote, badge: pendingPayouts },
-                  { href: "/admin/finance", label: "Финансовые операции", icon: Landmark },
+                  ...(DEMO_FINANCE ? [{ href: "/admin/payouts", label: "Заявки на вывод", icon: Banknote, badge: pendingPayouts }, { href: "/admin/finance", label: "Финансовые операции", icon: Landmark }] : []),
                   { href: "/admin/audit", label: "Журнал действий", icon: History },
                   { href: "/admin/reviews", label: "Отзывы", icon: Star },
                   { href: "/admin/settings", label: "Настройки", icon: Settings },

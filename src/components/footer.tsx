@@ -42,7 +42,7 @@ export function Footer() {
             <li><Link href="/support" className="hover:text-ink">Поддержка</Link></li>
             <li><Link href="/support/new" className="hover:text-ink">Открыть обращение</Link></li>
             <li><Link href="/seller/new" className="hover:text-ink">Продать товар</Link></li>
-            <li><Link href="/seller/finance" className="hover:text-ink">Кабинет продавца</Link></li>
+            <li><Link href="/seller" className="hover:text-ink">Кабинет продавца</Link></li>
           </ul>
         </div>
 

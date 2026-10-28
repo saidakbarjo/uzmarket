@@ -1,5 +1,6 @@
 "use client";
 
+import { DEMO_FINANCE } from "@/lib/flags";
 import Link from "next/link";
 import { Store } from "lucide-react";
 import { useState, type FormEvent } from "react";
@@ -41,13 +42,13 @@ export function BecomeSeller() {
         <Field label="О себе и своих товарах" htmlFor="about" error={errors.about} hint={`${form.about.length}/500`}>
           <textarea id="about" rows={4} className="input" value={form.about} onChange={(e) => setForm({ ...form, about: e.target.value })} maxLength={500} />
         </Field>
-        <Field label="Предпочтительный способ вывода (тест)" htmlFor="pm" error={errors.payoutMethod}>
+        {DEMO_FINANCE && <Field label="Предпочтительный способ вывода (тест)" htmlFor="pm" error={errors.payoutMethod}>
           <select id="pm" className="input" value={form.payoutMethod} onChange={(e) => setForm({ ...form, payoutMethod: e.target.value as PayoutMethod })}>
             {(Object.keys(PAYOUT_METHOD_LABELS) as PayoutMethod[]).map((m) => (
               <option key={m} value={m}>{PAYOUT_METHOD_LABELS[m]}</option>
             ))}
           </select>
-        </Field>
+        </Field>}
         <Notice>
           Комиссия площадки: <b>{c.defaultPercent}%</b> с завершённой продажи (для отдельных игр и продавцов может отличаться — точная сумма видна до
           оформления заказа). Сейчас всё работает в <b>тестовом режиме</b>: реальные деньги не принимаются и не выплачиваются.

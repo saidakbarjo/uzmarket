@@ -1,5 +1,6 @@
 "use client";
 
+import { DEMO_FINANCE } from "@/lib/flags";
 import { Bell, Heart, Wallet, ListChecks, MessageSquareText, Settings, ShoppingBag, Store, UserRound } from "lucide-react";
 import type { ReactNode } from "react";
 import { RequireAuth } from "@/components/require-auth";
@@ -22,7 +23,7 @@ export default function AccountLayout({ children }: { children: ReactNode }) {
                   { href: "/account/orders", label: "Мои заказы", icon: ListChecks },
                   { href: "/account/purchases", label: "Мои покупки", icon: ShoppingBag },
                   { href: "/account/sales", label: "Мои продажи", icon: Store },
-                  { href: "/account/finance", label: "Финансы", icon: Wallet },
+                  ...(DEMO_FINANCE ? [{ href: "/account/finance", label: "Финансы", icon: Wallet }] : []),
                   { href: "/account/favorites", label: "Избранное", icon: Heart },
                   { href: "/account/reviews", label: "Отзывы", icon: MessageSquareText },
                   { href: "/account/notifications", label: "Уведомления", icon: Bell, badge: unread },

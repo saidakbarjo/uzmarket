@@ -1,5 +1,6 @@
 "use client";
 
+import { FinanceGate } from "@/components/finance-gate";
 import Link from "next/link";
 import { RequireAuth } from "@/components/require-auth";
 import { EmptyState, Notice, OrderStatusBadge, PageHeader, formatDate } from "@/components/ui";
@@ -7,6 +8,10 @@ import { formatUZS } from "@/lib/money";
 import { useDemoState } from "@/lib/store";
 
 export default function AccountFinancePage() {
+  return <FinanceGate><AccountFinancePageInner /></FinanceGate>;
+}
+
+function AccountFinancePageInner() {
   const s = useDemoState();
   return (
     <RequireAuth>

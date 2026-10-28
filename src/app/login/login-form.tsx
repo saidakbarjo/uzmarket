@@ -12,7 +12,7 @@ import type { FieldErrors } from "@/lib/validation";
 
 const TEST_ACCOUNTS = [
   { email: "saidakbar@uzmarket.demo", label: "Saidakbar — основатель, руководитель и администратор", tone: "accent" as const },
-  { email: "u-nur@uzmarket.demo", label: "NurGameShop — продавец (заказы, баланс)", tone: "neutral" as const },
+  { email: "u-nur@uzmarket.demo", label: "NurGameShop — продавец (заказы)", tone: "neutral" as const },
   { email: "u-timur@uzmarket.demo", label: "TimurSkins — продавец и покупатель (есть покупки, заявка на вывод)", tone: "neutral" as const },
 ];
 

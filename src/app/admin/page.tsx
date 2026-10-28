@@ -1,5 +1,6 @@
 "use client";
 
+import { DEMO_FINANCE } from "@/lib/flags";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useMemo } from "react";
@@ -20,12 +21,12 @@ export default function AdminOverviewPage() {
     { label: "Оборот (тест)", value: formatUZS(st.turnoverUzs), href: "/admin/orders" },
     { label: "Всего заказов", value: st.ordersCount, href: "/admin/orders" },
     { label: "Завершено сделок", value: st.completedCount, href: "/admin/orders" },
-    { label: "Комиссия за всё время", value: formatUZS(st.commissionAll), href: "/admin/finance" },
-    { label: "Комиссия за день", value: formatUZS(st.commissionDay), href: "/admin/finance" },
-    { label: "Комиссия за неделю", value: formatUZS(st.commissionWeek), href: "/admin/finance" },
-    { label: "Комиссия за месяц", value: formatUZS(st.commissionMonth), href: "/admin/finance" },
+    ...(DEMO_FINANCE ? [
+      { label: "Комиссия за всё время", value: formatUZS(st.commissionAll), href: "/admin/finance" },
+      { label: "Комиссия за месяц", value: formatUZS(st.commissionMonth), href: "/admin/finance" },
+      { label: "Заявок на вывод в работе", value: s.payouts.filter((p) => ["created", "in_review", "approved"].includes(p.status)).length, href: "/admin/payouts" },
+    ] : []),
     { label: "Споры и возвраты", value: st.disputedCount, href: "/admin/disputes" },
-    { label: "Заявок на вывод в работе", value: s.payouts.filter((p) => ["created", "in_review", "approved"].includes(p.status)).length, href: "/admin/payouts" },
     { label: "На модерации", value: s.listings.filter((l) => l.status === "pending").length, href: "/admin/listings" },
     { label: "Пользователей", value: s.profiles.length, href: "/admin/users" },
     { label: "Активных объявлений", value: s.listings.filter((l) => l.status === "active").length, href: "/admin/listings" },
@@ -33,7 +34,7 @@ export default function AdminOverviewPage() {
 
   return (
     <div className="space-y-8">
-      <PageHeader title="Обзор" subtitle={`Основатель и руководитель: ${FOUNDER_USERNAME}. Все суммы тестовые — деньги не переводятся.`} />
+      <PageHeader title="Обзор" subtitle={`Основатель и руководитель: ${FOUNDER_USERNAME}. Заказы тестовые — деньги не переводятся.`} />
       <div className="grid grid-cols-2 gap-4 xl:grid-cols-4" data-testid="admin-stats">
         {cards.map((c) => (
           <Link key={c.label} href={c.href} className="card card-hover p-4">
@@ -57,6 +58,7 @@ export default function AdminOverviewPage() {
           </ul>
         </section>
 
+        {DEMO_FINANCE && (
         <section className="card p-5" aria-labelledby="by-seller">
           <h2 id="by-seller" className="mb-4 font-semibold">Продавцы: продажи и доходы</h2>
           {st.bySeller.length === 0 ? (
@@ -74,6 +76,7 @@ export default function AdminOverviewPage() {
             </div>
           )}
         </section>
+        )}
       </div>
 
       <div className="grid gap-6 xl:grid-cols-2">

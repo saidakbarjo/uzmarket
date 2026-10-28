@@ -1,5 +1,6 @@
 "use client";
 
+import { FinanceGate } from "@/components/finance-gate";
 import { useState } from "react";
 import { DataTable, type Column } from "@/components/data-table";
 import { Notice, PageHeader, PayoutStatusBadge, formatDate } from "@/components/ui";
@@ -12,6 +13,10 @@ import type { PayoutRequest, PayoutStatus } from "@/lib/types";
 const ACTION_LABEL: Record<PayoutAction, string> = { review: "На проверку", approve: "Одобрить", mark_paid: "Отметить выплаченной (тест)", reject: "Отклонить" };
 
 export default function AdminPayoutsPage() {
+  return <FinanceGate><AdminPayoutsPageInner /></FinanceGate>;
+}
+
+function AdminPayoutsPageInner() {
   const s = useDemoState();
   const [status, setStatus] = useState<PayoutStatus | "">("");
   const [comments, setComments] = useState<Record<string, string>>({});

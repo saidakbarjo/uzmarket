@@ -1,5 +1,6 @@
 "use client";
 
+import { DEMO_FINANCE } from "@/lib/flags";
 import { BarChart3, ListChecks, MessageSquareReply, PackagePlus, Settings, Store, Wallet } from "lucide-react";
 import type { ReactNode } from "react";
 import { BecomeSeller } from "@/components/become-seller";
@@ -21,7 +22,7 @@ export default function SellerLayout({ children }: { children: ReactNode }) {
                   { href: "/seller", label: "Мои объявления", icon: Store },
                   { href: "/seller/new", label: "Продать товар", icon: PackagePlus },
                   { href: "/seller/orders", label: "Заказы", icon: ListChecks },
-                  { href: "/seller/finance", label: "Финансы и выплаты", icon: Wallet },
+                  ...(DEMO_FINANCE ? [{ href: "/seller/finance", label: "Финансы и выплаты", icon: Wallet }] : []),
                   { href: "/seller/stats", label: "Статистика", icon: BarChart3 },
                   { href: "/seller/reviews", label: "Отзывы", icon: MessageSquareReply },
                   { href: "/seller/profile", label: "Профиль продавца", icon: Settings },
